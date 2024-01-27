@@ -1,0 +1,59 @@
+# Multiplicative weights update method
+
+## Rough overview (in words)
+
+The multiplicative weights update (MWU) method is an algorithmic strategy, sometimes referred to as a "meta-algorithm," with varying applications in classical and quantum algorithms. Reference [@arora2012MultiplicativeWeightsAlg] gives an overview of the MWU strategy. The introductory example problem where the MWU method is used is the problem of making predictions for a binary outcome given advice from a panel of $n$ "experts." The MWU approach assigns a weight to each of the $n$ experts, and the weight is reduced by a multiplicative factor whenever the expert makes an incorrect prediction. The outcome of the process can be shown to give an approximately optimal strategy.
+
+
+This general approach can be applied to [convex programs](../areas-of-application/continuous-optimization/conic-programming-solving-lps-socps-and-sdps.md#conic-programming-solving-lps-socps-and-sdps) including linear programs (LPs) and semidefinite programs (SDPs). The SDP version generalizes the MWU method to allow for matrix-valued weights and matrix-valued costs. These weight matrices are positive semidefinite operators with trace equal to one, i.e. density matrices. In fact, the states that arise in the SDP-solving algorithm are Gibbs states. Thus, they can be naturally represented as quantum states on a logarithmic number of qubits and generated through the process of [Gibbs sampling](../quantum-algorithmic-primitives/gibbs-sampling.md#gibbs-sampling). The existence of fast Gibbs samplers can lead to a quantum speedup in certain circumstances.
+
+
+## Rough overview (in math)
+
+We present an example problem. Let $\mathbf{1}$ denote the all ones vector. Consider the following set of linear constraints on the vector $x = (x_1,\ldots,x_n) \in \mathbb{R}^n$ $$\begin{align} \langle a^{(j)},x \rangle & \geq 0 \qquad j = 1,\ldots,m \\
+\langle \mathbf{1},x \rangle & = 1 \\
+x_i & \geq 0 \qquad i=1,\ldots,n \end{align}$$ for $m$ fixed vectors $a^{(j)} \in \mathbb{R}^n$ with entries in $[-1,1]$, for $j = 1, \ldots, m$, where $\langle \cdot,\cdot \rangle$ denotes the standard dot product between vectors. Suppose we are given a value of $\epsilon$ and promised either that there is no choice of $x$ that satisfies all the constraints or that there exists an $x^*$ such that $\langle a^{(j)}, x^* \rangle \geq \epsilon$ for all $j$, with $\langle \mathbf{1}, x^*\rangle=1$ and $x^*_i \geq 0$ for all $i$. We wish to determine which is the case and find a vector $x^*$ in the second case. This is similar to the form of an LP and to the problem of solving for the optimal point of a [zero-sum game](../areas-of-application/continuous-optimization/zero-sum-games-computing-nash-equilibria.md#zero-sum-games-computing-nash-equilibria) [@arora2012MultiplicativeWeightsAlg; @apeldoorn2019QAlgorithmsForZeroSumGames], and the MWU meta-algorithm can be straightforwardly applied to solve these problems.
+
+
+A classical solution to this problem is given by the multiplicative weights method [@arora2012MultiplicativeWeightsAlg]. The algorithm iteratively updates the vector $x$, with initialization $x = \mathbf{1} / n$. At each iteration, the algorithm finds a constraint $j$ for which $\langle a^{(j)}, x\rangle < 0$ (or if no such $j$ exists, it terminates and outputs $x$). Let $\eta = \mathcal{O}\left( \epsilon \right)$ be a fixed constant. Once $j$ is found, the entries of the vector $x$ are updated according to $$\begin{equation} \label{eq:MW_update_rule} x_i \leftarrow \frac{x_i e^{\eta a_{ij}}}{\sum_i x_i e^{\eta a_{ij}}}\, \end{equation}$$ where $a_{ij}$ denotes entry $i$ of vector $a^{(j)}$, and the denominator works to enforce $\langle \mathbf{1}, x \rangle = 1$. By upweighting $x$ in the direction of the violated constraint $a^{(j)}$, this update rule brings the $x$ closer to satisfying the constraint. The magic of the multiplicative weights method is that the promise problem described above can be solved after only $\mathcal{O}\left( \log(n)/\epsilon^2 \right)$ iterations [@arora2012MultiplicativeWeightsAlg]. By searching for a violated constraint using a [Grover search](../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/introduction.md#amplitude-amplification-and-estimation), the runtime of each iteration can be sped up quantumly, giving rise to polynomial speedups for solving zero-sum games and LPs more generally [@apeldoorn2019QAlgorithmsForZeroSumGames].
+
+
+The *matrix* MWU method generalizes the $n$-dimensional vector $x$ to an $n \times n$ symmetric matrix $X$. An example problem generalizing the above is $$\begin{align} \langle A^{(j)}, X \rangle & \geq 0 \qquad j = 1,\ldots,m \\
+\langle \mathbf{I}, X \rangle & = 1 \\
+X & \succeq 0\,, \end{align}$$ where $A^{(j)}$ are fixed symmetric constraint matrices and the notation $\langle U, V\rangle := \text{Tr}(UV)$ generalizes the dot product from vectors to matrices. Here $\mathbf{I}$ denotes the identity matrix and $X \succeq 0$ denotes that $X$ is positive semidefinite. The problem above is related to the general form of an SDP, and the matrix MWU approach can be applied to solve SDPs. Note that we recover the vector example if we specify that the matrices $A^{(j)}$ and $X$ are diagonal. The final two constraints indicate that $X$ is a density matrix and is associated with a quantum state on $\log_2(n)$ qubits. When $X$ is updated by a generalization of the rule in Eq. $\eqref{eq:MW_update_rule}$, then at every iteration of the MWU method, $X$ will be a Gibbs state for a certain Hamiltonian that is a weighted sum of the symmetric constraint matrices $A^{(j)}$. Thus, the quantum state $X$ can be prepared on a quantum computer using algorithms for [Gibbs sampling](../quantum-algorithmic-primitives/gibbs-sampling.md#gibbs-sampling). Taking this approach, quantum algorithms can achieve guaranteed polynomial speedups for performing an iteration of the MWU method compared to classical approaches, and it is conceivable that larger speedups could be available if the associated quantum systems admit faster-than-worst-case Gibbs sampling.
+
+
+## Dominant resource cost (gates/qubits)
+
+The MWU method, both in the classical and quantum setting, consists of some number $T$ of iterations, where each iteration updates a classical data structure. In typical applications $T = \text{poly}(\log(n)/\epsilon)$, where $n$ is the problem size and $\epsilon$ is a precision parameter related to how close to optimal the solution has to be. This contrasts with other approaches to solving optimization problems, such as [interior point methods](../quantum-algorithmic-primitives/quantum-interior-point-methods.md#quantum-interior-point-methods), for which the number of iterations of can scale as $\mathcal{O}\left( \text{poly}(n)\log(1/\epsilon) \right)$.
+
+
+Each iteration typically takes $\text{poly}(n,m,1/\epsilon)$ time and is carried out with subroutines that can often be sped up with quantum algorithms. These subroutines can include [Grover search / amplitude amplification](../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/introduction.md#amplitude-amplification-and-estimation) and, in the case of the matrix MWU method, [Gibbs sampling](../quantum-algorithmic-primitives/gibbs-sampling.md#gibbs-sampling), which end up dominating the quantum cost of the algorithm.
+
+
+For example, in the setting of the matrix MWU method, the $n \times n$ Gibbs state $X$ can be prepared as a $\log_2(n)$-qubit state on a quantum computer with gate complexity roughly linear in the sparsity of the matrices $A^{(j)}$, which is at worst $\mathcal{O}\left( n \right)$ (see, e.g., [@apeldoorn2017QSDPSolvers]), representing a speedup over manipulating all $\mathcal{O}\left( n^2 \right)$ entries of the matrix classically. There is also a possibility that for specific cases, the Gibbs sampling step for the $\log_2(n)$-qubit system could be accomplished in $\text{polylog}(n)$ time if the system thermalizes rapidly, opening up the possibility that quantum algorithms based on the matrix MWU method could have faster runtime, perhaps as fast as $\mathrm{poly}(\log(n),1/\epsilon)$, representing an exponential speedup over their $\mathrm{poly}(n,1/\epsilon)$-time classical counterparts.
+
+
+## Caveats
+
+One caveat is that the best outlook for quantum advantage occurs when the constraint matrices $A^{(j)}$ that appear in applications are sparse matrices (and especially if they correspond to physical local Hamiltonians). However, this sparsity constraint may not be satisfied often in practice. There can in principle still be a speedup for dense matrices, but in this case, access to a large [quantum random access memory](../quantum-algorithmic-primitives/loading-classical-data/quantum-random-access-memory.md#quantum-random-access-memory) might be required, which has its own caveats.
+
+
+Another caveat to achieving a practically useful algorithm with either the classical or the quantum version of the MWU method is that the theoretical dependence of the runtime on the error parameter $\epsilon$ may lead to poor practical runtimes. The original quantum SDP solver based on MWU had $\mathcal{O}\left( \epsilon^{-18} \right)$ dependence [@brandao2016QSDPSpeedup], and this was later improved to $\mathcal{O}\left( \epsilon^{-5} \right)$ [@apeldoorn2018ImprovedQSDPSolving]. While this is technically $\mathrm{poly}(1/\epsilon)$ scaling, the large power would likely lead the algorithm to be worse than alternatives, such as classical or quantum interior point methods which have $\mathrm{polylog}(1/\epsilon)$ scaling, unless essentially-constant $\epsilon$ is tolerable. In the case of [zero sum games](../areas-of-application/continuous-optimization/zero-sum-games-computing-nash-equilibria.md#zero-sum-games-computing-nash-equilibria), the quantum algorithm based on the MWU method has a slightly more tolerable $\mathcal{O}\left( \epsilon^{-3} \right)$ dependence.
+
+
+## Example use cases
+
+- The MWU method can be used to gain an asymptotic quantum speedup in [solving zero-sum games](../areas-of-application/continuous-optimization/zero-sum-games-computing-nash-equilibria.md#zero-sum-games-computing-nash-equilibria), and relatedly, solving LPs [@apeldoorn2019QAlgorithmsForZeroSumGames]. This speedup is generated by Grover-like methods and does not require Gibbs sampling of quantum states. Many interesting optimization problems can be reduced to an LP.
+- The MWU method can be used to gain an asymptotic speedup for [solving SDPs](../areas-of-application/continuous-optimization/conic-programming-solving-lps-socps-and-sdps.md#conic-programming-solving-lps-socps-and-sdps) in the regime where the precision parameter $\epsilon$ to which the program should be optimized is large. Many interesting optimization problems can be reduced to an SDP. One notable example is that approximate solutions to (discrete) binary optimization problems can be found by solving the (continuous) SDP relaxation of the problem and performing a rounding procedure on the solution (see, e.g., [@brandao2022fasterQuantum]).
+
+
+## Further reading
+
+- See Arora, Hazan, Kale [@arora2012MultiplicativeWeightsAlg] for an overview of the MWU method from a classical perspective, including its matrix generalization.
+- The quantum algorithm for SDP based on the MWU method was introduced by Brandão and Svore [@brandao2016QSDPSpeedup]. This was improved in subsequent works [@brandao2017QSDPSpeedupsLearning; @apeldoorn2017QSDPSolvers; @apeldoorn2018ImprovedQSDPSolving]. The method was applied to the specific application of solving SDP relaxations of binary optimization problems in [@brandao2022fasterQuantum; @augustino2023solvingQUBO], and to the specific application of computing optimal strategies of zero-sum games in [@apeldoorn2019QAlgorithmsForZeroSumGames]. 
+
+
+
+
+

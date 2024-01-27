@@ -1,0 +1,13 @@
+.center {
+  display: block;
+  margin: 0 auto;
+}
+
+.md-typeset img {
+  height: auto;
+  margin: 0 auto;
+}
+
+td {
+  vertical-align: middle !important;
+}

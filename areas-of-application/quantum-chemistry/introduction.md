@@ -1,0 +1,8 @@
+# Quantum chemistry
+
+ Computational chemistry seeks to use the rules of quantum mechanics to predict the physical properties and behavior of atoms, molecules, and materials. Despite the apparent exponential cost of exact classical methods for this task, scientists have made incredible progress over the last century via increasingly sophisticated approximate methods. As a result, computational chemistry is now a core part of the analyses of chemistry experiments, the pharmaceutical drug discovery pipeline, and the optimization of materials for catalysts and batteries. Two of the most widely performed calculations are the computation of the [electronic structure](../../areas-of-application/quantum-chemistry/electronic-structure-problem.md#electronic-structure-problem) and the [vibrational structure](../../areas-of-application/quantum-chemistry/vibrational-structure-problem.md#vibrational-structure-problem) of chemical systems. Given the inherently quantum mechanical nature of these problems, it follows that a number of quantum algorithms have been proposed for computational chemistry [@aspuru2005simulated]. In this section, we focus on the [electronic structure problem](../../areas-of-application/quantum-chemistry/electronic-structure-problem.md#electronic-structure-problem) for molecules and materials, as well as the [vibrational structure problem](../../areas-of-application/quantum-chemistry/vibrational-structure-problem.md#vibrational-structure-problem). For further reviews of quantum computing for chemistry, we refer readers to [@mcArdle2017QuantCompuChem; @cao2019; @bauer2020ChemicalReviews; @motta2022QuantumChemistryReview]. 
+
+
+
+
+

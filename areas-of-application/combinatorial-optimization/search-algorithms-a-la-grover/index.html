@@ -1,0 +1,2696 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../introduction/">
+      
+      
+        <link rel="next" href="../beyond-quadratic-speedups-in-exact-combinatorial-optimization/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.4">
+    
+    
+      
+        <title>Search algorithms à la Grover - Quantum algorithms: A survey of applications and end-to-end complexities</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.50c56a3b.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#search-algorithms-a-la-grover" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Quantum algorithms: A survey of applications and end-to-end complexities" class="md-header__button md-logo" aria-label="Quantum algorithms: A survey of applications and end-to-end complexities" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Quantum algorithms: A survey of applications and end-to-end complexities
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Search algorithms à la Grover
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Quantum algorithms: A survey of applications and end-to-end complexities" class="md-nav__button md-logo" aria-label="Quantum algorithms: A survey of applications and end-to-end complexities" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Quantum algorithms: A survey of applications and end-to-end complexities
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../authors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Authors
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Areas of application
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Areas of application
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Condensed matter physics
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Condensed matter physics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../condensed-matter-physics/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../condensed-matter-physics/fermi-hubbard-model/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Fermi–Hubbard model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../condensed-matter-physics/syk-model/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SYK model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../condensed-matter-physics/spin-models/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Spin models
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Quantum chemistry
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum chemistry
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-chemistry/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-chemistry/electronic-structure-problem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Electronic structure problem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-chemistry/vibrational-structure-problem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vibrational structure problem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Nuclear and particle physics
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            Nuclear and particle physics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nuclear-and-particle-physics/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nuclear-and-particle-physics/quantum-field-theories/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum field theories
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nuclear-and-particle-physics/nuclear-structure-problem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nuclear structure problem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Combinatorial optimization
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Combinatorial optimization
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Search algorithms à la Grover
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Search algorithms à la Grover
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actual-end-to-end-problems-solved" class="md-nav__link">
+    <span class="md-ellipsis">
+      Actual end-to-end problem(s) solved
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dominant-resource-costcomplexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dominant resource cost/complexity
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#existing-error-corrected-resource-estimates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Existing error corrected resource estimates
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caveats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Caveats
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparable-classical-complexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comparable classical complexity
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#speedup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Speedup
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outlook" class="md-nav__link">
+    <span class="md-ellipsis">
+      Outlook
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bibliography" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bibliography
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../beyond-quadratic-speedups-in-exact-combinatorial-optimization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Beyond quadratic speedups in exact combinatorial optimization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Continuous optimization
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            Continuous optimization
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../continuous-optimization/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../continuous-optimization/zero-sum-games-computing-nash-equilibria/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Zero-sum games: Computing Nash equilibria
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../continuous-optimization/conic-programming-solving-lps-socps-and-sdps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Conic programming: Solving LPs, SOCPs, and SDPs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../continuous-optimization/general-convex-optimization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    General convex optimization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../continuous-optimization/nonconvex-optimization-escaping-saddle-points-and-finding-local-minima/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nonconvex optimization: Escaping saddle points and finding local minima
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_7" id="__nav_4_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Cryptanalysis
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_7">
+            <span class="md-nav__icon md-icon"></span>
+            Cryptanalysis
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cryptanalysis/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cryptanalysis/breaking-cryptosystems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Breaking cryptosystems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cryptanalysis/weakening-cryptosystems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Weakening cryptosystems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solving-differential-equations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Solving differential equations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_9" id="__nav_4_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Finance
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_9">
+            <span class="md-nav__icon md-icon"></span>
+            Finance
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finance/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finance/portfolio-optimization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Portfolio optimization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finance/monte-carlo-methods-option-pricing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Monte Carlo methods: Option pricing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_10" id="__nav_4_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Machine learning with classical data
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_10">
+            <span class="md-nav__icon md-icon"></span>
+            Machine learning with classical data
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine-learning-with-classical-data/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine-learning-with-classical-data/quantum-machine-learning-via-quantum-linear-algebra/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum machine learning via quantum linear algebra
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine-learning-with-classical-data/quantum-machine-learning-via-energy-based-models/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum machine learning via energy-based models
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine-learning-with-classical-data/tensor-pca/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tensor PCA
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine-learning-with-classical-data/topological-data-analysis/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Topological data analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine-learning-with-classical-data/quantum-neural-networks-and-quantum-kernel-methods/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum neural networks and quantum kernel methods
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Quantum algorithmic primitives
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum algorithmic primitives
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Quantum linear algebra
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum linear algebra
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/block-encodings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Block-encodings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/manipulating-block-encodings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Manipulating block-encodings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/quantum-signal-processing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum signal processing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/qubitization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Qubitization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/quantum-singular-value-transformation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum singular value transformation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Hamiltonian simulation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            Hamiltonian simulation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/product-formulae/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Product formulae
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/qdrift/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    qDRIFT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/taylor-and-dyson-series-linear-combination-of-unitaries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Taylor and Dyson series (linear combination of unitaries)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/quantum-signal-processing-quantum-singular-value-transformation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum signal processing / quantum singular value transformation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-fourier-transform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum Fourier transform
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-phase-estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum phase estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Amplitude amplification and estimation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            Amplitude amplification and estimation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-amplification/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Amplitude amplification
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Amplitude estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/gibbs-sampling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gibbs sampling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-adiabatic-algorithm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum adiabatic algorithm
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Loading classical data
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_9">
+            <span class="md-nav__icon md-icon"></span>
+            Loading classical data
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/loading-classical-data/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/loading-classical-data/quantum-random-access-memory/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum random access memory
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/loading-classical-data/preparing-states-from-classical-data/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Preparing states from classical data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/loading-classical-data/block-encoding-dense-matrices-of-classical-data/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Block-encoding dense matrices of classical data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-system-solvers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum linear system solvers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-gradient-estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum gradient estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/variational-quantum-algorithms/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Variational quantum algorithms
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-tomography/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum tomography
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-interior-point-methods/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum interior point methods
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/multiplicative-weights-update-method/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Multiplicative weights update method
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/approximate-tensor-network-contraction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Approximate tensor network contraction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Fault-tolerant quantum computation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Fault-tolerant quantum computation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../fault-tolerant-quantum-computation/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../fault-tolerant-quantum-computation/basics-of-fault-tolerance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basics of fault tolerance
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../fault-tolerant-quantum-computation/quantum-error-correction-with-the-surface-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum error correction with the surface code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../fault-tolerant-quantum-computation/logical-gates-with-the-surface-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Logical gates with the surface code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actual-end-to-end-problems-solved" class="md-nav__link">
+    <span class="md-ellipsis">
+      Actual end-to-end problem(s) solved
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dominant-resource-costcomplexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dominant resource cost/complexity
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#existing-error-corrected-resource-estimates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Existing error corrected resource estimates
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caveats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Caveats
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparable-classical-complexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comparable classical complexity
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#speedup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Speedup
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outlook" class="md-nav__link">
+    <span class="md-ellipsis">
+      Outlook
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bibliography" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bibliography
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="search-algorithms-a-la-grover">Search algorithms à la Grover</h1><h2 id="overview">Overview</h2><p>Grover's search algorithm [<a href="#bib1">1</a>], and its generalizations, such as <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-amplification/#amplitude-amplification">amplitude amplification</a>, are essential sources of quantum speedups. A straightforward application of Grover search in the spirit of optimization is quantum minimum finding [<a href="#bib2">2</a>] that finds the minimizer of a function on a given set of elements with a quadratic speedup, and its natural generalization analogous to <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-amplification/#amplitude-amplification">amplitude amplification</a> can be found in [<a href="#bib3">3</a>].</p><p>As search is a very generic primitive, Grover's algorithm is extremely widely applicable and it can speed up many subroutines especially in algorithms for combinatorial optimization. In the early days of quantum computing, a plethora of such applications were found, and the list still keeps growing. We list a few such representative applications that demonstrate how Grover's algorithm may be applied to speed up combinatorial optimization.</p><h2 id="actual-end-to-end-problems-solved">Actual end-to-end problem(s) solved</h2><p>The goal is to solve a search problem, i.e., decide whether there is an element among a set of objects that satisfies some criterion, and if there is such an object, find one. Many combinatorial optimization problems are fundamentally search problems; a notable class of examples are graph problems, such as finding a maximal independent set, a <span class="arithmatex">\(k\)</span>-coloring, a lowest weight Hamiltonian cycle (called the traveling salesperson problem), or the shortest path between two vertices.</p><p>For conceptual clarity, here, we focus on the prototypical Boolean satisfiability problem, i.e., <span class="arithmatex">\(\mathsf{SAT}\)</span> solving: given a Boolean formula in the so-called <em>conjunctive normal form</em>, decide whether it has a satisfying Boolean assignment (and if so, find one). A formula in this form consists of some constraints (called <em>clauses</em>) each containing the logical AND of some variables or their negation (called <em>literals</em>). We denote the number of Boolean variables by <span class="arithmatex">\(n\)</span>, while the total number of literals of the formula by <span class="arithmatex">\(\ell\)</span> (counted with multiplicity).</p><h2 id="dominant-resource-costcomplexity">Dominant resource cost/complexity</h2><p>If there are at least <span class="arithmatex">\(m\)</span> marked elements among <span class="arithmatex">\(N\)</span> possible ones, then the search problem can be solved with high probability by using <span class="arithmatex">\(\mathcal{O}\left( \sqrt{N/m} \right)\)</span> Grover iterations. Each Grover iteration requires generating a uniform superposition over the <span class="arithmatex">\(N\)</span> elements starting from the all <span class="arithmatex">\(0\)</span> state, and to check whether an element is marked (in superposition), which can be implemented with gate cost <span class="arithmatex">\(\mathcal{O}\left( \ell+n \right)\)</span>. If the formula is satisfiable then there is at least one solution, thus <span class="arithmatex">\(\mathcal{O}\left( \sqrt{2^n} \right)\)</span> Grover iterations suffice, giving an overall complexity of <span class="arithmatex">\(\mathcal{O}\left( (\ell+n)\sqrt{2^n} \right)\)</span>.</p><p>In some applications, it is useful to consider a generalization of Grover search, <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-amplification/#amplitude-amplification">amplitude amplification</a>, which enables working with an arbitrary prior distribution on the elements, unlike Grover's algorithm which effectively uses a uniform prior. The relevance of this extension can be seen through the example of 3-<span class="arithmatex">\(\mathsf{SAT}\)</span>, which is a restricted version of <span class="arithmatex">\(\mathsf{SAT}\)</span> where each clause has at most 3 literals. A clever application of <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-amplification/#amplitude-amplification">amplitude amplification</a> described by Ambainis [<a href="#bib4">4</a>] for solving 3-<span class="arithmatex">\(\mathsf{SAT}\)</span> more efficiently uses Schöning's algorithm [<a href="#bib5">5</a>] and thus generates a nontrivial prior distribution on the solutions.</p><p>The complexity of <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-amplification/#amplitude-amplification">amplitude amplification</a> is similar to that of Grover's search in general. If <span class="arithmatex">\(\ket{\psi}\)</span> is the quantum state representing the prior distribution, so that measuring the state yields a marked element with probability at least <span class="arithmatex">\(p\)</span>, then <span class="arithmatex">\(\mathcal{O}\left( \sqrt{1/p} \right)\)</span> "Grover iterations" suffice to find a marked element with high probability. The algorithm requires preparing the initial state <span class="arithmatex">\(\ket{\psi}\)</span> and then each iteration consist of a reflection <span class="arithmatex">\(2\ketbra{\psi}{\psi}-I\)</span> around <span class="arithmatex">\(\ket{\psi}\)</span> and checking whether an element is marked (in superposition). The former reflection can be implemented with two uses of the circuit that prepares <span class="arithmatex">\(\ket{\psi}\)</span> from the all <span class="arithmatex">\(0\)</span> state, and a reflection about the all <span class="arithmatex">\(0\)</span> state.</p><h2 id="existing-error-corrected-resource-estimates">Existing error corrected resource estimates</h2><p>There are several studies on the resource estimation of Grover-type (sub)quadratic speedups. Due to the wide range of these problems, we do not focus on explicit gate counts on any particular problem/implementation variant, but rather list some prominent articles and illustrate their findings on a high level [<a href="#bib6">6</a>, <a href="#bib7">7</a>, <a href="#bib8">8</a>, <a href="#bib9">9</a>, <a href="#bib10">10</a>, <a href="#bib11">11</a>]. Unfortunately, these recent studies revealed that quadratic or smaller speedups alone are unlikely to be useful probably even in the medium term, unless the large overheads of <a href="../../../fault-tolerant-quantum-computation/introduction/#fault-tolerant-quantum-computation">fault-tolerant quantum computing</a> schemes can be greatly reduced. For example, [<a href="#bib7">7</a>] concluded that even if there is some reasonable advantage in quantum gate counts for solving the constraint satisfaction problems that they consider, the classical computation supporting the <a href="../../../fault-tolerant-quantum-computation/introduction/#fault-tolerant-quantum-computation">fault-tolerant quantum computation</a> actually annihilates the speedup in practice. They state that "Even when considering only problem instances that can be solved within one day, we find that there are potentially large quantum speedups available. <span class="arithmatex">\(\ldots\)</span> However, the number of physical qubits used is extremely large, <span class="arithmatex">\(\ldots\)</span> In particular, the quantum advantage disappears if one includes the cost of the classical processing power required to perform decoding of the surface code using current techniques." The most recent of the above quoted papers [<a href="#bib11">11</a>] estimates that getting a quantum advantage via a quadratic speedup requires at least a month-long computation already if each iteration contains at least one floating-point operation. The situation looks more promising for cubic and quartic speedups, but unfortunately such improvements seem to require <a href="../beyond-quadratic-speedups-in-exact-combinatorial-optimization/#beyond-quadratic-speedups-in-exact-combinatorial-optimization">techniques beyond Grover search</a>.</p><h2 id="caveats">Caveats</h2><p>Grover originally described his result as "A fast quantum mechanical algorithm for database search" [<a href="#bib1">1</a>]. If we work in the circuit model of quantum computation, then strictly speaking Grover search gives a slowdown for database search, as every Grover iteration needs to "touch" every element in the database. If we anyway need to touch all <span class="arithmatex">\(N\)</span> elements in the database, then the best we can do is to simply go over every element in linear time <span class="arithmatex">\(\mathcal{O}\left( N \right)\)</span>. Grover's search circuit in this case would have gate complexity <span class="arithmatex">\(\widetilde{\mathcal{O}}\left( N^{3/2} \right)\)</span>, clearly worse than sequentially going through the entire dataset.</p><p>In the database scenario, we can only recover the quadratic speedup if we assume that we can use a <a href="../../../quantum-algorithmic-primitives/loading-classical-data/quantum-random-access-memory/#quantum-random-access-memory">quantum random access memory</a> (QRAM), with constant (or logarithmic) cost for each database query. The analogous assumption regarding ordinary RAM is often made in classical computer science, simply because RAM calls are cheap in practice. However, since a RAM call should be able to touch every bit of the database, from a circuit complexity perspective a RAM call must have gate cost at least <span class="arithmatex">\(N\)</span>. On the other hand, this task can be parallelized very well, so with appropriate hardware it is reasonable to count a RAM call to have (time) complexity <span class="arithmatex">\(\log(N)\)</span>. While <a href="../../../quantum-algorithmic-primitives/loading-classical-data/quantum-random-access-memory/#quantum-random-access-memory">QRAM</a> can also be implemented with a quantum circuit of <span class="arithmatex">\(\mathcal{O}\left( \log(N) \right)\)</span> depth, a similar accounting might not be fair in the case of <a href="../../../quantum-algorithmic-primitives/loading-classical-data/quantum-random-access-memory/#quantum-random-access-memory">QRAM</a> if error correction is necessary, especially if one implements the entire QRAM circuit in a <a href="../../../fault-tolerant-quantum-computation/introduction/#fault-tolerant-quantum-computation">fault-tolerant</a> fashion.</p><p>However, Grover's algorithm can provide a quadratic speedup without extra hardware assumptions when the elements of the list that we search over can be easily generated and checked "on the fly." For example, in the case of <span class="arithmatex">\(\mathsf{SAT}\)</span>, we search over the <span class="arithmatex">\(2^n\)</span> possible truth assignments, yet we can easily check whether an individual assignment is satisfactory by simply substituting the assignment into the formula and evaluating the resulting Boolean expression.</p><h2 id="comparable-classical-complexity">Comparable classical complexity</h2><p>For the unstructured search problem, exhaustive search is essentially the best that can be done, with a running time <span class="arithmatex">\(\sim\ell \cdot 2^n\)</span>. Of course, <span class="arithmatex">\(\mathsf{SAT}\)</span> seems to be far from unstructured, but under the Strong Exponential-Time Hypothesis [<a href="#bib12">12</a>, <a href="#bib13">13</a>] the best classical algorithm for <span class="arithmatex">\(\mathsf{SAT}\)</span> has running time <span class="arithmatex">\(2^{n-o(n)}\)</span>.</p><p>A similar argument holds for the generalized problem considered in the setting of <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-amplification/#amplitude-amplification">amplitude amplification</a>: if we have some prior distribution, we can classically find a marked element by sampling from this distribution about <span class="arithmatex">\(\sim \frac{1}{p}\)</span> times. Since unstructured search is a special case of this problem, we cannot hope for a better classical algorithm in general.</p><h2 id="speedup">Speedup</h2><p>The speedup is quadratic in terms of the number of required iterations if we compare to corresponding naive classical algorithms. It can be shown that this speedup is optimal in the black-box query model [<a href="#bib14">14</a>]. Moreover, we do not expect that there would be a bigger than quadratic speedup in gate complexity [<a href="#bib15">15</a>] in the general (non-black-box) case.</p><h2 id="outlook">Outlook</h2><p>We have discussed how Grover search provides a quadratic speedup for <span class="arithmatex">\(\mathsf{SAT}\)</span>, and how <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-amplification/#amplitude-amplification">amplitude amplification</a> yields a quadratic speedup for 3-<span class="arithmatex">\(\mathsf{SAT}\)</span>. Grover's algorithm can be used as a subroutine in several other combinatorial optimization problems as well, e.g., related to graphs. In the literature, these problems are most often studied in the query model, therefore here we also only discuss their speedup in terms of query complexity. Since these are (sub)quadratic speedups, we know that the fault-tolerant resource estimates will be unfavorable anyway, as discussed above.</p><p>For example, the problem of finding the shortest paths from a single source <span class="arithmatex">\(s\)</span> in graph <span class="arithmatex">\(G=(V,E)\)</span> to all other vertices <span class="arithmatex">\(v\in V\)</span> can be solved using Dijkstra's algorithm in time <span class="arithmatex">\(\mathcal{O}\left( |E|+|V|\log|V| \right)\)</span> if the graph is provided with its adjacency list (and with query complexity <span class="arithmatex">\(\mathcal{O}\left( |E| \right)\)</span>), whereas the quantum query complexity of this problem is <span class="arithmatex">\(\widetilde{\Theta}(\sqrt{|V||E|})\)</span> [<a href="#bib16">16</a>]. The paper [<a href="#bib16">16</a>] determines the query complexity of several other graph problems such as deciding graph connectivity and strong connectivity as well as finding the minimum-weight spanning tree. For all of these problems, there is a similar moderate (sub)quadratic quantum speedup.</p><p>One graph problem that is often mentioned in connection to quantum computation is the (in)famous traveling salesperson problem. However, for this problem, the best provable speedup is only subquadratic. The naive classical problem runs in time <span class="arithmatex">\(n!\)</span>, and Grover's algorithm offers a quadratic speedup over it. Unfortunately, the best classical algorithm uses dynamic programming and runs in time <span class="arithmatex">\(2^n\)</span>. Ambainis et al. [<a href="#bib17">17</a>] showed how to obtain a speedup over this algorithm by combining classical precalculation with recursive applications of Grover's search resulting in time complexity <span class="arithmatex">\(\widetilde{\mathcal{O}}\left( 1.817^n \right)\)</span> assuming that <a href="../../../quantum-algorithmic-primitives/loading-classical-data/quantum-random-access-memory/#quantum-random-access-memory">QRAM</a> calls have unit costs. Considering the overheads coming from the implementation of <a href="../../../quantum-algorithmic-primitives/loading-classical-data/quantum-random-access-memory/#quantum-random-access-memory">QRAM</a> and <a href="../../../fault-tolerant-quantum-computation/introduction/#fault-tolerant-quantum-computation">fault tolerance</a>, the traveling salesperson problem seems to be one of the <em>least</em> likely candidates to achieve a practical quantum speedup.</p><p>Finally, let us mention quantum walk algorithms, which can also be viewed as a generalization of Grover's search. However, quantum walks are more distant relatives of Grover's search and can only be applied in more specific settings. They can be used for proving many nontrivial speedups in query complexity, however the resulting algorithms are often not practical due to high space and/or gate complexity overheads, as is the case for the prototypical Element Distinctness problem. The query reduction is moderate <span class="arithmatex">\(N^2\rightarrow N^{4/3}\)</span> in the number of elements <span class="arithmatex">\(N\)</span>, but the corresponding quantum algorithm [<a href="#bib18">18</a>] unfortunately uses a <a href="../../../quantum-algorithmic-primitives/loading-classical-data/quantum-random-access-memory/#quantum-random-access-memory">QRAM</a> consisting of about <span class="arithmatex">\(\sim N^{4/3}\)</span> registers.</p><p>There are nevertheless more practical quantum walk algorithms applicable, e.g., to speed up backtracking algorithms [<a href="#bib19">19</a>, <a href="#bib20">20</a>, <a href="#bib21">21</a>, <a href="#bib22">22</a>], which are among the most successful and widely used classical heuristics for solving <span class="arithmatex">\(\mathsf{SAT}\)</span> instances in practice. The quantum algorithm can achieve an essentially quadratic speedup compared to its classical backtracking variant. This approach is applicable to the traveling salesperson problem in the special case that the graph has degree at most 4 [<a href="#bib23">23</a>]. For resource estimates see the earlier quoted reference [<a href="#bib6">6</a>]. A further extension of this algorithm is applicable to branch-and-bound algorithms [<a href="#bib24">24</a>, <a href="#bib25">25</a>], and in some cases yields running times that are substantially better than what we know can be achieved by naively using Grover's algorithm. For example, it can find exact ground states for most instances of the Sherrington–Kirkpatrick model [<a href="#bib26">26</a>] in time <span class="arithmatex">\(\mathcal{O}\left( 2^{0.226n} \right)\)</span> [<a href="#bib24">24</a>], which means about a quadratic speedup compared to classical methods. Branch-and-bound-based speedups can also be applied to solve mixed-integer programs, which includes certain formulations of the <a href="../../finance/portfolio-optimization/#portfolio-optimization">portfolio optimization</a> problem [<a href="#bib25">25</a>].</p><p>There is a plethora of other applications of quantum search speedups, ranging from machine learning [<a href="#bib27">27</a>] to dynamical programming solutions of other NP-hard problems [<a href="#bib17">17</a>], which we do not discuss here for length constraints and due to discouraging resource estimates for (sub)quadratic quantum speedups.</p><h2 id="bibliography">Bibliography</h2><ol>
+<li>
+<p><span id="bib1"></span>Lov K. Grover. A fast quantum mechanical algorithm for database search. In <em>Proceedings of the 28th ACM Symposium on the Theory of Computing (STOC)</em>, 212–219. 1996. arXiv: <a href="https://arxiv.org/abs/quant-ph/9605043">https://arxiv.org/abs/quant-ph/9605043</a>. <a href="https://doi.org/10.1145/237814.237866">doi:10.1145/237814.237866</a>.</p>
+</li>
+<li>
+<p><span id="bib2"></span>Christoph Dürr and Peter Høyer. A quantum algorithm for finding the minimum. arXiv: <a href="https://arxiv.org/abs/quant-ph/9607014">https://arxiv.org/abs/quant-ph/9607014</a>, 1996.</p>
+</li>
+<li>
+<p><span id="bib3"></span>Joran van Apeldoorn, András Gilyén, Sander Gribling, and Ronald de Wolf. Quantum sdp-solvers: better upper and lower bounds. <em>Quantum</em>, 4:230, 2020. Earlier version in <a href="https://doi.org/10.1109/FOCS.2017.44"><em>FOCS'17</em></a>. arXiv: <a href="https://arxiv.org/abs/1705.01843">https://arxiv.org/abs/1705.01843</a>. <a href="https://doi.org/10.22331/q-2020-02-14-230">doi:10.22331/q-2020-02-14-230</a>.</p>
+</li>
+<li>
+<p><span id="bib4"></span>A. Ambainis. Quantum search algorithms. <em>SIGACT News</em>, 35(2):22–35, 6 2004. arXiv: <a href="https://arxiv.org/abs/quant-ph/0504012">https://arxiv.org/abs/quant-ph/0504012</a>. <a href="https://doi.org/10.1145/992287.992296">doi:10.1145/992287.992296</a>.</p>
+</li>
+<li>
+<p><span id="bib5"></span>Uwe Schöning. A probabilistic algorithm for k-sat and constraint satisfaction problems. In <em>Proceedings of the 40th IEEE Symposium on Foundations of Computer Science (FOCS)</em>, volume, 410–414. 1999. <a href="https://doi.org/10.1109/SFFCS.1999.814612">doi:10.1109/SFFCS.1999.814612</a>.</p>
+</li>
+<li>
+<p><span id="bib6"></span>Earl Campbell, Ankur Khurana, and Ashley Montanaro. Applying quantum algorithms to constraint satisfaction problems. <em>Quantum</em>, 3:167, 2019. arXiv: <a href="https://arxiv.org/abs/1810.05582">https://arxiv.org/abs/1810.05582</a>. <a href="https://doi.org/10.22331/q-2019-07-18-167">doi:10.22331/q-2019-07-18-167</a>.</p>
+</li>
+<li>
+<p><span id="bib7"></span>Yuval R. Sanders, Dominic W. Berry, Pedro C.S. Costa, Louis W. Tessler, Nathan Wiebe, Craig Gidney, Hartmut Neven, and Ryan Babbush. Compilation of fault-tolerant quantum heuristics for combinatorial optimization. <em>PRX Quantum</em>, 1(2):020312, 11 2020. arXiv: <a href="https://arxiv.org/abs/2007.07391">https://arxiv.org/abs/2007.07391</a>. <a href="https://doi.org/10.1103/PRXQuantum.1.020312">doi:10.1103/PRXQuantum.1.020312</a>.</p>
+</li>
+<li>
+<p><span id="bib8"></span>Ryan Babbush, Jarrod R. McClean, Michael Newman, Craig Gidney, Sergio Boixo, and Hartmut Neven. Focus beyond quadratic speedups for error-corrected quantum advantage. <em>PRX Quantum</em>, 2(1):010103, 3 2021. arXiv: <a href="https://arxiv.org/abs/2011.04149">https://arxiv.org/abs/2011.04149</a>. <a href="https://doi.org/10.1103/PRXQuantum.2.010103">doi:10.1103/PRXQuantum.2.010103</a>.</p>
+</li>
+<li>
+<p><span id="bib9"></span>Chris Cade, Marten Folkertsma, Ido Niesen, and Jordi Weggemans. Quantifying grover speed-ups beyond asymptotic analysis. arXiv: <a href="https://arxiv.org/abs/2203.04975">https://arxiv.org/abs/2203.04975</a>, 2022.</p>
+</li>
+<li>
+<p><span id="bib10"></span>Chris Cade, Marten Folkertsma, Ido Niesen, and Jordi Weggemans. Quantum algorithms for community detection and their empirical run-times. arXiv: <a href="https://arxiv.org/abs/2203.06208">https://arxiv.org/abs/2203.06208</a>, 2022.</p>
+</li>
+<li>
+<p><span id="bib11"></span>Torsten Hoefler, Thomas Häner, and Matthias Troyer. Disentangling hype from practicality: on realistically achieving quantum advantage. <em>Commun. ACM</em>, 66(5):82–87, 2023. <a href="https://doi.org/10.1145/3571725">doi:10.1145/3571725</a>.</p>
+</li>
+<li>
+<p><span id="bib12"></span>Russell Impagliazzo, Ramamohan Paturi, and Francis Zane. Which problems have strongly exponential complexity? <em>Journal of Computer and System Sciences</em>, 63(4):512–530, 2001. <a href="https://doi.org/https://doi.org/10.1006/jcss.2001.1774">doi:https://doi.org/10.1006/jcss.2001.1774</a>.</p>
+</li>
+<li>
+<p><span id="bib13"></span>Chris Calabro, Russell Impagliazzo, and Ramamohan Paturi. The complexity of satisfiability of small depth circuits. In <em>Parameterized and Exact Computation</em>, 75–85. Springer Berlin Heidelberg, 2009. <a href="https://doi.org/10.1007/978-3-642-11269-0_6">doi:10.1007/978-3-642-11269-0\_6</a>.</p>
+</li>
+<li>
+<p><span id="bib14"></span>Charles H. Bennett, Ethan Bernstein, Gilles Brassard, and Umesh Vazirani. Strengths and weaknesses of quantum computing. <em>SIAM Journal on Computing</em>, 26(5):1510–1523, 1997. arXiv: <a href="https://arxiv.org/abs/quant-ph/9701001">https://arxiv.org/abs/quant-ph/9701001</a>. <a href="https://doi.org/10.1137/S0097539796300933">doi:10.1137/S0097539796300933</a>.</p>
+</li>
+<li>
+<p><span id="bib15"></span>Harry Buhrman, Subhasree Patro, and Florian Speelman. A framework of quantum strong exponential-time hypotheses. In <em>Proceedings of the 38th Symposium on Theoretical Aspects of Computer Science (STACS)</em>, volume 187, 19:1–19:19. 2021. <a href="https://doi.org/10.4230/LIPIcs.STACS.2021.19">doi:10.4230/LIPIcs.STACS.2021.19</a>.</p>
+</li>
+<li>
+<p><span id="bib16"></span>Christoph Dürr, Mark Heiligman, Peter Høyer, and Mehdi Mhalla. Quantum query complexity of some graph problems. <em>SIAM Journal on Computing</em>, 35(6):1310–1328, 2006. Earlier version in <a href="https://doi.org/10.1007/978-3-540-27836-8_42"><em>ICALP'04</em></a>. arXiv: <a href="https://arxiv.org/abs/quant-ph/0401091">https://arxiv.org/abs/quant-ph/0401091</a>. <a href="https://doi.org/10.1137/050644719">doi:10.1137/050644719</a>.</p>
+</li>
+<li>
+<p><span id="bib17"></span>Andris Ambainis, Kaspars Balodis, Jānis Iraids, Martins Kokainis, Krišjānis Prūsis, and Jevgēnijs Vihrovs. Quantum speedups for exponential-time dynamic programming algorithms. In <em>Proceedings of the 30th ACM-SIAM Symposium on Discrete Algorithms (SODA)</em>, 1783–1793. SIAM, 2019. arXiv: <a href="https://arxiv.org/abs/2104.14384">https://arxiv.org/abs/2104.14384</a>. <a href="https://doi.org/10.1137/1.9781611975482.107">doi:10.1137/1.9781611975482.107</a>.</p>
+</li>
+<li>
+<p><span id="bib18"></span>Andris Ambainis. Quantum walk algorithm for element distinctness. <em>SIAM Journal on Computing</em>, 37(1):210–239, 2007. Earlier version in <a href="https://doi.org/10.1109/FOCS.2004.54"><em>FOCS'04</em></a>. arXiv: <a href="https://arxiv.org/abs/quant-ph/0311001">https://arxiv.org/abs/quant-ph/0311001</a>. <a href="https://doi.org/10.1137/S0097539705447311">doi:10.1137/S0097539705447311</a>.</p>
+</li>
+<li>
+<p><span id="bib19"></span>Ashley Montanaro. Quantum-walk speedup of backtracking algorithms. <em>Theory of Computing</em>, 14(15):1–24, 2018. arXiv: <a href="https://arxiv.org/abs/1509.02374">https://arxiv.org/abs/1509.02374</a>. <a href="https://doi.org/10.4086/toc.2018.v014a015">doi:10.4086/toc.2018.v014a015</a>.</p>
+</li>
+<li>
+<p><span id="bib20"></span>Andris Ambainis and Martins Kokainis. Quantum algorithm for tree size estimation, with applications to backtracking and 2-player games. In <em>Proceedings of the 49th ACM Symposium on the Theory of Computing (STOC)</em>, 989–1002. 2017. arXiv: <a href="https://arxiv.org/abs/1704.06774">https://arxiv.org/abs/1704.06774</a>. <a href="https://doi.org/10.1145/3055399.3055444">doi:10.1145/3055399.3055444</a>.</p>
+</li>
+<li>
+<p><span id="bib21"></span>Michael Jarret and Kianna Wan. Improved quantum backtracking algorithms using effective resistance estimates. <em>Physical Review A</em>, 97(2):022337, 2018. arXiv: <a href="https://arxiv.org/abs/1711.05295">https://arxiv.org/abs/1711.05295</a>. <a href="https://doi.org/10.1103/PhysRevA.97.022337">doi:10.1103/PhysRevA.97.022337</a>.</p>
+</li>
+<li>
+<p><span id="bib22"></span>Simon Martiel and Maxime Remaud. Practical implementation of a quantum backtracking algorithm. In Alexander Chatzigeorgiou, Riccardo Dondi, Herodotos Herodotou, Christos Kapoutsis, Yannis Manolopoulos, George A. Papadopoulos, and Florian Sikora, editors, <em>SOFSEM 2020: Theory and Practice of Computer Science</em>, 597–606. Cham, 2020. Springer International Publishing. arXiv: <a href="https://arxiv.org/abs/1908.11291">https://arxiv.org/abs/1908.11291</a>. <a href="https://doi.org/10.1007/978-3-030-38919-2_49">doi:10.1007/978-3-030-38919-2\_49</a>.</p>
+</li>
+<li>
+<p><span id="bib23"></span>Alexandra E. Moylett, Noah Linden, and Ashley Montanaro. Quantum speedup of the traveling-salesman problem for bounded-degree graphs. <em>Physical Review A</em>, 95:032323, 3 2017. arXiv: <a href="https://arxiv.org/abs/1612.06203">https://arxiv.org/abs/1612.06203</a>. URL: <a href="https://link.aps.org/doi/10.1103/PhysRevA.95.032323">https://link.aps.org/doi/10.1103/PhysRevA.95.032323</a>, <a href="https://doi.org/10.1103/PhysRevA.95.032323">doi:10.1103/PhysRevA.95.032323</a>.</p>
+</li>
+<li>
+<p><span id="bib24"></span>Ashley Montanaro. Quantum speedup of branch-and-bound algorithms. <em>Physical Review Research</em>, 2(1):013056, 2020. arXiv: <a href="https://arxiv.org/abs/1906.10375">https://arxiv.org/abs/1906.10375</a>. <a href="https://doi.org/10.1103/PhysRevResearch.2.013056">doi:10.1103/PhysRevResearch.2.013056</a>.</p>
+</li>
+<li>
+<p><span id="bib25"></span>Shouvanik Chakrabarti, Pierre Minssen, Romina Yalovetzky, and Marco Pistoia. Universal quantum speedup for branch-and-bound, branch-and-cut, and tree-search algorithms. arXiv: <a href="https://arxiv.org/abs/2210.03210">https://arxiv.org/abs/2210.03210</a>, 2022.</p>
+</li>
+<li>
+<p><span id="bib26"></span>David Sherrington and Scott Kirkpatrick. Solvable model of a spin-glass. <em>Physical Review Letters</em>, 35(26):1792, 1975. <a href="https://doi.org/10.1103/PhysRevLett.35.1792">doi:10.1103/PhysRevLett.35.1792</a>.</p>
+</li>
+<li>
+<p><span id="bib27"></span>Nathan Wiebe, Ashish Kapoor, and Krysta M. Svore. Quantum nearest-neighbor algorithms for machine learning. <em>Quantum Information and Computation</em>, 15(3&amp;4):318–358, 2015. arXiv: <a href="https://arxiv.org/abs/1401.2142">https://arxiv.org/abs/1401.2142</a>. <a href="https://doi.org/10.26421/QIC15.3-4">doi:10.26421/QIC15.3-4</a>.</p>
+</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.path", "navigation.tracking"], "search": "../../../assets/javascripts/workers/search.c011b7c0.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.7389ff0e.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

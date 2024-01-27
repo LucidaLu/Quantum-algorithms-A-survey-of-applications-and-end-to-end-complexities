@@ -1,0 +1,2747 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../introduction/">
+      
+      
+        <link rel="next" href="../quantum-machine-learning-via-energy-based-models/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.4">
+    
+    
+      
+        <title>Quantum machine learning via quantum linear algebra - Quantum algorithms: A survey of applications and end-to-end complexities</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.50c56a3b.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#quantum-machine-learning-via-quantum-linear-algebra" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Quantum algorithms: A survey of applications and end-to-end complexities" class="md-header__button md-logo" aria-label="Quantum algorithms: A survey of applications and end-to-end complexities" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Quantum algorithms: A survey of applications and end-to-end complexities
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Quantum machine learning via quantum linear algebra
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Quantum algorithms: A survey of applications and end-to-end complexities" class="md-nav__button md-logo" aria-label="Quantum algorithms: A survey of applications and end-to-end complexities" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Quantum algorithms: A survey of applications and end-to-end complexities
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../authors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Authors
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Areas of application
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Areas of application
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Condensed matter physics
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Condensed matter physics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../condensed-matter-physics/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../condensed-matter-physics/fermi-hubbard-model/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Fermi–Hubbard model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../condensed-matter-physics/syk-model/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SYK model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../condensed-matter-physics/spin-models/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Spin models
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Quantum chemistry
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum chemistry
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-chemistry/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-chemistry/electronic-structure-problem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Electronic structure problem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-chemistry/vibrational-structure-problem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vibrational structure problem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Nuclear and particle physics
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            Nuclear and particle physics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nuclear-and-particle-physics/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nuclear-and-particle-physics/quantum-field-theories/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum field theories
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nuclear-and-particle-physics/nuclear-structure-problem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nuclear structure problem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Combinatorial optimization
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Combinatorial optimization
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../combinatorial-optimization/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../combinatorial-optimization/search-algorithms-a-la-grover/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Search algorithms à la Grover
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../combinatorial-optimization/beyond-quadratic-speedups-in-exact-combinatorial-optimization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Beyond quadratic speedups in exact combinatorial optimization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Continuous optimization
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            Continuous optimization
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../continuous-optimization/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../continuous-optimization/zero-sum-games-computing-nash-equilibria/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Zero-sum games: Computing Nash equilibria
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../continuous-optimization/conic-programming-solving-lps-socps-and-sdps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Conic programming: Solving LPs, SOCPs, and SDPs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../continuous-optimization/general-convex-optimization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    General convex optimization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../continuous-optimization/nonconvex-optimization-escaping-saddle-points-and-finding-local-minima/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nonconvex optimization: Escaping saddle points and finding local minima
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_7" id="__nav_4_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Cryptanalysis
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_7">
+            <span class="md-nav__icon md-icon"></span>
+            Cryptanalysis
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cryptanalysis/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cryptanalysis/breaking-cryptosystems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Breaking cryptosystems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cryptanalysis/weakening-cryptosystems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Weakening cryptosystems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solving-differential-equations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Solving differential equations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_9" id="__nav_4_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Finance
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_9">
+            <span class="md-nav__icon md-icon"></span>
+            Finance
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finance/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finance/portfolio-optimization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Portfolio optimization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finance/monte-carlo-methods-option-pricing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Monte Carlo methods: Option pricing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_10" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_10" id="__nav_4_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Machine learning with classical data
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_10_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_10">
+            <span class="md-nav__icon md-icon"></span>
+            Machine learning with classical data
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Quantum machine learning via quantum linear algebra
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Quantum machine learning via quantum linear algebra
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ml-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      ML applications
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-1-gaussian-process-regression" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 1: Gaussian process regression
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-2-support-vector-machines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 2: Support vector machines
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-3-supervised-cluster-assignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 3: Supervised cluster assignment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caveats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Caveats
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#end-to-end-resource-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      End-to-end resource analysis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outlook" class="md-nav__link">
+    <span class="md-ellipsis">
+      Outlook
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      Further reading
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bibliography" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bibliography
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum-machine-learning-via-energy-based-models/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum machine learning via energy-based models
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensor-pca/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tensor PCA
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../topological-data-analysis/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Topological data analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum-neural-networks-and-quantum-kernel-methods/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum neural networks and quantum kernel methods
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Quantum algorithmic primitives
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum algorithmic primitives
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Quantum linear algebra
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum linear algebra
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/block-encodings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Block-encodings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/manipulating-block-encodings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Manipulating block-encodings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/quantum-signal-processing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum signal processing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/qubitization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Qubitization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/quantum-singular-value-transformation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum singular value transformation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Hamiltonian simulation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            Hamiltonian simulation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/product-formulae/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Product formulae
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/qdrift/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    qDRIFT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/taylor-and-dyson-series-linear-combination-of-unitaries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Taylor and Dyson series (linear combination of unitaries)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/quantum-signal-processing-quantum-singular-value-transformation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum signal processing / quantum singular value transformation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-fourier-transform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum Fourier transform
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-phase-estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum phase estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Amplitude amplification and estimation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            Amplitude amplification and estimation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-amplification/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Amplitude amplification
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Amplitude estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/gibbs-sampling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gibbs sampling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-adiabatic-algorithm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum adiabatic algorithm
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Loading classical data
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_9">
+            <span class="md-nav__icon md-icon"></span>
+            Loading classical data
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/loading-classical-data/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/loading-classical-data/quantum-random-access-memory/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum random access memory
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/loading-classical-data/preparing-states-from-classical-data/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Preparing states from classical data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/loading-classical-data/block-encoding-dense-matrices-of-classical-data/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Block-encoding dense matrices of classical data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-system-solvers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum linear system solvers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-gradient-estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum gradient estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/variational-quantum-algorithms/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Variational quantum algorithms
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-tomography/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum tomography
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-interior-point-methods/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum interior point methods
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/multiplicative-weights-update-method/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Multiplicative weights update method
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/approximate-tensor-network-contraction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Approximate tensor network contraction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Fault-tolerant quantum computation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Fault-tolerant quantum computation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../fault-tolerant-quantum-computation/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../fault-tolerant-quantum-computation/basics-of-fault-tolerance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basics of fault tolerance
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../fault-tolerant-quantum-computation/quantum-error-correction-with-the-surface-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum error correction with the surface code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../fault-tolerant-quantum-computation/logical-gates-with-the-surface-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Logical gates with the surface code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ml-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      ML applications
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-1-gaussian-process-regression" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 1: Gaussian process regression
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-2-support-vector-machines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 2: Support vector machines
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-3-supervised-cluster-assignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 3: Supervised cluster assignment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caveats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Caveats
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#end-to-end-resource-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      End-to-end resource analysis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outlook" class="md-nav__link">
+    <span class="md-ellipsis">
+      Outlook
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      Further reading
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bibliography" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bibliography
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="quantum-machine-learning-via-quantum-linear-algebra">Quantum machine learning via quantum linear algebra</h1><h2 id="overview">Overview</h2><p>Linear algebra in high dimensional spaces with tensor product structure is the workhorse of quantum computation as well as of much of machine learning (ML). It is therefore unsurprising that efforts have been made to find quantum algorithms for various learning tasks, including but not restricted to: cluster-finding [<a href="#bib1">1</a>], principal component analysis [<a href="#bib2">2</a>], least-squares fitting [<a href="#bib3">3</a>, <a href="#bib4">4</a>], recommendation systems [<a href="#bib5">5</a>], binary classification [<a href="#bib6">6</a>], and Gaussian process regression [<a href="#bib7">7</a>]. One of the main computational bottlenecks in all of these tasks is the manipulation of large matrices. Significant speedup for this class of problems has been argued for via <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/introduction/#quantum-linear-algebra">quantum linear algebra</a>, as exemplified by the <a href="../../../quantum-algorithmic-primitives/quantum-linear-system-solvers/#quantum-linear-system-solvers">quantum linear system solver</a> (QLSS). The main question marks for viability are: (i) can quantum linear algebra be fully dequantized [<a href="#bib8">8</a>] for ML tasks, (ii) can the classical training data be loaded efficiently into a <a href="../../../quantum-algorithmic-primitives/loading-classical-data/quantum-random-access-memory/#quantum-random-access-memory">quantum random access memory</a> (QRAM), and (iii) do the quantum ML algorithms that avoid the above mentioned pitfalls address relevant machine learning problems? Our current understanding suggests that significant quantum advantage would require an exceptional confluence of (i)-(iii) that has not yet been found in the specific applications analyzed to date, though modest speedups are plausible.</p><h2 id="ml-applications">ML applications</h2><p>The structure of this section differs from other sections in this survey, due to the one-off nature of many of the quantum machine learning proposals and the fact that they are often heuristic. Rather than cover every proposal, we explore three specific applications. Each example explains which end-to-end problem is being solved and roughly how the proposed quantum algorithm solves that problem, arriving at its dominant complexity. In each case, the quantum algorithm assumes access to fast coherent <a href="../../../quantum-algorithmic-primitives/loading-classical-data/introduction/#loading-classical-data">data access</a> (log-depth <a href="../../../quantum-algorithmic-primitives/loading-classical-data/quantum-random-access-memory/#quantum-random-access-memory">QRAM</a>) and leverages quantum primitives for <a href="../../../quantum-algorithmic-primitives/quantum-linear-system-solvers/#quantum-linear-system-solvers">solving linear systems</a> (and <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/introduction/#quantum-linear-algebra">linear algebra more generally</a>). Under certain conditions, these primitives can be exponentially faster than classical methods that manipulate all the entries of vectors in the exponentially large vector space. However, for these examples, it is crucial to carefully define the end-to-end problem, as exponential advantages can be lost at the readout step, where the answer to a machine learning question must be retrieved from the quantum state encoding the solution to the linear algebra problem. In the three examples below, this is accomplished with some form of <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-estimation/#amplitude-estimation">amplitude or overlap estimation</a>.</p><p>Furthermore, we note that, even if these quantum algorithms are exponentially faster than classical algorithms that manipulate the full state vector, in some cases this speedup has been "dequantized" via algorithms that merely sample from the entries of the vector. Specifically, for some end-to-end problems, there exist classical "quantum-inspired" algorithms [<a href="#bib8">8</a>, <a href="#bib9">9</a>, <a href="#bib10">10</a>] that solve the problem in time only polynomially slower than the quantum algorithm. The assumption that the quantum algorithm has fast <a href="../../../quantum-algorithmic-primitives/loading-classical-data/quantum-random-access-memory/#quantum-random-access-memory">QRAM</a> access to the classical data is analogous to the assumption that the classical algorithm has fast sample-and-query (SQ) access to the data. We do not cover these techniques in detail, but we note that most of the machine learning tasks based on linear algebra for which quantum algorithms have been proposed have also been dequantized in some capacity [<a href="#bib9">9</a>]. However, in some cases it remains possible that there could be an exponential quantum advantage if the quantum algorithm is able to exploit additional structure in the matrices involved, such as sparsity, that the classical algorithm is not. The three examples below roughly illustrate the spectrum of possibilities: some tasks are fully dequantized, whereas others, to the best of our current knowledge, could still support exponential advantages if certain conditions are met.</p><h2 id="example-1-gaussian-process-regression">Example 1: Gaussian process regression</h2><h4 id="actual-end-to-end-problem">Actual end-to-end problem:</h4><p>Gaussian process regression (GPR) is a nonparametric, Bayesian method for regression. GPR is closely related to <a href="../quantum-neural-networks-and-quantum-kernel-methods/#quantum-neural-networks-and-quantum-kernel-methods">kernel methods</a> [<a href="#bib11">11</a>], as well as to other regression models, including linear regression [<a href="#bib12">12</a>]. Our presentation of the problem follows that of [<a href="#bib12">12, Chapter 2</a>] and [<a href="#bib13">13</a>]. Given training data <span class="arithmatex">\(\{x_j,y_j\}_{j=1}^M\)</span>, with inputs <span class="arithmatex">\(x_j \in \mathbb{R}^N\)</span> and noisy outputs <span class="arithmatex">\(y_j\in\mathbb{R}\)</span>, the goal is to model the underlying function <span class="arithmatex">\(f(x)\)</span> generating the output <span class="arithmatex">\(y\)</span> </p><div class="arithmatex">\[\begin{equation} y=f(x)+\epsilon_{\rm noise}, \end{equation}\]</div><p>where <span class="arithmatex">\(\epsilon_{\rm noise}\)</span> is drawn from i.i.d. Gaussian noise with variance <span class="arithmatex">\(\sigma^2\)</span>. Modeling <span class="arithmatex">\(f(x)\)</span> as a Gaussian process means that for inputs <span class="arithmatex">\(\{x_j\}_{j=1}^M\)</span>, the outputs <span class="arithmatex">\(\{f(x_j)\}_{j=1}^M\)</span> are treated as random variables with a joint multivariate Gaussian distribution, in such a way that any subset of these values are jointly normally distributed in a manner consistent with the global distribution. While this multivariate Gaussian distribution governing <span class="arithmatex">\(\{f(x_j)\}_{j=1}^M\)</span> will generally be correlated for different <span class="arithmatex">\(j\)</span>, the additional additive error <span class="arithmatex">\(\epsilon_{\rm noise}\)</span> on our observations <span class="arithmatex">\(y_j\)</span> is independent from the choice of <span class="arithmatex">\(f(x_j)\)</span> and uncorrelated from point to point. The Gaussian process is specified by the distribution <span class="arithmatex">\(\mathcal{N}\left( m, K \right)\)</span> where <span class="arithmatex">\(m\)</span> is the length-<span class="arithmatex">\(M\)</span> vector obtained by evaluating a "mean function\" <span class="arithmatex">\(m(x)\)</span> at the points <span class="arithmatex">\(\{x_j\}_{j=1}^M\)</span>, and <span class="arithmatex">\(K\)</span> is an <span class="arithmatex">\(M \times M\)</span> covariance kernel matrix obtained by evaluating a covariance kernel function <span class="arithmatex">\(k(x,x')\)</span> at <span class="arithmatex">\(x,x' \in \{x_j\}_{j=1}^M\)</span>. The functional form of the mean and covariance kernel are specified by the user and determine the properties of the Gaussian process, such as its smoothness.<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> These functions typically contain a small number of hyperparameters which can be optimized using the training data. A commonly used covariance kernel function is the squared exponential covariance function <span class="arithmatex">\(k(x,x') = \exp{\left(-\frac{1}{2\ell^2} (x-x')^2\right)}\)</span> where <span class="arithmatex">\(\ell\)</span> is a hyperparameter controlling the length scale of the Gaussian process.</p><p>Given choices for <span class="arithmatex">\(m(x)\)</span> and <span class="arithmatex">\(k(x,x')\)</span> and the observed data <span class="arithmatex">\(\{x_j,y_j\}_{j=1}^M\)</span>, our task is to predict the value <span class="arithmatex">\(f(x_*)\)</span> of a new test point <span class="arithmatex">\(x_*\)</span>. Because the Gaussian process assumes that all <span class="arithmatex">\(M+1\)</span> values <span class="arithmatex">\(\{f(x_1),\ldots,f(x_M), f(x_*)\}\)</span> have a jointly Gaussian distribution, it is possible to condition upon the observed data to obtain the distribution for <span class="arithmatex">\(f(x_*)\)</span> which is <span class="arithmatex">\(p(f_* | x_*, \{x_j,y_j\}) \sim \mathcal{N}\left(\bar{f}_* , \mathbb{V}[f_*] \right)\)</span>. Our goal is to compute <span class="arithmatex">\(\bar{f}_*\)</span>, the mean (linear predictor) of the distribution for <span class="arithmatex">\(f(x_*)\)</span>, as well as the variance <span class="arithmatex">\(\mathbb{V}[f_*]\)</span>, which gives uncertainty on the prediction. Computing the underlying multivariate Gaussian distribution can be bypassed by exploiting the closure of Gaussians under linear operations, in particular, conditioning. This re-expresses the problem as linear algebra with the kernel matrix. Assuming the common choice of <span class="arithmatex">\(m(x) =0\)</span>, and defining the length-<span class="arithmatex">\(M\)</span> vector <span class="arithmatex">\(k_* \in \mathbb{R}^M\)</span> to have its <span class="arithmatex">\(j\)</span>th entry given by <span class="arithmatex">\(k(x_*, x_j)\)</span>, we obtain </p><div class="arithmatex">\[\begin{align} \bar{f}_* &amp; = k_*^\intercal [K + \sigma^2 I]^{-1} y \\
+\mathbb{V}[f_*] &amp; = k(x_*, x_*) - k_*^\intercal [K + \sigma^2 I]^{-1} k_* \end{align}\]</div><p>which characterize the prediction for the test point. The advantages of GPR are a small number of hyperparameters, model interpretability, and that it naturally returns uncertainty estimates for the predictions. Its main disadvantage is the computational cost.</p><h4 id="dominant-resource-cost">Dominant resource cost:</h4><p>In classical implementations, the cost is dominated by performing the inversion <span class="arithmatex">\([K+ \sigma^2 I]^{-1}\)</span>, typically via a Cholesky decomposition, resulting in a complexity of <span class="arithmatex">\(\mathcal{O}\left( M^3 \right)\)</span> (see [<a href="#bib12">12, Chapter 8</a>] and [<a href="#bib14">14</a>] for approximations used to reduce the classical cost). In [<a href="#bib7">7</a>], a quantum algorithm was proposed that leverages the <a href="../../../quantum-algorithmic-primitives/quantum-linear-system-solvers/#quantum-linear-system-solvers">quantum linear system solver</a> (QLSS) to perform this inversion more efficiently. The quantum computer uses the classical data to infer the linear predictor and variance for a test point <span class="arithmatex">\(x_*\)</span>, and this process must be repeated for the computation of each new test point output. We analyze the complexity of computing <span class="arithmatex">\(\bar{f}_*\)</span>, with a simple extension for <span class="arithmatex">\(\mathbb{V}[f_*]\)</span>. Given classically observed/precomputed values of <span class="arithmatex">\(y\)</span> and <span class="arithmatex">\(k_*\)</span>, the quantum algorithm uses <a href="../../../quantum-algorithmic-primitives/loading-classical-data/preparing-states-from-classical-data/#preparing-states-from-classical-data">state preparation from classical data</a> (based on <a href="../../../quantum-algorithmic-primitives/loading-classical-data/quantum-random-access-memory/#quantum-random-access-memory">QRAM</a>) to prepare quantum states representing <span class="arithmatex">\(\frac{1}{\nrm{y}} \ket{y}\)</span> and <span class="arithmatex">\(\frac{1}{\nrm{k_*}} \ket{k_*}\)</span>,<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup> each with a gate depth of <span class="arithmatex">\(\mathcal{O}\left( \log(M) \right)\)</span> (though using <span class="arithmatex">\(\mathcal{O}\left( M \right)\)</span> gates overall). The algorithm also uses a <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/block-encodings/#block-encodingsClassical">block-encoding of classical data</a> (also using QRAM) for <span class="arithmatex">\(A:=[K + \sigma^2 I]\)</span>, with a normalization factor of <span class="arithmatex">\(\alpha = \nrm{K + \sigma^2 I}_F\)</span> (Frobenius norm).<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup> The state-of-the-art <a href="../../../quantum-algorithmic-primitives/quantum-linear-system-solvers/#quantum-linear-system-solvers">QLSS</a> has complexity <span class="arithmatex">\(\mathcal{O}\left( \frac{\alpha \kappa}{\nrm{A}} \log(1/\epsilon) \right)\)</span> calls to an <span class="arithmatex">\(\alpha\)</span>-normalized block-encoding of matrix <span class="arithmatex">\(A\)</span> with condition number <span class="arithmatex">\(\kappa\)</span>. In this case, the minimum singular value of <span class="arithmatex">\(A\)</span> is at least <span class="arithmatex">\(\sigma^2\)</span>, so <span class="arithmatex">\(\kappa/\nrm{A}\leq \sigma^{-2}\)</span>. The QLSS produces the normalized state <span class="arithmatex">\(\ket{A^{-1}y}\)</span>, and a similar approach yields an estimate for the norm <span class="arithmatex">\(\lVert A^{-1}y \rVert\)</span> to relative error <span class="arithmatex">\(\epsilon\)</span> at cost <span class="arithmatex">\(\widetilde{\mathcal{O}}\left( \alpha \kappa/\nrm{A}\epsilon \right)\)</span>. Given unitary circuits performing these tasks, we can estimate the quantity <span class="arithmatex">\(\bar{f}_* = \braket{k_*}{A^{-1}y} \cdot \nrm{k^*}\nrm{A^{-1}y}\)</span> to precision <span class="arithmatex">\(\epsilon\)</span> using <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-estimation/#amplitude-estimation">overlap estimation</a> with gate depth upper bounded by </p><div class="arithmatex">\[\begin{equation} \widetilde{\mathcal{O}}\left( \log(M) \cdot \nrm{K+\sigma^2 I}_F \sigma^{-2} \cdot \frac{\nrm{k_*} \left\lVert[K + \sigma^2 I]^{-1}y\right\rVert }{\epsilon} \right)\,, \end{equation}\]</div><p>where the three factors come from QRAM, QLSS, and overlap estimation, respectively. Using QRAM as described above would use <span class="arithmatex">\(\mathcal{O}\left( M^2 \right)\)</span> ancilla qubits. Note that classical "quantum-inspired" methods for solving linear systems, based on sample-and-query (SQ) access, also have <span class="arithmatex">\(\mathrm{poly}(\nrm{A}_F,\kappa,\epsilon^{-1},\log(M))\)</span> complexity [<a href="#bib9">9</a>, <a href="#bib15">15</a>, <a href="#bib10">10</a>], and thus the quantum algorithm as stated above offers at most a polynomial speedup in the case of dense matrices.</p><p>On the other hand, [<a href="#bib7">7</a>] considers the case where the vectors and kernels are sparse<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup> and uses this to reduce the cost of the quantum algorithm and of QRAM. In this case, using <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/block-encodings/#block-encodings">block-encodings</a> of sparse matrices, the factor <span class="arithmatex">\(\nrm{A}_F\)</span> in the complexity expression is replaced by a factor <span class="arithmatex">\(s \nrm{A}_{\max}\)</span>, where <span class="arithmatex">\(s\)</span> is the sparsity of the matrix <span class="arithmatex">\(A\)</span> and <span class="arithmatex">\(\nrm{A}_{\max}\)</span> is the maximum magnitude of any entry of <span class="arithmatex">\(A\)</span>—log-depth QRAM with <span class="arithmatex">\(\Omega(M)\)</span> ancilla qubits would still be necessary to implement the sparse-access oracle to the <span class="arithmatex">\(sM\)</span> arbitrary nonzero entries of <span class="arithmatex">\(A\)</span> in depth <span class="arithmatex">\(\mathcal{O}\left( \log(M) \right)\)</span>. The upshot is that in the sparse case, because the algorithm assumes the kernel is not low rank, this algorithm is not dequantized by SQ access [<a href="#bib16">16</a>] and may still offer an exponential speedup over quantum-inspired methods. However, we note that the assumption of sparsity in <span class="arithmatex">\([K + \sigma^2 I]\)</span> may also enable the use of more efficient classical algorithms for computing the inverse (see <a href="../../../quantum-algorithmic-primitives/quantum-linear-system-solvers/#quantum-linear-system-solvers">QLSS</a>). Moreover, we must include the classical precomputation of evaluating the entries of this matrix. A related, and similarly efficient, quantum algorithm is proposed in [<a href="#bib13">13</a>] for optimizing the hyperparameters of the GP kernel by maximizing the marginal likelihood of the observed data given the model.</p><h2 id="example-2-support-vector-machines">Example 2: Support vector machines</h2><h4 id="actual-end-to-end-problem_1">Actual end-to-end problem:</h4><p>The task for the support vector machine (SVM) is to classify an <span class="arithmatex">\(N\)</span>-dimensional vector <span class="arithmatex">\(x_*\)</span> into one of two classes (<span class="arithmatex">\(y_* = \pm 1\)</span>), given <span class="arithmatex">\(M\)</span> labeled data points of the form <span class="arithmatex">\(\{(x_j,y_j): x_j\in \mathbb{R}^N, y_j=\pm 1\}_{j=1,...,M}\)</span> used for training. The training phase solves a <a href="../../continuous-optimization/introduction/#continuous-optimization">continuous optimization</a> problem to find a maximum-margin hyperplane, described by normal vector <span class="arithmatex">\(w \in \mathbb{R}^M\)</span> and offset <span class="arithmatex">\(b \in \mathbb{R}\)</span>, which separates the training data. That is, data points with <span class="arithmatex">\(y_j=1\)</span> lie on one side of the plane, and data points with <span class="arithmatex">\(y_j=-1\)</span> lie on the other side. Once trained, the classification of <span class="arithmatex">\(x_*\)</span> is inferred via the formula </p><div class="arithmatex">\[\begin{equation} \label{eq:SVM_classify} y_*={\rm sign}\left(b+\langle w, x_*\rangle\right)\,. \end{equation}\]</div><p>In the "hard-margin" version of the problem where all training points must be classified correctly (assuming it is possible to do so, i.e. the data is linearly separable), the solution <span class="arithmatex">\((w,b)\)</span> is given by </p><div class="arithmatex">\[\begin{equation} \label{eq:SVM_hardmargin} \argmin_{(w,b)} \; \nrm{w}^2, \qquad \text{subject to:} \qquad y_j \cdot (\langle w,x_j \rangle + b) \geq 1 \qquad \forall j \end{equation}\]</div><p>where <span class="arithmatex">\(\nrm{\cdot}\)</span> denotes the standard Euclidean vector norm.</p><p>In the "soft-margin" version of the problem, the hyperplane need not correctly classify all training points. The relation <span class="arithmatex">\(y_j \cdot (\langle w, x_j\rangle+b) \geq 1\)</span> is relaxed to <span class="arithmatex">\(y_j \cdot (\langle w, x_j \rangle +b) \geq 1-\xi_j\)</span>, with <span class="arithmatex">\(\xi_j \geq 0\)</span>. Now, <span class="arithmatex">\((w,b)\)</span> are determined by </p><div class="arithmatex">\[\begin{equation} \label{eq:SVM_softmargin} \argmin_{(w,b, \xi)} \; \nrm{w}^2 + \gamma \nrm{\xi}_1, \qquad \text{subject to:} \qquad y_j \cdot (\langle w,x_j \rangle + b) \geq 1-\xi_j \qquad \forall j\,, \end{equation}\]</div><p>where <span class="arithmatex">\(\nrm{\cdot}_1\)</span> denotes the vector 1-norm, and <span class="arithmatex">\(\gamma\)</span> is a user-specified parameter related to how much to penalize points that lie within the margin. Both Eqs. <span class="arithmatex">\(\eqref{eq:SVM_hardmargin}\)</span> and <span class="arithmatex">\(\eqref{eq:SVM_softmargin}\)</span> are <a href="../../continuous-optimization/conic-programming-solving-lps-socps-and-sdps/#conic-programming-solving-lps-socps-and-sdps">convex programs</a>, in particular, quadratic programs, which can also be rewritten as second-order cone programs [<a href="#bib17">17</a>]. Another feature of these formulations is that the solution vectors <span class="arithmatex">\(w\)</span> and <span class="arithmatex">\(\xi\)</span> are usually sparse; the <span class="arithmatex">\(j\)</span>th entry is only nonzero for values of <span class="arithmatex">\(j\)</span> where <span class="arithmatex">\(x_j\)</span> lies on or within the margin near the hyperplane—these <span class="arithmatex">\(x_j\)</span> are called the "support vectors."</p><p>In [<a href="#bib18">18</a>], a "least-squares" version of the SVM problem was proposed, which has no inequality constraints:<sup id="fnref:5"><a class="footnote-ref" href="#fn:5">5</a></sup> </p><div class="arithmatex">\[\begin{equation} \label{eq:SVM_LS} \argmin_{(w,b,\xi)} \; \nrm{w}^2 + \frac{\gamma}{M} \nrm{\xi}^2, \qquad \text{subject to:} \qquad y_j \cdot (\langle w,x_j \rangle + b) = 1-\xi_j \qquad \forall j\,. \end{equation}\]</div><p>This is an equality-constrained least-squares problem, which is simpler than a quadratic program and can be solved using Lagrange multipliers and inverting a linear system. Specifically, one introduces vector <span class="arithmatex">\(\beta \in \mathbb{R}^M\)</span> and solves the <span class="arithmatex">\((M+1) \times (M+1)\)</span> linear system <span class="arithmatex">\(Au = v\)</span>, where </p><div class="arithmatex">\[\begin{equation} A=\begin{pmatrix} 0 &amp; \mathbf{1}^\intercal/\sqrt{M} \\
+\mathbf{1}/\sqrt{M} &amp; K/M + \gamma^{-1}I \end{pmatrix}, \qquad u = \begin{pmatrix} b \\
+\beta \end{pmatrix}, \qquad v =\frac{1}{\sqrt{M}}\begin{pmatrix} 0 \\
+y \end{pmatrix} \end{equation}\]</div><p>with <span class="arithmatex">\(K\)</span> the kernel matrix for which <span class="arithmatex">\(K_{ij} = \langle x_i, x_j \rangle\)</span>, <span class="arithmatex">\(\mathbf{1}\)</span> the all-ones vector, and <span class="arithmatex">\(I\)</span> the identity matrix. The vector <span class="arithmatex">\(w\)</span> is inferred from <span class="arithmatex">\(\beta\)</span> via the formula <span class="arithmatex">\(w = \sum_j \beta_j x_j/\sqrt{M}\)</span>.</p><p>However, unlike the first two formulations, the least-squares formulation does not generally have sparse solution vectors <span class="arithmatex">\((w,b)\)</span> (see [<a href="#bib19">19</a>]). Additionally, its solution can be qualitatively different, due to the fact that correctly classified data points can lead to negative <span class="arithmatex">\(\xi_j\)</span> that apply penalties to the objective function through the appearance of <span class="arithmatex">\(\nrm{\xi}^2\)</span>.</p><h4 id="dominant-resource-cost_1">Dominant resource cost:</h4><p>The hard-margin and soft-margin formulations of SVM are quadratic programs, which can be mapped to <a href="../../continuous-optimization/conic-programming-solving-lps-socps-and-sdps/#conic-programming-solving-lps-socps-and-sdps">second-order cone programs</a> and solved with <a href="../../../quantum-algorithmic-primitives/quantum-interior-point-methods/#quantum-interior-point-methods">quantum interior point methods</a> (QIPMs). This solution was proposed in [<a href="#bib17">17</a>], and, assuming access to log-depth <a href="../../../quantum-algorithmic-primitives/loading-classical-data/quantum-random-access-memory/#quantum-random-access-memory">QRAM</a> it can find <span class="arithmatex">\(\epsilon\)</span>-accurate estimates for the solution <span class="arithmatex">\((w,b)\)</span> in time scaling as <span class="arithmatex">\(\widetilde{\mathcal{O}}\left( M^{0.5}(M+N)\kappa_{\rm IPM}\zeta\log(1/\epsilon)/\xi' \right)\)</span>, where <span class="arithmatex">\(\kappa_{\rm IPM}\)</span>, <span class="arithmatex">\(\zeta\)</span>, and <span class="arithmatex">\(\xi'\)</span> are instance-specific parameters related to the QIPM. This compares to <span class="arithmatex">\(\mathcal{O}\left( M^{0.5}(M+N)^{3}\log(1/\epsilon) \right)\)</span> for naively implemented classical interior point methods. In [<a href="#bib17">17</a>], numerical simulations on random SVM instances were performed to compute these instance-specific parameters, and the results were consistent with a small polynomial speedup. However, the resource estimate of [<a href="#bib20">20</a>] for a related problem suggests a practical advantage may be difficult to realize with this approach.</p><p>The least-squares formulation can be solved directly with the <a href="../../../quantum-algorithmic-primitives/quantum-linear-system-solvers/#quantum-linear-system-solvers">quantum linear system solver</a> (QLSS), as pursued in [<a href="#bib6">6</a>]. This can be compared to classically solving the linear system via Gaussian elimination, with cost <span class="arithmatex">\(\mathcal{O}\left( M^3 \right)\)</span>. The QLSS requires the ability to prepare the state <span class="arithmatex">\(\ket{v}\)</span>, which can be accomplished in <span class="arithmatex">\(\mathcal{O}\left( \log(M) \right)\)</span> depth through methods for <a href="../../../quantum-algorithmic-primitives/loading-classical-data/preparing-states-from-classical-data/#preparing-states-from-classical-data">preparation of states from classical data</a>, although requiring <span class="arithmatex">\(\mathcal{O}\left( M \right)\)</span> total gates and ancilla qubits. One also needs a block-encoding of the matrix <span class="arithmatex">\(A\)</span>. One method is through <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/block-encodings/#block-encodingsClassical">block-encodings from classical data</a>, which requires classical precomputation of the <span class="arithmatex">\(\mathcal{O}\left( M^2 \right)\)</span> entries of <span class="arithmatex">\(K\)</span> (incurring classical cost <span class="arithmatex">\(\mathcal{O}\left( M^2N \right)\)</span>) and producing a block-encoding with normalization factor <span class="arithmatex">\(\alpha = \nrm{A}_F\)</span> (Frobenius norm). Henceforth we assume that <span class="arithmatex">\(\nrm{x_j} \leq 1\)</span> for all <span class="arithmatex">\(j\)</span>, which can always be achieved by scaling down the training data (inducing a scaling up of <span class="arithmatex">\(w\)</span> and <span class="arithmatex">\(\sqrt{\gamma}\)</span> by an equal factor). This implies <span class="arithmatex">\(\nrm{K/M}_F \leq 1\)</span> and hence <span class="arithmatex">\(\nrm{A}_F \leq \sqrt{2}+1+\sqrt{M}\gamma^{-1}\)</span>. A better block-encoding can be obtained by block-encoding <span class="arithmatex">\(K/M\)</span> via the method for Gram matrices<sup id="fnref:6"><a class="footnote-ref" href="#fn:6">6</a></sup> and <span class="arithmatex">\(\gamma^{-1}I\)</span> via the trivial method, and then combining these with the rest of <span class="arithmatex">\(A\)</span> via <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/manipulating-block-encodings/#linear-combinations">linear combination of block-encodings</a>. This avoids the need to classically calculate the inner products <span class="arithmatex">\(\langle x_i, x_j \rangle\)</span>, and has a better normalization <span class="arithmatex">\(\alpha \leq \sqrt{2} + 1+\gamma^{-1}\)</span>.</p><p>Given these constructions, the QLSS outputs the state <span class="arithmatex">\(\ket{u} = (b\ket{0} + \sum_{j=1}^M \beta_j \ket{j})/\sqrt{b^2+\nrm{\beta}^2}\)</span>; the cost is <span class="arithmatex">\(\smash{\widetilde{\mathcal{O}}\left( \alpha \kappa_A/ \nrm{A} \right)}\)</span>, where <span class="arithmatex">\(\kappa_A\)</span> is the condition number of <span class="arithmatex">\(A\)</span>. We may assert that <span class="arithmatex">\(\nrm{A} \geq 1\)</span>. This follows by noting that the lower right block of <span class="arithmatex">\(A\)</span> is positive semidefinite, and that 1 is an eigenvalue of <span class="arithmatex">\(A\)</span> when the lower-right block is set to zero. The condition number should be upper bounded by an <span class="arithmatex">\(M\)</span>-independent function of <span class="arithmatex">\(\gamma\)</span> due to the appearance of the regularizing <span class="arithmatex">\(\gamma^{-1}I\)</span>.</p><p>Reading out all <span class="arithmatex">\(M+1\)</span> entries of <span class="arithmatex">\(\ket{u}\)</span> via <a href="../../../quantum-algorithmic-primitives/quantum-tomography/#quantum-tomography">tomography</a> would multiply the cost by <span class="arithmatex">\(\Omega(M)\)</span>. However, in [<a href="#bib6">6</a>], it was observed that to classify a test point <span class="arithmatex">\(x_*\)</span> via Eq. <span class="arithmatex">\(\eqref{eq:SVM_classify}\)</span>, one can use <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-estimation/#amplitude-estimation">overlap estimation</a> rather than classically learning the solution vector. In our notation and normalization, this can be carried out as follows. Let <span class="arithmatex">\(\ket{x_j}:=\sum_{i=1}^M x_{ji} \ket{i}/\nrm{x_j}\)</span>, with <span class="arithmatex">\(x_{ji}\)</span> denoting the <span class="arithmatex">\(i\)</span>th entry of the vector <span class="arithmatex">\(x_j\)</span>. Starting with <span class="arithmatex">\(\ket{u}\)</span>, we prepare <span class="arithmatex">\(\ket{x_j}\)</span> into an ancilla register, using methods for controlled <a href="../../../quantum-algorithmic-primitives/loading-classical-data/preparing-states-from-classical-data/#preparing-states-from-classical-data">state preparation from classical data</a>, forming </p><div class="arithmatex">\[\begin{equation} \ket{\tilde{u}} = \frac{b\ket{0}\ket{0} + \sum_{j=1}^M \beta_j \ket{j}\left(\nrm{x_j}\ket{x_j} + \sqrt{1-\nrm{x_j}^2}\ket{M+1}\right)}{\sqrt{b^2+\nrm{\beta}^2}}\,. \end{equation}\]</div><p>One also creates a reference state <span class="arithmatex">\(\ket{\tilde{x}_*}\)</span> encoding <span class="arithmatex">\(x_*\)</span>, defined as </p><div class="arithmatex">\[\begin{equation} \ket{\tilde{x}_*} = \frac{1}{\sqrt{2}}\ket{0}\ket{0} + \frac{1}{\sqrt{2M}}\sum_{j=1}^M \ket{j}\left(\nrm{x_*}\ket{x_*} + \sqrt{1-\nrm{x_*}^2 }\ket{M+2}\right)\,. \end{equation}\]</div><p>The right-hand side of Eq. <span class="arithmatex">\(\eqref{eq:SVM_classify}\)</span> is then given by <span class="arithmatex">\(\sqrt{2}\sqrt{b^2+\nrm{\beta}^2}\braket{\tilde{u}}{\tilde{x}_*}\)</span>. Thus, the overlap <span class="arithmatex">\(\braket{\tilde{u}}{\tilde{x}_*}\)</span> must be estimated to precision <span class="arithmatex">\(\epsilon = 1/\sqrt{2(b^2+\nrm{\beta}^2)}\)</span> in order to distinguish <span class="arithmatex">\(\pm 1\)</span> and classify <span class="arithmatex">\(x_*\)</span>. Additionally, the norm <span class="arithmatex">\(\nrm{u} = \sqrt{b^2 + \nrm{\beta}^2}\)</span> must be calculated; this can separately be done to relative error <span class="arithmatex">\(\epsilon'\)</span> at cost <span class="arithmatex">\(\widetilde{\mathcal{O}}\left( \alpha \kappa_A/\epsilon' \right)\)</span> (see <a href="../../../quantum-algorithmic-primitives/quantum-linear-system-solvers/#quantum-linear-system-solvers">QLSS</a>). We may also note that as <span class="arithmatex">\(u = A^{-1}v\)</span> and <span class="arithmatex">\(\nrm{v}=1\)</span>, we have <span class="arithmatex">\(\nrm{u} \leq \kappa_A/\nrm{A}\)</span>. Thus, the overall circuit depth required to classify <span class="arithmatex">\(x_*\)</span> is </p><div class="arithmatex">\[\begin{equation} \widetilde{\mathcal{O}}\left( \frac{\alpha \kappa_A^2}{ \nrm{A}^2} \right) \,. \end{equation}\]</div><p>There is no explicit <span class="arithmatex">\(\mathrm{poly}(N,M)\)</span> dependence. However, for certain data sets and parameter choices, such dependence could be hidden in <span class="arithmatex">\(\kappa_A\)</span> or <span class="arithmatex">\(\alpha\)</span>, making an apples-to-apples comparison with Gaussian elimination less clear.</p><p>Furthermore, this task has been dequantized under the assumption of SQ access [<a href="#bib21">21</a>, <a href="#bib9">9</a>, <a href="#bib10">10</a>]. In time scaling as <span class="arithmatex">\(\mathrm{poly}(\nrm{A}_F, \epsilon^{-1}, \log(NM))\)</span>, one can classically sample from the solution vector <span class="arithmatex">\(\ket{u}\)</span> to error <span class="arithmatex">\(\epsilon\)</span>, and furthermore, given sample access, one can estimate inner products <span class="arithmatex">\(\braket{\tilde{u}}{\tilde{v}}\)</span> in time <span class="arithmatex">\(\mathcal{O}\left( 1/\epsilon^2 \right)\)</span> [<a href="#bib22">22</a>]. However, the cost can be reduced through a trick that is analogous to how the quantum algorithm can block-encode the <span class="arithmatex">\(\gamma^{-1}I\)</span> part of <span class="arithmatex">\(A\)</span> separately to avoid the dependence on a large <span class="arithmatex">\(\nrm{A}_F\)</span>. In particular, [<a href="#bib9">9, Corollary 6.18</a>] gives a classical complexity that would be polynomially related to the quantum complexity above under appropriate matching of parameters, but the power of this polynomial speedup could still be significant. In any case, such a speedup crucially requires log-depth QRAM access to the training data, which requires total gate complexity <span class="arithmatex">\(\Omega(NM)\)</span> and <span class="arithmatex">\(\mathcal{O}\left( NM \right)\)</span> ancilla qubits.</p><h2 id="example-3-supervised-cluster-assignment">Example 3: Supervised cluster assignment</h2><h4 id="actual-end-to-end-problem_2">Actual end-to-end problem:</h4><p>Suppose we are given access to a vector <span class="arithmatex">\(x\in\mathbb{C}^N\)</span> and a set of <span class="arithmatex">\(M\)</span> samples <span class="arithmatex">\(\{y_j\in \mathbb{C}^N\}_{j=1,\ldots,M}\)</span>. We want to estimate the distance between <span class="arithmatex">\(x\)</span> and the centroid of the set <span class="arithmatex">\(\{y_j\}\)</span> to judge whether <span class="arithmatex">\(x\)</span> was drawn from the same set as <span class="arithmatex">\(\{ y_j\}\)</span>. If we have multiple sets <span class="arithmatex">\(\{y_j\}\)</span>, we can infer that <span class="arithmatex">\(x\)</span> belongs to the one for which the distance is shortest; as a result, this is also called the "nearest-centroid problem." Specifically, the computational task is to estimate <span class="arithmatex">\(\lVert x-\frac{1}{M}Y \mathbf{1} \rVert\)</span> to additive constant error <span class="arithmatex">\(\epsilon\)</span> with probability <span class="arithmatex">\(1-\delta\)</span>, where <span class="arithmatex">\(Y\in \mathbb{C}^{N\times M}\)</span> is the matrix whose columns are <span class="arithmatex">\(y_j\)</span>, and <span class="arithmatex">\(\mathbf{1}\)</span> is the vector of <span class="arithmatex">\(M\)</span> ones—the vector <span class="arithmatex">\(Y\mathbf{1}/M\)</span> is the centroid of the set.</p><h4 id="dominant-resource-cost_2">Dominant resource cost:</h4><p>Naively computing the centroid incurs classical cost <span class="arithmatex">\(\mathcal{O}\left( NM \right)\)</span>. In [<a href="#bib1">1</a>], a quantum solution to this problem was proposed. Let <span class="arithmatex">\(\bar{x}=x/\lVert x\rVert\)</span> and let <span class="arithmatex">\(\bar{Y}\)</span> be normalized so that all columns have unit norm. Define <span class="arithmatex">\(N \times (M+1)\)</span> matrix <span class="arithmatex">\(R\)</span> and length-<span class="arithmatex">\((M+1)\)</span> vector <span class="arithmatex">\(w\)</span> as follows: </p><div class="arithmatex">\[\begin{align} R=\begin{pmatrix}\bar{x} &amp; \bar{Y}/\sqrt{M}\end{pmatrix}, \qquad w = \begin{pmatrix} \lVert x \rVert \\
+-1_Y/\sqrt{M}\end{pmatrix}\,, \end{align}\]</div><p>where <span class="arithmatex">\(1_Y\)</span> is the length-<span class="arithmatex">\(M\)</span> vector containing the norms of the columns of <span class="arithmatex">\(Y\)</span>, defined such that <span class="arithmatex">\(\bar{Y}1_Y=Y\mathbf{1}\)</span>. Then, <span class="arithmatex">\(Rw=x-\frac{1}{M} Y\mathbf{1}\)</span>. Using methods for <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/block-encodings/#block-encodingsClassical">block-encoding</a> and <a href="../../../quantum-algorithmic-primitives/loading-classical-data/preparing-states-from-classical-data/#preparing-states-from-classical-data">state preparation</a> from classical data, one constructs <span class="arithmatex">\(\mathcal{O}\left( \log(NM) \right)\)</span>-depth circuits that block-encode <span class="arithmatex">\(R\)</span> (with normalization factor <span class="arithmatex">\(\nrm{R}_F = 2\)</span>) and prepare the state <span class="arithmatex">\(\ket{w}\)</span>. If we apply the block-encoding of <span class="arithmatex">\(R\)</span> to <span class="arithmatex">\(\ket{w}\)</span> and measure the block-encoding ancillas, the probability that we obtain <span class="arithmatex">\(\ket{0}\)</span> is precisely <span class="arithmatex">\((\nrm{Rw}/2\nrm{w})^2\)</span>. Thus, using <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-estimation/#amplitude-estimation">amplitude estimation</a>, one learns <span class="arithmatex">\(\nrm{Rw}\)</span> to precision <span class="arithmatex">\(\epsilon\)</span> with probability at least <span class="arithmatex">\(1-\delta\)</span> at cost <span class="arithmatex">\(\mathcal{O}\left( \nrm{w}\log(1-\delta)/\epsilon \right)\)</span> calls to the log-depth block-encoding and state preparation routines.</p><p>The advantage over naive classical methods essentially boils down to the assumption of efficient <a href="../../../quantum-algorithmic-primitives/loading-classical-data/preparing-states-from-classical-data/#preparing-states-from-classical-data">classical data loading</a> for a specific data set. Subsequently, this quantum algorithm was dequantized, and it was understood that a similar feat is possible classically in the SQ access model [<a href="#bib8">8</a>]. Specifically, the classical algorithm runs in time <span class="arithmatex">\(\widetilde{\mathcal{O}}\left( \nrm{w}^2\log(1-\delta)/\epsilon^2 \right)\)</span>, reducing the exponential speedup to merely quadratic.</p><h2 id="caveats">Caveats</h2><p>The overwhelming caveat in these and other proposals is access to the classical data in quantum superposition. These quantum machine learning algorithms assume that we can load a vector of <span class="arithmatex">\(N\)</span> entries or a matrix of <span class="arithmatex">\(N^2\)</span> entries in <span class="arithmatex">\(\mathrm{polylog}(N)\)</span> time. While efficient quantum data structures, i.e. <a href="../../../quantum-algorithmic-primitives/loading-classical-data/quantum-random-access-memory/#quantum-random-access-memory">QRAM</a>, have been proposed for this task, they introduce a number of caveats. In order to coherently load <span class="arithmatex">\(N\)</span> pieces of data in <span class="arithmatex">\(\log(N)\)</span> time, QRAM uses a number of ancilla qubits, arranged in a tree structure. To load data of size <span class="arithmatex">\(N\)</span>, the QRAM data structure requires <span class="arithmatex">\(\mathcal{O}\left( N \right)\)</span> qubits, which is exponentially larger than the <span class="arithmatex">\(\mathcal{O}\left( \log(N) \right)\)</span> data qubits used in the algorithms above. This spatial complexity does not yet include the overheads of <a href="../../../fault-tolerant-quantum-computation/introduction/#fault-tolerant-quantum-computation">quantum error correction and fault-tolerant computation</a>, in particular the large spatial resources required to <a href="../../../fault-tolerant-quantum-computation/logical-gates-with-the-surface-code/#logical-gates-with-the-surface-code">distill magic states</a> in parallel. As such, we do not yet know if it is possible to build a QRAM that can load the data sufficiently quickly, while maintaining moderate spatial resources.</p><p>In addition, achieving speedups by efficiently representing the data as a quantum state may suggest that methods based on tensor networks could achieve similar performance, in some settings. Taking this line of reasoning to the extreme, a number of efficient classical algorithms have been developed by "dequantizing\" the quantum algorithms. That is, by assuming an analogous access model (the SQ access model) to the training data, as well as some assumptions on sparsity and/or rank of the inputs, there exist approximate classical sampling algorithms with polynomial overhead as compared to the quantum algorithms [<a href="#bib8">8</a>, <a href="#bib22">22</a>]. This means that any apparent exponential speedup must be an artifact of the data loading/data access assumptions.</p><p>A further caveat is inherited from the <a href="../../../quantum-algorithmic-primitives/quantum-linear-system-solvers/#quantum-linear-system-solvers">QLSS</a> subroutine, which is that the complexity is large when the matrices involved are ill conditioned. This caveat is somewhat mitigated in the Gaussian process regression and support vector machine examples above, where the matrix to be inverted is regularized by adding the identity matrix.</p><h2 id="end-to-end-resource-analysis">End-to-end resource analysis</h2><p>To the best of our knowledge, full end-to-end resource estimation has not been performed for any specific quantum machine learning tasks.</p><h2 id="outlook">Outlook</h2><p>Much of the promise of quantum speedup for classical machine learning based on linear algebra hinges on the extent to which quantum algorithms can be dequantized. At present, the results of [<a href="#bib8">8</a>] seem to prohibit an exponential speedup for many of the problems proposed, but there is still the possibility of a large polynomial speedup. The most recent asymptotic scaling analysis [<a href="#bib16">16</a>] for dequantization methods still allows for a power <span class="arithmatex">\(4\)</span> speedup in the Frobenius norm of the "data matrix" and a power 9 speedup in the polynomial approximation degree (see [<a href="#bib23">23</a>] for more details). However, the classical algorithms are steadily improving, and their scaling might be further reduced.</p><p>It is also worth noting that the classical probabilistic algorithms based on the SQ access model are not currently used in practice. This could be due to a number of reasons, including the poor polynomial scaling, the fact that the access model might not be well suited to many practical scenarios, or simply because the method is new and has not been tested in practice (see [<a href="#bib24">24</a>, <a href="#bib25">25</a>] for some work in this direction).</p><p>On the other hand, some machine learning tasks based on quantum linear algebra are not known to be dequantized, such as Gaussian process regression under the assumption that the kernel matrix is sparse. In particular, avoiding dequantization and achieving an exponential quantum speedup appears to require that the matrices involved are simultaneously sparse, well conditioned, and have a large Frobenius norm. In this situation, quantum algorithm can leverage <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/block-encodings/#block-encodings">block-encodings</a> for which the normalization factor is equal to the sparsity, rather than <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/block-encodings/#block-encodingsClassical">general block-encodings of classical data</a> for which the normalization factor is the Frobenius norm. Quantum-inspired classical algorithms based on SQ access will still scale polynomially with the Frobenius norm, although other classical algorithms may be able to exploit the sparsity more directly. Perhaps unsurprisingly, the prototypical matrices that satisfy these criteria are sparse unitary matrices (such as those naturally implemented by a local quantum gate). For unitary matrices, the condition number is 1, and the Frobenius norm is equal to the square root of the Hilbert space dimension—exponentially large in the system size. A central question is whether situations like this occur in interesting end-to-end machine learning problems. Even if they do, an exponential speedup is not guaranteed. An additional hurdle arises in the quantum readout step, which incurs a cost scaling as the inverse in the precision target. To avoid exponential overhead, the end-to-end problem must not require exponentially small precision.</p><h2 id="further-reading">Further reading</h2><p>For further reading, we recommend the following review articles and references therein: Machine learning with quantum computers [<a href="#bib26">26</a>], Quantum machine learning [<a href="#bib27">27</a>].</p><h2 id="bibliography">Bibliography</h2><ol>
+<li>
+<p><span id="bib1"></span>Seth Lloyd, Masoud Mohseni, and Patrick Rebentrost. Quantum algorithms for supervised and unsupervised machine learning. arXiv: <a href="https://arxiv.org/abs/1307.0411">https://arxiv.org/abs/1307.0411</a>, 2013.</p>
+</li>
+<li>
+<p><span id="bib2"></span>Seth Lloyd, Masoud Mohseni, and Patrick Rebentrost. Quantum principal component analysis. <em>Nature Physics</em>, 10:631–633, 2014. arXiv: <a href="https://arxiv.org/abs/1307.0401">https://arxiv.org/abs/1307.0401</a>. <a href="https://doi.org/10.1038/nphys3029">doi:10.1038/nphys3029</a>.</p>
+</li>
+<li>
+<p><span id="bib3"></span>Maria Schuld, Ilya Sinayskiy, and Francesco Petruccione. Prediction by linear regression on a quantum computer. <em>Physical Review A</em>, 94(2):022342, 2016. arXiv: <a href="https://arxiv.org/abs/1601.07823">https://arxiv.org/abs/1601.07823</a>. <a href="https://doi.org/10.1103/PhysRevA.94.022342">doi:10.1103/PhysRevA.94.022342</a>.</p>
+</li>
+<li>
+<p><span id="bib4"></span>Iordanis Kerenidis and Anupam Prakash. Quantum gradient descent for linear systems and least squares. <em>Physical Review A</em>, 101(2):022316, 2020. arXiv: <a href="https://arxiv.org/abs/1704.04992">https://arxiv.org/abs/1704.04992</a>. <a href="https://doi.org/10.1103/PhysRevA.101.022316">doi:10.1103/PhysRevA.101.022316</a>.</p>
+</li>
+<li>
+<p><span id="bib5"></span>Iordanis Kerenidis and Anupam Prakash. Quantum recommendation systems. In <em>Proceedings of the 8th Innovations in Theoretical Computer Science Conference (ITCS)</em>, 49:1–49:21. 2017. arXiv: <a href="https://arxiv.org/abs/1603.08675">https://arxiv.org/abs/1603.08675</a>. <a href="https://doi.org/10.4230/LIPIcs.ITCS.2017.49">doi:10.4230/LIPIcs.ITCS.2017.49</a>.</p>
+</li>
+<li>
+<p><span id="bib6"></span>Patrick Rebentrost, Masoud Mohseni, and Seth Lloyd. Quantum support vector machine for big data classification. <em>Physical Review Letters</em>, 113(13):130503, 2014. arXiv: <a href="https://arxiv.org/abs/1307.0471">https://arxiv.org/abs/1307.0471</a>. <a href="https://doi.org/10.1103/PhysRevLett.113.130503">doi:10.1103/PhysRevLett.113.130503</a>.</p>
+</li>
+<li>
+<p><span id="bib7"></span>Zhikuan Zhao, Jack K. Fitzsimons, and Joseph F. Fitzsimons. Quantum-assisted gaussian process regression. <em>Physical Review A</em>, 99(5):052331, 2019. arXiv: <a href="https://arxiv.org/abs/1512.03929">https://arxiv.org/abs/1512.03929</a>. <a href="https://doi.org/10.1103/PhysRevA.99.052331">doi:10.1103/PhysRevA.99.052331</a>.</p>
+</li>
+<li>
+<p><span id="bib8"></span>Ewin Tang. Quantum principal component analysis only achieves an exponential speedup because of its state preparation assumptions. <em>Physical Review Letters</em>, 127(6):060503, 2021. arXiv: <a href="https://arxiv.org/abs/1811.00414">https://arxiv.org/abs/1811.00414</a>. <a href="https://doi.org/10.1103/PhysRevLett.127.060503">doi:10.1103/PhysRevLett.127.060503</a>.</p>
+</li>
+<li>
+<p><span id="bib9"></span>Nai-Hui Chia, András Gilyén, Tongyang Li, Han-Hsuan Lin, Ewin Tang, and Chunhao Wang. Sampling-based sublinear low-rank matrix arithmetic framework for dequantizing quantum machine learning. In <em>Proceedings of the 52nd ACM Symposium on the Theory of Computing (STOC)</em>, 387–400. 2020. arXiv: <a href="https://arxiv.org/abs/1910.06151">https://arxiv.org/abs/1910.06151</a>. <a href="https://doi.org/10.1145/3357713.3384314">doi:10.1145/3357713.3384314</a>.</p>
+</li>
+<li>
+<p><span id="bib10"></span>Changpeng Shao and Ashley Montanaro. Faster quantum-inspired algorithms for solving linear systems. <em>ACM Transactions on Quantum Computing</em>, 2022. arXiv: <a href="https://arxiv.org/abs/2103.10309">https://arxiv.org/abs/2103.10309</a>. <a href="https://doi.org/10.1145/3520141">doi:10.1145/3520141</a>.</p>
+</li>
+<li>
+<p><span id="bib11"></span>Motonobu Kanagawa, Philipp Hennig, Dino Sejdinovic, and Bharath K Sriperumbudur. Gaussian processes and kernel methods: a review on connections and equivalences. arXiv: <a href="https://arxiv.org/abs/1807.02582">https://arxiv.org/abs/1807.02582</a>, 2018.</p>
+</li>
+<li>
+<p><span id="bib12"></span>Carl Edward Rasmussen and Christopher K. I. Williams. <em>Gaussian Processes for Machine Learning</em>. The MIT Press, 11 2005. ISBN 9780262256834. URL: <a href="https://doi.org/10.7551/mitpress/3206.001.0001">https://doi.org/10.7551/mitpress/3206.001.0001</a>, <a href="https://doi.org/10.7551/mitpress/3206.001.0001">doi:10.7551/mitpress/3206.001.0001</a>.</p>
+</li>
+<li>
+<p><span id="bib13"></span>Zhikuan Zhao, Jack K. Fitzsimons, Michael A. Osborne, Stephen J. Roberts, and Joseph F. Fitzsimons. Quantum algorithms for training gaussian processes. <em>Physical Review A</em>, 100:012304, 7 2019. arXiv: <a href="https://arxiv.org/abs/1803.10520">https://arxiv.org/abs/1803.10520</a>. URL: <a href="https://link.aps.org/doi/10.1103/PhysRevA.100.012304">https://link.aps.org/doi/10.1103/PhysRevA.100.012304</a>, <a href="https://doi.org/10.1103/PhysRevA.100.012304">doi:10.1103/PhysRevA.100.012304</a>.</p>
+</li>
+<li>
+<p><span id="bib14"></span>Haitao Liu, Yew-Soon Ong, Xiaobo Shen, and Jianfei Cai. When gaussian process meets big data: a review of scalable gps. <em>IEEE Transactions on Neural Networks and Learning Systems</em>, 31(11):4405–4423, 2020. arXiv: <a href="https://arxiv.org/abs/1807.01065">https://arxiv.org/abs/1807.01065</a>. <a href="https://doi.org/https://doi.org/10.1109/TNNLS.2019.2957109">doi:https://doi.org/10.1109/TNNLS.2019.2957109</a>.</p>
+</li>
+<li>
+<p><span id="bib15"></span>András Gilyén, Zhao Song, and Ewin Tang. An improved quantum-inspired algorithm for linear regression. <em>Quantum</em>, 6:754, 2022. arXiv: <a href="https://arxiv.org/abs/2009.07268">https://arxiv.org/abs/2009.07268</a>. <a href="https://doi.org/10.22331/q-2022-06-30-754">doi:10.22331/q-2022-06-30-754</a>.</p>
+</li>
+<li>
+<p><span id="bib16"></span>Nai-Hui Chia, András Pal Gilyén, Tongyang Li, Han-Hsuan Lin, Ewin Tang, and Chunhao Wang. Sampling-based sublinear low-rank matrix arithmetic framework for dequantizing quantum machine learning. <em>Journal of the ACM</em>, 69(5):1–72, 2022. Earlier version in <a href="https://doi.org/10.1145/3357713.3384314"><em>STOC'20</em></a>, arXiv: <a href="https://arxiv.org/abs/1910.06151">https://arxiv.org/abs/1910.06151</a>. <a href="https://doi.org/10.1145/3549524">doi:10.1145/3549524</a>.</p>
+</li>
+<li>
+<p><span id="bib17"></span>Iordanis Kerenidis, Anupam Prakash, and Dániel Szilágyi. Quantum algorithms for second-order cone programming and support vector machines. <em>Quantum</em>, 5:427, 2021. arXiv: <a href="https://arxiv.org/abs/1908.06720">https://arxiv.org/abs/1908.06720</a>. <a href="https://doi.org/10.22331/q-2021-04-08-427">doi:10.22331/q-2021-04-08-427</a>.</p>
+</li>
+<li>
+<p><span id="bib18"></span>J. A. K. Suykens and J. Vandewalle. Least squares support vector machine classifiers. <em>Neural Processing Letters</em>, 9(3):293–300, 1999. URL: <a href="https://doi.org/10.1023/A:1018628609742">https://doi.org/10.1023/A:1018628609742</a>, <a href="https://doi.org/10.1023/A:1018628609742">doi:10.1023/A:1018628609742</a>.</p>
+</li>
+<li>
+<p><span id="bib19"></span>J.A.K. Suykens, J. De Brabanter, L. Lukas, and J. Vandewalle. Weighted least squares support vector machines: robustness and sparse approximation. <em>Neurocomputing</em>, 48(1):85–105, 2002. URL: <a href="https://www.sciencedirect.com/science/article/pii/S0925231201006440">https://www.sciencedirect.com/science/article/pii/S0925231201006440</a>, <a href="https://doi.org/https://doi.org/10.1016/S0925-2312(01)00644-0">doi:https://doi.org/10.1016/S0925-2312(01)00644-0</a>.</p>
+</li>
+<li>
+<p><span id="bib20"></span>Alexander M Dalzell, B David Clader, Grant Salton, Mario Berta, Cedric Yen-Yu Lin, David A Bader, Nikitas Stamatopoulos, Martin J A Schuetz, Fernando G S L Brandão, Helmut G Katzgraber, and others. End-to-end resource analysis for quantum interior point methods and portfolio optimization. <em>PRX Quantum</em>, pages to appear, 2023. arXiv: <a href="https://arxiv.org/abs/2211.12489">https://arxiv.org/abs/2211.12489</a>.</p>
+</li>
+<li>
+<p><span id="bib21"></span>Chen Ding, Tian-Yi Bao, and He-Liang Huang. Quantum-inspired support vector machine. <em>IEEE Transactions on Neural Networks and Learning Systems</em>, 33(12):7210–7222, 2022. arXiv: <a href="https://arxiv.org/abs/1906.08902">https://arxiv.org/abs/1906.08902</a>. <a href="https://doi.org/10.1109/TNNLS.2021.3084467">doi:10.1109/TNNLS.2021.3084467</a>.</p>
+</li>
+<li>
+<p><span id="bib22"></span>Ewin Tang. A quantum-inspired classical algorithm for recommendation systems. In <em>Proceedings of the 51st ACM Symposium on the Theory of Computing (STOC)</em>, 217–228. 2019. arXiv: <a href="https://arxiv.org/abs/1807.04271">https://arxiv.org/abs/1807.04271</a>. <a href="https://doi.org/10.1145/3313276.3316310">doi:10.1145/3313276.3316310</a>.</p>
+</li>
+<li>
+<p><span id="bib23"></span>Ainesh Bakshi and Ewin Tang. An improved classical singular value transformation for quantum machine learning. arXiv: <a href="https://arxiv.org/abs/2303.01492">https://arxiv.org/abs/2303.01492</a>, 2023.</p>
+</li>
+<li>
+<p><span id="bib24"></span>Juan Miguel Arrazola, Alain Delgado, Bhaskar Roy Bardhan, and Seth Lloyd. Quantum-inspired algorithms in practice. <em>Quantum</em>, 4:307, 2020. arXiv: <a href="https://arxiv.org/abs/1905.10415">https://arxiv.org/abs/1905.10415</a>. <a href="https://doi.org/10.22331/q-2020-08-13-307">doi:10.22331/q-2020-08-13-307</a>.</p>
+</li>
+<li>
+<p><span id="bib25"></span>Nadiia Chepurko, Kenneth Clarkson, Lior Horesh, Honghao Lin, and David Woodruff. Quantum-inspired algorithms from randomized numerical linear algebra. In Kamalika Chaudhuri, Stefanie Jegelka, Le Song, Csaba Szepesvari, Gang Niu, and Sivan Sabato, editors, <em>Proceedings of the 39th International Conference on Machine Learning (ICML)</em>, volume 162 of Proceedings of Machine Learning Research, 3879–3900. PMLR, 7 2022. arXiv: <a href="https://arxiv.org/abs/2011.04125">https://arxiv.org/abs/2011.04125</a>. URL: <a href="https://proceedings.mlr.press/v162/chepurko22a.html">https://proceedings.mlr.press/v162/chepurko22a.html</a>.</p>
+</li>
+<li>
+<p><span id="bib26"></span>Maria Schuld and Francesco Petruccione. <em>Machine learning with quantum computers</em>. Springer, 2021. <a href="https://doi.org/10.1007/978-3-030-83098-4">doi:10.1007/978-3-030-83098-4</a>.</p>
+</li>
+<li>
+<p><span id="bib27"></span>Jacob Biamonte, Peter Wittek, Nicola Pancotti, Patrick Rebentrost, Nathan Wiebe, and Seth Lloyd. Quantum machine learning. <em>Nature</em>, 549:195–202, 2017. arXiv: <a href="https://arxiv.org/abs/1611.09347">https://arxiv.org/abs/1611.09347</a>. <a href="https://doi.org/10.1038/nature23474">doi:10.1038/nature23474</a>.</p>
+</li>
+<li>
+<p><span id="bib28"></span>Meng-Han Chen, Chao-Hua Yu, Jian-Liang Gao, Kai Yu, Song Lin, Gong-De Guo, and Jing Li. Quantum algorithm for gaussian process regression. <em>Physical Review A</em>, 106:012406, 7 2022. arXiv: <a href="https://arxiv.org/abs/2106.06701">https://arxiv.org/abs/2106.06701</a>. URL: <a href="https://link.aps.org/doi/10.1103/PhysRevA.106.012406">https://link.aps.org/doi/10.1103/PhysRevA.106.012406</a>, <a href="https://doi.org/10.1103/PhysRevA.106.012406">doi:10.1103/PhysRevA.106.012406</a>.</p>
+</li>
+<li>
+<p><span id="bib29"></span>András Gilyén, Yuan Su, Guang Hao Low, and Nathan Wiebe. Quantum singular value transformation and beyond: exponential improvements for quantum matrix arithmetics. In <em>Proceedings of the 51st ACM Symposium on the Theory of Computing (STOC)</em>, 193–204. 2019. arXiv: <a href="https://arxiv.org/abs/1806.01838">https://arxiv.org/abs/1806.01838</a>. <a href="https://doi.org/10.1145/3313276.3316366">doi:10.1145/3313276.3316366</a>.</p>
+</li>
+</ol><div class="footnote">
+<hr/>
+<ol>
+<li id="fn:1">
+<p>This can be visualized by sampling a function from the distribution, which means sampling a value of <span class="arithmatex">\(f(x_j)\)</span> from the distribution for each <span class="arithmatex">\(x_j\)</span>, and plotting the values of <span class="arithmatex">\(f(x_j)\)</span> as a curve. <a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+<li id="fn:2">
+<p>For any vector <span class="arithmatex">\(v\)</span>, the notation <span class="arithmatex">\(\ket{v}\)</span> denotes the normalized quantum state whose amplitudes in the computational basis are proportional to the entries of <span class="arithmatex">\(v\)</span>. <a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">↩</a></p>
+</li>
+<li id="fn:3">
+<p>It may be more efficient to load in the <span class="arithmatex">\(\{x_j\}\)</span> values and then coherently evaluate the kernel entries using quantum arithmetic. Some ideas in this direction are explored in [<a href="#bib28">28</a>]. One might also consider block-encoding <span class="arithmatex">\(K\)</span> and <span class="arithmatex">\(\sigma^2 I\)</span> separately and combining them with <a href="#prim:LCU">linear combination of unitaries</a>. <a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">↩</a></p>
+</li>
+<li id="fn:4">
+<p>For the squared exponential covariance function mentioned above, the kernel matrix will not be sparse, but [<a href="#bib7">7</a>] notes several applications of GPR where sparsity is well justified. <a class="footnote-backref" href="#fnref:4" title="Jump back to footnote 4 in the text">↩</a></p>
+</li>
+<li id="fn:5">
+<p>Our definition of the least-squares SVM is equivalent to the normal presentation found in [<a href="#bib18">18</a>, <a href="#bib6">6</a>]; however, we choose slightly different conventions for normalization of certain parameters, such as <span class="arithmatex">\(\gamma\)</span>, with respect to <span class="arithmatex">\(M\)</span>. The goal of our choices is to make the final complexity expression free of any explicit <span class="arithmatex">\(M\)</span> dependence. <a class="footnote-backref" href="#fnref:5" title="Jump back to footnote 5 in the text">↩</a></p>
+</li>
+<li id="fn:6">
+<p>We sketch a possible instantiation of this method here. Define <span class="arithmatex">\(\ket{x_i} = \nrm{x_i}^{-1} \sum_{k=1}^M x_{ik}\ket{k}\)</span> where <span class="arithmatex">\(x_{ik}\)</span> is the <span class="arithmatex">\(k\)</span>th entry of <span class="arithmatex">\(x_i\)</span>. Suppose <span class="arithmatex">\(M=2^m\)</span> is a power of 2. Following the setup in <a href="#prim:BlockEncodings">block-encodings</a> and [<a href="#bib29">29, Lemma 47</a>], we must define sets of <span class="arithmatex">\(M\)</span> orthonormal states <span class="arithmatex">\(\{\ket{\psi_i}\}\)</span> and <span class="arithmatex">\(\{\ket{\phi_j}\}\)</span>. We choose <span class="arithmatex">\(\ket{\psi_i} = (\nrm{x_i}\ket{x_i} + \sqrt{1-\nrm{x_i}^2}\ket{M+1})(H^{\otimes m} \ket{i})\ket{0^m}\)</span>, where <span class="arithmatex">\(H\)</span> denotes the Hadamard transform. We choose <span class="arithmatex">\(\ket{\phi_j} = (\nrm{x_j}\ket{x_j} + \sqrt{1-\nrm{x_j}^2}\ket{M+2})\ket{0^m}(H^{\otimes m}\ket{j})\)</span>. These states can be prepared in <span class="arithmatex">\(\mathcal{O}\left( \log(M) \right)\)</span> depth using <span class="arithmatex">\(\mathcal{O}\left( M \right)\)</span> total gates and ancilla qubits with methods for controlled <a href="#prim:StatePrepData">state preparation from classical data</a>. It can be verified that these sets are orthonormal, and that <span class="arithmatex">\(\braket{\psi_i}{\phi_j} = \langle x_i, x_j \rangle/M\)</span>. Hence, the Gram matrix construction yields a block-encoding of <span class="arithmatex">\(K/M\)</span> with normalization factor 1. <a class="footnote-backref" href="#fnref:6" title="Jump back to footnote 6 in the text">↩</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.path", "navigation.tracking"], "search": "../../../assets/javascripts/workers/search.c011b7c0.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.7389ff0e.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

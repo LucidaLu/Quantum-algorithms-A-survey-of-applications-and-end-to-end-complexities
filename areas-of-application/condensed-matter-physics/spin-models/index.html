@@ -1,0 +1,2835 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../syk-model/">
+      
+      
+        <link rel="next" href="../../quantum-chemistry/introduction/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.4">
+    
+    
+      
+        <title>Spin models - Quantum algorithms: A survey of applications and end-to-end complexities</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.50c56a3b.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spin-models" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Quantum algorithms: A survey of applications and end-to-end complexities" class="md-header__button md-logo" aria-label="Quantum algorithms: A survey of applications and end-to-end complexities" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Quantum algorithms: A survey of applications and end-to-end complexities
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Spin models
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Quantum algorithms: A survey of applications and end-to-end complexities" class="md-nav__button md-logo" aria-label="Quantum algorithms: A survey of applications and end-to-end complexities" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Quantum algorithms: A survey of applications and end-to-end complexities
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../authors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Authors
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Areas of application
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Areas of application
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Condensed matter physics
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Condensed matter physics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fermi-hubbard-model/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Fermi–Hubbard model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../syk-model/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SYK model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Spin models
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Spin models
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actual-end-to-end-problems-solved" class="md-nav__link">
+    <span class="md-ellipsis">
+      Actual end-to-end problem(s) solved
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dominant-resource-costcomplexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dominant resource cost/complexity
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#existing-error-corrected-resource-estimates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Existing error corrected resource estimates
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caveats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Caveats
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparable-classical-complexity-and-challenging-instance-sizes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comparable classical complexity and challenging instance sizes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#speedup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Speedup
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nisq-implementations" class="md-nav__link">
+    <span class="md-ellipsis">
+      NISQ implementations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outlook" class="md-nav__link">
+    <span class="md-ellipsis">
+      Outlook
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bibliography" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bibliography
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Quantum chemistry
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum chemistry
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-chemistry/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-chemistry/electronic-structure-problem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Electronic structure problem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-chemistry/vibrational-structure-problem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vibrational structure problem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Nuclear and particle physics
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            Nuclear and particle physics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nuclear-and-particle-physics/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nuclear-and-particle-physics/quantum-field-theories/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum field theories
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nuclear-and-particle-physics/nuclear-structure-problem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nuclear structure problem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Combinatorial optimization
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Combinatorial optimization
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../combinatorial-optimization/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../combinatorial-optimization/search-algorithms-a-la-grover/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Search algorithms à la Grover
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../combinatorial-optimization/beyond-quadratic-speedups-in-exact-combinatorial-optimization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Beyond quadratic speedups in exact combinatorial optimization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Continuous optimization
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            Continuous optimization
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../continuous-optimization/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../continuous-optimization/zero-sum-games-computing-nash-equilibria/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Zero-sum games: Computing Nash equilibria
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../continuous-optimization/conic-programming-solving-lps-socps-and-sdps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Conic programming: Solving LPs, SOCPs, and SDPs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../continuous-optimization/general-convex-optimization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    General convex optimization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../continuous-optimization/nonconvex-optimization-escaping-saddle-points-and-finding-local-minima/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nonconvex optimization: Escaping saddle points and finding local minima
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_7" id="__nav_4_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Cryptanalysis
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_7">
+            <span class="md-nav__icon md-icon"></span>
+            Cryptanalysis
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cryptanalysis/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cryptanalysis/breaking-cryptosystems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Breaking cryptosystems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cryptanalysis/weakening-cryptosystems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Weakening cryptosystems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solving-differential-equations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Solving differential equations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_9" id="__nav_4_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Finance
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_9">
+            <span class="md-nav__icon md-icon"></span>
+            Finance
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finance/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finance/portfolio-optimization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Portfolio optimization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finance/monte-carlo-methods-option-pricing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Monte Carlo methods: Option pricing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_10" id="__nav_4_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Machine learning with classical data
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_10">
+            <span class="md-nav__icon md-icon"></span>
+            Machine learning with classical data
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine-learning-with-classical-data/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine-learning-with-classical-data/quantum-machine-learning-via-quantum-linear-algebra/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum machine learning via quantum linear algebra
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine-learning-with-classical-data/quantum-machine-learning-via-energy-based-models/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum machine learning via energy-based models
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine-learning-with-classical-data/tensor-pca/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tensor PCA
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine-learning-with-classical-data/topological-data-analysis/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Topological data analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine-learning-with-classical-data/quantum-neural-networks-and-quantum-kernel-methods/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum neural networks and quantum kernel methods
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Quantum algorithmic primitives
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum algorithmic primitives
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Quantum linear algebra
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum linear algebra
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/block-encodings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Block-encodings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/manipulating-block-encodings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Manipulating block-encodings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/quantum-signal-processing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum signal processing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/qubitization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Qubitization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/quantum-singular-value-transformation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum singular value transformation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Hamiltonian simulation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            Hamiltonian simulation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/product-formulae/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Product formulae
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/qdrift/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    qDRIFT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/taylor-and-dyson-series-linear-combination-of-unitaries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Taylor and Dyson series (linear combination of unitaries)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/quantum-signal-processing-quantum-singular-value-transformation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum signal processing / quantum singular value transformation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-fourier-transform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum Fourier transform
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-phase-estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum phase estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Amplitude amplification and estimation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            Amplitude amplification and estimation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-amplification/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Amplitude amplification
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Amplitude estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/gibbs-sampling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gibbs sampling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-adiabatic-algorithm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum adiabatic algorithm
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Loading classical data
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_9">
+            <span class="md-nav__icon md-icon"></span>
+            Loading classical data
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/loading-classical-data/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/loading-classical-data/quantum-random-access-memory/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum random access memory
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/loading-classical-data/preparing-states-from-classical-data/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Preparing states from classical data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/loading-classical-data/block-encoding-dense-matrices-of-classical-data/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Block-encoding dense matrices of classical data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-linear-system-solvers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum linear system solvers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-gradient-estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum gradient estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/variational-quantum-algorithms/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Variational quantum algorithms
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-tomography/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum tomography
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/quantum-interior-point-methods/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum interior point methods
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/multiplicative-weights-update-method/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Multiplicative weights update method
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum-algorithmic-primitives/approximate-tensor-network-contraction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Approximate tensor network contraction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Fault-tolerant quantum computation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Fault-tolerant quantum computation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../fault-tolerant-quantum-computation/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../fault-tolerant-quantum-computation/basics-of-fault-tolerance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basics of fault tolerance
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../fault-tolerant-quantum-computation/quantum-error-correction-with-the-surface-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum error correction with the surface code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../fault-tolerant-quantum-computation/logical-gates-with-the-surface-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Logical gates with the surface code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actual-end-to-end-problems-solved" class="md-nav__link">
+    <span class="md-ellipsis">
+      Actual end-to-end problem(s) solved
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dominant-resource-costcomplexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dominant resource cost/complexity
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#existing-error-corrected-resource-estimates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Existing error corrected resource estimates
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caveats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Caveats
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparable-classical-complexity-and-challenging-instance-sizes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comparable classical complexity and challenging instance sizes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#speedup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Speedup
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nisq-implementations" class="md-nav__link">
+    <span class="md-ellipsis">
+      NISQ implementations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outlook" class="md-nav__link">
+    <span class="md-ellipsis">
+      Outlook
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bibliography" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bibliography
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="spin-models">Spin models</h1><h2 id="overview">Overview</h2><p>Classical and quantum spin systems are prototypical models for a wide range of physical phenomena including: magnetism, neuron activity, simplified models of materials and molecules, and networks. Studying the properties of spin Hamiltonians can also provide useful insights in quantum information science.</p><p>A number of scientific and industrial problems can be mapped onto finding the ground or thermal states of classical or quantum spin models, for example <a href="../../combinatorial-optimization/introduction/#combinatorial-optimization">solving combinatorial optimization problems</a>, <a href="../../machine-learning-with-classical-data/quantum-machine-learning-via-energy-based-models/#quantum-machine-learning-via-energy-based-models">training energy-based models in machine learning</a>, and simulating low energy models of <a href="../../quantum-chemistry/electronic-structure-problem/#electronic-structure-problem">quantum chemistry</a> [<a href="#bib1">1</a>].</p><p>Simulating the dynamics of quantum spin models is primarily of interest for quantum information science, and condensed matter physics or chemistry, for example interpreting nuclear magnetic resonance [<a href="#bib2">2</a>, <a href="#bib3">3</a>] or related spectroscopy experiments [<a href="#bib4">4</a>, <a href="#bib5">5</a>].</p><p>Because of the natural mapping between spin-<span class="arithmatex">\(1/2\)</span> systems and qubits, as well as the locality of interactions commonly present, the resources required to simulate simple spin models using quantum algorithms can be much lower than for problems in areas like <a href="../../quantum-chemistry/electronic-structure-problem/#electronic-structure-problem">quantum chemistry</a> or <a href="../../cryptanalysis/breaking-cryptosystems/#breaking-cryptosystems">cryptography</a>.</p><p>While our discussion will focus on quantum algorithms designed to be run on <a href="../../../fault-tolerant-quantum-computation/quantum-error-correction-with-the-surface-code/#quantum-error-correction-with-the-surface-code">fault-tolerant quantum computers</a>, the simple Hamiltonians of spin models are naturally realized in many physical systems. This has led to the use of analog simulators [<a href="#bib6">6</a>, <a href="#bib7">7</a>], such as arrays of trapped ions or neutral atoms, for simulating the static and dynamic properties of interesting spin models. We will comment briefly on this below.</p><h2 id="actual-end-to-end-problems-solved">Actual end-to-end problem(s) solved</h2><p>The most commonly studied spin models are those with pairwise interactions, referred to as <span class="arithmatex">\(2\)</span>-local Hamiltonians. We note that the interactions are not necessarily geometrically local, although this will be present in many models of physical systems. Given a graph <span class="arithmatex">\(\mathcal{G}\)</span> with <span class="arithmatex">\(N\)</span> vertices <span class="arithmatex">\(\{v_i\}\)</span> and <span class="arithmatex">\(L\)</span> edges <span class="arithmatex">\(\{E_{ij}\}\)</span> we associate a classical or quantum spin with each vertex, and an interaction between spins with each edge. We can also add one-body interactions acting on individual spins. The Hamiltonian can then be written as </p><div class="arithmatex">\[\begin{equation} \label{Eq:SpinHamiltonian} H = \sum_{v_i\in V} \sum_{\alpha \in \{x,y,z\}} B_i^\alpha \sigma_\alpha^i + \sum_{E_{ij} \in E} \sum_{\alpha, \beta \in \{x,y,z\}} J_{ij}^{\alpha \beta} \sigma_\alpha^i \sigma_\beta^j \end{equation}\]</div><p>where <span class="arithmatex">\(\{\sigma_x^i,\sigma_y^i,\sigma_z^i\}\)</span> denote the Pauli operators <span class="arithmatex">\(X_i,Y_i,Z_i\)</span> acting on site <span class="arithmatex">\(i\)</span>, and <span class="arithmatex">\(\{B_i^\alpha\}, \{J_{ij}^{\alpha \beta}\}\)</span> are coefficients. For classical spin Hamiltonians, the sums are restricted to <span class="arithmatex">\(Z\)</span> operators. The Hamiltonian in Eq. <span class="arithmatex">\(\eqref{Eq:SpinHamiltonian}\)</span> encompasses a wide range of spin models, including: the classical Ising model </p><div class="arithmatex">\[\begin{equation} H = \sum_i B_i Z_i + \sum_{ij} J_{ij} Z_i Z_j \end{equation}\]</div><p>which also describes the Hamiltonians arising from quadratic unconstrained binary optimization (QUBO) problems, the (quantum) transverse field Ising model (TFIM) </p><div class="arithmatex">\[\begin{equation} H = B \sum_i X_i + J \sum_{ij} Z_i Z_j\,, \end{equation}\]</div><p>and the Heisenberg model with a site-dependent magnetic field, defined in 1D with nearest-neighbor interactions by </p><div class="arithmatex">\[\begin{equation} H = \sum_j B_j Z_j + J^x X_j X_{j+1} + J^y Y_j Y_{j+1} + J^z Z_j Z_{j+1}. \end{equation}\]</div><p>Across the different models, we can vary the dimension, locality of interactions (e.g. nearest-neighbor vs. fully connected vs. power-law), and values of the site-dependent coefficients in comparison to the interaction terms. The models can be extended beyond 2-local by considering couplings of 3 or more spins—see for example <span class="arithmatex">\(p\)</span>-spin models, which are <span class="arithmatex">\(p\)</span>-local [<a href="#bib8">8</a>]. The above definitions can be extended from spin-<span class="arithmatex">\(1/2\)</span> systems to higher spin operators by generalizing the Pauli operators with their <a href="https://en.wikipedia.org/wiki/Spin_(physics)#Higher_spins">higher dimensional counterparts</a>.</p><p>For classical spin models we seek to prepare the ground or thermal states of the model, as these may encode, for example, the solution to a combinatorial optimization problem, or a probability distribution that can be used for generative modelling. For quantum spin models, we similarly seek to compute ground or thermal states. However, because these are not classical states that can be easily extracted, we typically wish to sample observables with respect to these states. Examples include the energy, the magnetization of the system, or correlations between sites. In dynamical simulations of quantum systems, we seek to determine how observables of interest vary as a function of evolution time. Examples include the magnetization (used to infer the Hamiltonian in NMR [<a href="#bib9">9</a>] or related [<a href="#bib10">10</a>] experiments), or the growth of correlations between sites to probe thermalization. <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/introduction/#hamiltonian-simulation">Hamiltonian simulation</a> can efficiently access not only any feature that could be observed for simulated targets (e.g., solid-state materials of interest), but also additional features [<a href="#bib11">11</a>] which can lead to deeper understanding of the physics involved. Since studies of quench dynamics often require preparation of simple states (such as product states or the ground states of classically solvable Hamiltonians) and the measurement of local observables, propagation under the Hamiltonian typically dominates the simulation cost. For lattice systems with <span class="arithmatex">\(N\)</span> spins in <span class="arithmatex">\(D\)</span> dimensions, it is conventional to consider evolution times that scale as <span class="arithmatex">\(\Omega\left(N^{1/D}\right)\)</span>, as the system must evolve for this long for self-thermalization to take place or even for information to propagate across the system due to the Lieb–Robinson bound [<a href="#bib12">12</a>].</p><h2 id="dominant-resource-costcomplexity">Dominant resource cost/complexity</h2><p>For a system of <span class="arithmatex">\(N\)</span> spin-<span class="arithmatex">\(1/2\)</span> particles, we require <span class="arithmatex">\(N\)</span> qubits to represent the state of the system. For <span class="arithmatex">\(N\)</span> spin-<span class="arithmatex">\(S\)</span> particles, the problem can be mapped to qubits in different ways, for example using <span class="arithmatex">\(N \lceil \log_2(2S+1)\rceil\)</span> [<a href="#bib13">13</a>] qubits or using <span class="arithmatex">\(2NS\)</span> qubits [<a href="#bib5">5</a>].</p><p>Quantum algorithms for preparing the ground or Gibbs states of classical spin systems are discussed in detail in the sections on <a href="../../combinatorial-optimization/introduction/#combinatorial-optimization">combinatorial optimization</a>, and <a href="../../machine-learning-with-classical-data/quantum-machine-learning-via-energy-based-models/#quantum-machine-learning-via-energy-based-models">energy-based machine learning models</a>, respectively. We will restrict our discussion to the resources required for performing time evolution of quantum spin models. The reason for this is that quantum algorithms for preparing ground or thermal states require similar primitives for Hamiltonian access to algorithms for time evolution (e.g., <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/block-encodings/#block-encodings">block-encodings</a> or <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/introduction/#hamiltonian-simulation">Hamiltonian simulation</a> itself) and use these in conjunction with either: eigenstate filtering approaches [<a href="#bib14">14</a>, <a href="#bib15">15</a>] based on <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/quantum-singular-value-transformation/#quantum-singular-value-transformation">quantum singular value transformation</a>, <a href="../../../quantum-algorithmic-primitives/quantum-adiabatic-algorithm/#quantum-adiabatic-algorithm">adiabatic state preparation</a>, <a href="../../../quantum-algorithmic-primitives/quantum-phase-estimation/#quantum-phase-estimation">quantum phase estimation</a> from a trial state, or <a href="../../../quantum-algorithmic-primitives/gibbs-sampling/#gibbs-sampling">quantum algorithms for thermal state preparation</a>. More detailed discussions of these algorithms and their caveats can be found on the linked pages, as well as in the discussion of quantum algorithms for simulating <a href="../../quantum-chemistry/electronic-structure-problem/#electronic-structure-problem">molecules and materials</a> or the <a href="../fermi-hubbard-model/#fermihubbard-model">Fermi–Hubbard model</a>, where preparing (approximate) eigenstates is the primary topic of interest. All of these algorithms depend on either an overlap between the trial state and the target state, the minimum gap along an adiabatic path, or the mixing time of a Markov chain—all of which are difficult to bound in the general case.</p><p>When simulating the <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/introduction/#hamiltonian-simulation">time evolution</a> of spin systems, the most efficient algorithms exploit the locality of interactions in the Hamiltonian, and the resulting commutation structure. For <span class="arithmatex">\(2\)</span>-local spin-<span class="arithmatex">\(1/2\)</span> systems on a <span class="arithmatex">\(D\)</span>-dimensional lattice with nearest-neighbor geometric locality, algorithms with almost optimal gate complexity are known for performing time evolution. Reference [<a href="#bib16">16</a>] showed that <span class="arithmatex">\((2k)\)</span>th-order <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/product-formulae/#product-formulae">product formulae</a> scale as <span class="arithmatex">\(\mathcal{O}\left( (Nt)^{1+1/2k} / \epsilon^{1/2k} \right)\)</span> to simulate time evolution for time <span class="arithmatex">\(t\)</span> to accuracy <span class="arithmatex">\(\epsilon\)</span>, using a Hamiltonian given in the Pauli access model. Note that this expression suppresses the <span class="arithmatex">\(5^{2k}\)</span> constant factor present in <span class="arithmatex">\((2k)\)</span>th-order Trotter. Similarly, [<a href="#bib17">17</a>] gave an algorithm with complexity <span class="arithmatex">\(\mathcal{O}\left( Nt \cdot \mathrm{polylog}(Nt/\epsilon) \right)\)</span> for Hamiltonians given in the sparse access model. In contrast, note that approaches that are asymptotically optimal in the black-box setting, such as <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/quantum-signal-processing/#quantum-signal-processingqubitization">quantum signal processing</a>, have a gate complexity of <span class="arithmatex">\(\mathcal{O}\left( N^2Dt + \log(1/\epsilon) \right)\)</span> using a <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/block-encodings/#block-encodings">block-encoding</a> based on <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/manipulating-block-encodings/#linear-combinations">linear combinations of unitaries (LCU)</a>.</p><p>Spin Hamiltonians with power-law interactions were studied in [<a href="#bib18">18</a>, <a href="#bib19">19</a>], that is, where the interaction strength between spins <span class="arithmatex">\(i\)</span> and <span class="arithmatex">\(j\)</span> depends inversely on a power of the distance between the spins, denoted by <span class="arithmatex">\(\nrm{i-j}_2\)</span>. For a <span class="arithmatex">\(D\)</span>-dimensional lattice with <span class="arithmatex">\(2\)</span>-local interactions with interaction strengths scaling as <span class="arithmatex">\(1/\nrm{i-j}_2^\alpha\)</span>, <span class="arithmatex">\((2k)\)</span>th-order Trotter gives a scaling of (as above, suppressing the <span class="arithmatex">\(5^{2k}\)</span> constant factor present in <span class="arithmatex">\(2k\)</span>th-order Trotter) [<a href="#bib19">19</a>] </p><div class="arithmatex">\[\begin{equation} \widetilde{\mathcal{O}}\left( \begin{array}{rcl} N^{3-\frac{\alpha}{D}(1+1/2k)+1/k} t^{1+1/2k}\epsilon^{-1/2k} &amp; &amp; \text{for } 0 \leq \alpha &lt; D, \\
+N^{2+1/2k} t^{1+1/2k}\epsilon^{-1/2k} &amp; &amp; \alpha \geq D\end{array} \right). \end{equation}\]</div><p>Focusing on the <span class="arithmatex">\(D=1\)</span> case, if one were to directly apply <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/quantum-signal-processing/#quantum-signal-processingqubitization">quantum signal processing</a> based on a block-encoding via the LCU approach, the scaling would be </p><div class="arithmatex">\[\begin{equation} \widetilde{\mathcal{O}}\left( N^2 t + \log(1/\epsilon) \right) \end{equation}\]</div><p>These asymptotic complexities are complemented by the constant factor analyses discussed in the following section.</p><p>For estimating expectation values of observables to precision <span class="arithmatex">\(\epsilon\)</span>, one can either consider directly sampling and then re-preparing the state of interest (scaling as <span class="arithmatex">\(\mathcal{O}\left( 1/\epsilon^2 \right)\)</span>), or coherent approaches based on <a href="../../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-estimation/#amplitude-estimation">amplitude estimation</a> scaling as <span class="arithmatex">\(\mathcal{O}\left( 1/\epsilon \right)\)</span>, but requiring a longer coherent circuit depth. Measurements of simple observables, such as the magnetization, can be obtained through the computational basis measurements on single qubits. For more complicated observables, one can consider the approaches in [<a href="#bib20">20</a>, <a href="#bib21">21</a>, <a href="#bib22">22</a>], discussed in more detail in the section on <a href="../../quantum-chemistry/electronic-structure-problem/#electronic-structure-problem">quantum chemistry</a>.</p><h2 id="existing-error-corrected-resource-estimates">Existing error corrected resource estimates</h2><p>A number of <a href="../../../fault-tolerant-quantum-computation/logical-gates-with-the-surface-code/#logical-gates-with-the-surface-code">fault-tolerant resource estimates</a> for simulating the dynamics of spin systems, or for finding their ground states via <a href="../../../quantum-algorithmic-primitives/quantum-phase-estimation/#quantum-phase-estimation">quantum phase estimation</a> have been reported in the literature. In such calculations it is necessary to optimize the constant factor contributions from implementing the algorithmic primitives used. A detailed comparative study on simulating the dynamics of a 1D nearest-neighbor Heisenberg model was reported in [<a href="#bib23">23</a>], comparing the logical qubit and <span class="arithmatex">\(T\)</span> gate counts of <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/product-formulae/#product-formulae">product formulae</a>, <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/taylor-and-dyson-series-linear-combination-of-unitaries/#taylor-and-dyson-series-linear-combination-of-unitaries">Taylor series</a>, and <a href="../../../quantum-algorithmic-primitives/quantum-linear-algebra/quantum-signal-processing/#quantum-signal-processingqubitization">quantum signal processing</a>. The two most efficient approaches are shown in the first two rows of Table <a href="#Tab:ResourceEst_spin_model" reference="Tab:ResourceEst_spin_model" reference-type="ref">1</a>.</p><figure>
+<p><span id="Tab:ResourceEst_spin_model"></span></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"><strong>Problem</strong></th>
+<th style="text-align: center;"><strong>Method</strong></th>
+<th style="text-align: center;"><strong># Spins</strong></th>
+<th style="text-align: center;"><strong># <span class="arithmatex">\(T\)</span> gates</strong></th>
+<th style="text-align: center;"><strong>Logical qubits</strong></th>
+<th style="text-align: center;"><strong>Parameters</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1D Heisenberg dyn.</td>
+<td style="text-align: center;">QSP</td>
+<td style="text-align: center;"><span class="arithmatex">\(50\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(2.4\times 10^9\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(67\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(\begin{gathered}B_j \in [-1,1], J^x=J^y=J^z=1,\\t=N, \epsilon=10^{-3}\end{gathered}\)</span>  [<a href="#bib23">23</a>]</td>
+</tr>
+<tr>
+<td style="text-align: center;">1D Heisenberg dyn.</td>
+<td style="text-align: center;">Trotter (6th order)</td>
+<td style="text-align: center;"><span class="arithmatex">\(50\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(1.8\times 10^8\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(50\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(\begin{gathered}B_j \in [-1,1], J^x=J^y=J^z=1,\\t=N, \epsilon=10^{-3}\end{gathered}\)</span> [<a href="#bib23">23</a>]</td>
+</tr>
+<tr>
+<td style="text-align: center;">2D NN TFIM<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> dyn.</td>
+<td style="text-align: center;">Trotter (4th order)</td>
+<td style="text-align: center;"><span class="arithmatex">\(100\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(1.7\times 10^5\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(100\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(t=10/J, B=J, \epsilon=10^{-2}\)</span> [<a href="#bib24">24</a>, <a href="#bib25">25</a>]</td>
+</tr>
+<tr>
+<td style="text-align: center;">2D <span class="arithmatex">\(1/r^2\)</span> TFIM dyn.</td>
+<td style="text-align: center;">Trotter (4th order)</td>
+<td style="text-align: center;"><span class="arithmatex">\(100\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(1.5\times 10^7\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(100\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(t=10/J, B=J, \epsilon=10^{-2}\)</span> [<a href="#bib24">24</a>]</td>
+</tr>
+<tr>
+<td style="text-align: center;">2D Heisenberg ground state with nearest- and next-nearest-neighbor interactions</td>
+<td style="text-align: center;">Qubitized QPE</td>
+<td style="text-align: center;"><span class="arithmatex">\(100\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(10^8\)</span></td>
+<td style="text-align: center;">N.C.<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup></td>
+<td style="text-align: center;"><span class="arithmatex">\(\epsilon=10^{-2}, J_1=1, J_2=0.5, B_j=0\)</span>         [<a href="#bib26">26</a>]</td>
+</tr>
+</tbody>
+</table>
+<figcaption>
+<p>Table 1: Fault-tolerant resource estimates for quantum phase estimation (QPE) and dynamics simulation (dyn.) applied to different spin models. The presented gate counts are for a single run of the circuit. The results presented in rows 1 and 2 can be compared to each other, and both target an error of <span class="arithmatex">\(\epsilon=10^{-3}\)</span> in the operator norm distance between the ideal and implemented time evolution unitary. While [<a href="#bib23">23</a>] presents both analytic and empirical Trotter error bounds, the gate count presented in the table is that resulting from the empirical bound, though we remark that more recent analytic bounds are close to matching the empirical bounds [<a href="#bib19">19</a>]. The results presented in rows 3 and 4 can be compared to each other, and determine the number of Trotter steps used empirically by targeting an error of <span class="arithmatex">\(\epsilon=10^{-2}\)</span> in a particular spatially averaged local observable, and then extrapolating this behavior to larger system sizes. </p>
+</figcaption>
+</figure><p>On a <a href="../../../fault-tolerant-quantum-computation/logical-gates-with-the-surface-code/#logical-gates-with-the-surface-code">fault-tolerant quantum computer</a> arbitrary angle rotation gates must be synthesized using a larger number of <span class="arithmatex">\(T\)</span> and Clifford gates [<a href="#bib27">27</a>]. The number of <span class="arithmatex">\(T\)</span> gates to synthesize a group of parallel rotation gates can be reduced if they share the same angle [<a href="#bib28">28</a>, <a href="#bib29">29</a>]. This technique can be exploited in fault-tolerant compilations of algorithms simulating physical spin systems, which often exhibit features such as translational invariance.</p><p>In addition to the entries given in Table <a href="#Tab:ResourceEst_spin_model" reference="Tab:ResourceEst_spin_model" reference-type="ref">1</a>, fault-tolerant approaches to simulating NMR [<a href="#bib3">3</a>] and muon spectroscopy [<a href="#bib5">5</a>] experiments, which are effectively spin model simulations, have been considered.</p><h2 id="caveats">Caveats</h2><p>The decision forms of the ground state problem for 2-local classical and quantum spin models are NP–complete [<a href="#bib30">30</a>, <a href="#bib31">31</a>] and QMA–complete [<a href="#bib32">32</a>], respectively. As such, we do not expect quantum algorithms to provide efficient solutions to these problems in the general case. Nevertheless, given the success of classical heuristics for these problems, one may hope to observe a similar benefit from quantum heuristic algorithms, such as Monte Carlo–style <a href="../../../quantum-algorithmic-primitives/gibbs-sampling/#gibbs-sampling">Gibbs sampling algorithms</a>.</p><p>In contrast, simulating the dynamics of spin models is a BQP-complete problem [<a href="#bib33">33</a>], and is likely one of the most simple beyond-classical calculations that could be performed on a future fault-tolerant quantum computer. While such a computation would be of great scientific interest, providing new insights in quantum information and many-body physics, it is currently unclear whether dynamics simulations of large systems will have a direct impact on industrially relevant applications.</p><h2 id="comparable-classical-complexity-and-challenging-instance-sizes">Comparable classical complexity and challenging instance sizes</h2><p>Exact classical simulations of quantum spin models are exponentially costly in system size. Exact simulations that consider a time evolution long enough for information to propagate across the system (as per the Lieb–Robinson bound) are thus limited to around 50 spins using the largest classical supercomputers [<a href="#bib34">34</a>, <a href="#bib23">23</a>].</p><p>Approximate classical algorithms for studying quantum spin systems include tensor network approaches and quantum Monte Carlo methods. These methods provide empirically accurate results for computing the ground states of physically motivated spin systems, in particular those with local interactions, in low dimensions. For example, the ground states of local, gapped 1D Hamiltonians have area law entanglement, and so can be efficiently represented by matrix product states. Similar statements can be made in 2D, using e.g. projected entangled pair states (PEPS).</p><p>In contrast, these methods are less accurate when performing simulations of quantum spin dynamics [<a href="#bib35">35</a>, <a href="#bib36">36</a>]. In these systems the entanglement entropy grows linearly with time [<a href="#bib37">37</a>], resulting in a cost that grows exponentially with time for tensor network approaches targeting fixed accuracy. For example, it was claimed in [<a href="#bib24">24</a>] that simulations of the dynamics of the 2D TFIM for <span class="arithmatex">\(N=100\)</span> spins would be far beyond the current capabilities of tensor network methods [<a href="#bib24">24</a>].</p><p>Many physical systems are subject to strong interactions with their environment which limits their coherence times. In these cases, the behavior of the system can often be reproduced by simulating a smaller number of spins (e.g. <span class="arithmatex">\(\leq 30\)</span>) and accounting for the interactions with the environment through physically motivated heuristics [<a href="#bib38">38</a>]. Such simulations (accessible via open source software libraries) are used to analyze NMR [<a href="#bib9">9</a>] and muon spectroscopy experiments [<a href="#bib10">10</a>].</p><h2 id="speedup">Speedup</h2><p>The speedup for computing the ground states of quantum spin Hamiltonians over classical approximate methods (such as tensor networks or quantum Monte Carlo) is currently an open research question. A large speedup appears to require the availability of good initial states for quantum algorithms, without also being able to efficiently solve the problem classically [<a href="#bib39">39</a>].</p><p>The simulation of quantum spin dynamics appears to be exponentially costly using all known classical methods. As such, quantum algorithms for <a href="../../../quantum-algorithmic-primitives/hamiltonian-simulation/introduction/#hamiltonian-simulation">Hamiltonian simulation</a> would provide an exponential speedup for this task. This would likely provide insights in quantum information and many–body physics. As an example, such systems could study the competition and interplay between thermalization and many–body localization in quantum systems.</p><h2 id="nisq-implementations">NISQ implementations</h2><p>Quantum spin models are commonly used as benchmark systems for NISQ algorithms—e.g. finding ground states [<a href="#bib40">40</a>], simulating dynamics [<a href="#bib41">41</a>], or probing thermalization [<a href="#bib42">42</a>].</p><p>The Hamiltonians of spin models are also naturally realized in a wide range of physical systems, including trapped ions or neutral atoms [<a href="#bib6">6</a>, <a href="#bib7">7</a>]. For example, recent experiments in neutral atom systems have studied the dynamics of <span class="arithmatex">\(\mathcal{O}\left( 200 \right)\)</span> spins, which went beyond the capabilities of classical simulation via matrix product state approaches [<a href="#bib43">43</a>, <a href="#bib44">44</a>]. Analog simulators are already an important tool providing new scientific insights, and they set a high bar for the future performance of fault-tolerant approaches to simulating spin systems.</p><h2 id="outlook">Outlook</h2><p>Simulating the behavior of spin systems is arguably one of the most natural tasks for quantum computers, and is exponentially costly using all known classical methods. Such simulations can provide important insights into questions in quantum information and many-body physics, as well as acting as models for more complex systems in condensed matter physics and chemistry.</p><p>Fault-tolerant resource estimates for quantum algorithms simulating spin systems are among the lowest known for beyond-classical tasks. Nevertheless, analog quantum simulators are already able to natively simulate the dynamics of hundreds of spins. In order to surpass these capabilities, digital approaches may need to consider more complex observables, or target accuracies not available with error correction.</p><p>In addition, for many systems of scientific interest in related fields, such as chemistry or condensed matter physics, decoherence–inducing interactions with the environment often limit the required simulation sizes. Identifying applications requiring accurate simulation of the dynamics of large spin models would increase the impact and applicability of quantum algorithms in this area.</p><h2 id="bibliography">Bibliography</h2><ol>
+<li>
+<p><span id="bib1"></span>Ruslan N. Tazhigulov, Shi-Ning Sun, Reza Haghshenas, Huanchen Zhai, Adrian T.K. Tan, Nicholas C. Rubin, Ryan Babbush, Austin J. Minnich, and Garnet Kin-Lic Chan. Simulating models of challenging correlated molecules and materials on the sycamore quantum processor. <em>PRX Quantum</em>, 3:040318, 11 2022. arXiv: <a href="https://arxiv.org/abs/2203.15291">https://arxiv.org/abs/2203.15291</a>. URL: <a href="https://link.aps.org/doi/10.1103/PRXQuantum.3.040318">https://link.aps.org/doi/10.1103/PRXQuantum.3.040318</a>, <a href="https://doi.org/10.1103/PRXQuantum.3.040318">doi:10.1103/PRXQuantum.3.040318</a>.</p>
+</li>
+<li>
+<p><span id="bib2"></span>Dries Sels, Hesam Dashti, Samia Mora, Olga Demler, and Eugene Demler. Quantum approximate bayesian computation for nmr model inference. <em>Nature Machine Intelligence</em>, 2(7):396–402, 7 2020. arXiv: <a href="https://arxiv.org/abs/1910.14221">https://arxiv.org/abs/1910.14221</a>. URL: <a href="https://doi.org/10.1038/s42256-020-0198-x">https://doi.org/10.1038/s42256-020-0198-x</a>, <a href="https://doi.org/10.1038/s42256-020-0198-x">doi:10.1038/s42256-020-0198-x</a>.</p>
+</li>
+<li>
+<p><span id="bib3"></span>Thomas E. O'Brien, Lev B. Ioffe, Yuan Su, David Fushman, Hartmut Neven, Ryan Babbush, and Vadim Smelyanskiy. Quantum computation of molecular structure using data from challenging-to-classically-simulate nuclear magnetic resonance experiments. <em>PRX Quantum</em>, 3:030345, 9 2022. arXiv: <a href="https://arxiv.org/abs/2109.02163">https://arxiv.org/abs/2109.02163</a>. URL: <a href="https://link.aps.org/doi/10.1103/PRXQuantum.3.030345">https://link.aps.org/doi/10.1103/PRXQuantum.3.030345</a>, <a href="https://doi.org/10.1103/PRXQuantum.3.030345">doi:10.1103/PRXQuantum.3.030345</a>.</p>
+</li>
+<li>
+<p><span id="bib4"></span>A. Chiesa, F. Tacchino, M. Grossi, P. Santini, I. Tavernelli, D. Gerace, and S. Carretta. Quantum hardware simulating four-dimensional inelastic neutron scattering. <em>Nature Physics</em>, 15(5):455–459, 5 2019. arXiv: <a href="https://arxiv.org/abs/1809.07974">https://arxiv.org/abs/1809.07974</a>. URL: <a href="https://doi.org/10.1038/s41567-019-0437-4">https://doi.org/10.1038/s41567-019-0437-4</a>, <a href="https://doi.org/10.1038/s41567-019-0437-4">doi:10.1038/s41567-019-0437-4</a>.</p>
+</li>
+<li>
+<p><span id="bib5"></span>Sam McArdle. Learning from physics experiments with quantum computers: applications in muon spectroscopy. <em>PRX Quantum</em>, 2:020349, 6 2021. arXiv: <a href="https://arxiv.org/abs/2012.06602">https://arxiv.org/abs/2012.06602</a>. URL: <a href="https://link.aps.org/doi/10.1103/PRXQuantum.2.020349">https://link.aps.org/doi/10.1103/PRXQuantum.2.020349</a>, <a href="https://doi.org/10.1103/PRXQuantum.2.020349">doi:10.1103/PRXQuantum.2.020349</a>.</p>
+</li>
+<li>
+<p><span id="bib6"></span>Immanuel Bloch, Jean Dalibard, and Sylvain Nascimbène. Quantum simulations with ultracold quantum gases. <em>Nature Physics</em>, 8(4):267–276, 4 2012. URL: <a href="http://www.nature.com/doifinder/10.1038/nphys2259">http://www.nature.com/doifinder/10.1038/nphys2259</a>, <a href="https://arxiv.org/abs/nphys2259">arXiv:nphys2259</a>, <a href="https://doi.org/10.1038/nphys2259">doi:10.1038/nphys2259</a>.</p>
+</li>
+<li>
+<p><span id="bib7"></span>I. M. Georgescu, S. Ashhab, and Franco Nori. Quantum simulation. <em>Reviews of Modern Physics</em>, 86(1):153–185, 2014. arXiv: <a href="https://arxiv.org/abs/1308.6253">https://arxiv.org/abs/1308.6253</a>. <a href="https://arxiv.org/abs/1308.6253">arXiv:1308.6253</a>, <a href="https://doi.org/10.1103/RevModPhys.86.153">doi:10.1103/RevModPhys.86.153</a>.</p>
+</li>
+<li>
+<p><span id="bib8"></span>B. Derrida. Random-energy model: limit of a family of disordered models. <em>Physical Review Letters</em>, 45:79–82, 7 1980. URL: <a href="https://link.aps.org/doi/10.1103/PhysRevLett.45.79">https://link.aps.org/doi/10.1103/PhysRevLett.45.79</a>, <a href="https://doi.org/10.1103/PhysRevLett.45.79">doi:10.1103/PhysRevLett.45.79</a>.</p>
+</li>
+<li>
+<p><span id="bib9"></span>H.J. Hogben, M. Krzystyniak, G.T.P. Charnock, P.J. Hore, and Ilya Kuprov. Spinach – a software library for simulation of spin dynamics in large spin systems. <em>Journal of Magnetic Resonance</em>, 208(2):179–194, 2011. URL: <a href="https://www.sciencedirect.com/science/article/pii/S1090780710003575">https://www.sciencedirect.com/science/article/pii/S1090780710003575</a>, <a href="https://doi.org/https://doi.org/10.1016/j.jmr.2010.11.008">doi:https://doi.org/10.1016/j.jmr.2010.11.008</a>.</p>
+</li>
+<li>
+<p><span id="bib10"></span>Pietro Bonfà, Jonathan Frassineti, Muhammad Maikudi Isah, Ifeanyi John Onuorah, and Samuele Sanna. Undi: an open-source library to simulate muon-nuclear interactions in solids. <em>Computer Physics Communications</em>, 260:107719, 2021. URL: <a href="https://www.sciencedirect.com/science/article/pii/S0010465520303556">https://www.sciencedirect.com/science/article/pii/S0010465520303556</a>, <a href="https://doi.org/https://doi.org/10.1016/j.cpc.2020.107719">doi:https://doi.org/10.1016/j.cpc.2020.107719</a>.</p>
+</li>
+<li>
+<p><span id="bib11"></span>Joana Fraxanet, Tymoteusz Salamon, and Maciej Lewenstein. <em>The Coming Decades of Quantum Simulation</em>, pages 85–125. Springer International Publishing, Cham, 2023, arXiv: <a href="https://arxiv.org/abs/2204.08905">https://arxiv.org/abs/2204.08905</a>. URL: <a href="https://doi.org/10.1007/978-3-031-32469-7_4">https://doi.org/10.1007/978-3-031-32469-7\_4</a>, <a href="https://doi.org/10.1007/978-3-031-32469-7_4">doi:10.1007/978-3-031-32469-7\_4</a>.</p>
+</li>
+<li>
+<p><span id="bib12"></span>Chi-Fang Chen, Andrew Lucas, and Chao Yin. Speed limits and locality in many-body quantum dynamics. arXiv: <a href="https://arxiv.org/abs/2303.07386">https://arxiv.org/abs/2303.07386</a>, 2023.</p>
+</li>
+<li>
+<p><span id="bib13"></span>Nicolas PD Sawaya, Tim Menke, Thi Ha Kyaw, Sonika Johri, Alán Aspuru-Guzik, and Gian Giacomo Guerreschi. Resource-efficient digital quantum simulation of d-level systems for photonic, vibrational, and spin-s hamiltonians. <em>npj Quantum Information</em>, 6(1):1–13, 2020. arXiv: <a href="https://arxiv.org/abs/1909.12847">https://arxiv.org/abs/1909.12847</a>. <a href="https://doi.org/https://doi.org/10.1038/s41534-020-0278-0">doi:https://doi.org/10.1038/s41534-020-0278-0</a>.</p>
+</li>
+<li>
+<p><span id="bib14"></span>Lin Lin and Yu Tong. Optimal polynomial based quantum eigenstate filtering with application to solving quantum linear systems. <em>Quantum</em>, 4:361, 2020. arXiv: <a href="https://arxiv.org/abs/1910.14596">https://arxiv.org/abs/1910.14596</a>. <a href="https://doi.org/10.22331/q-2020-11-11-361">doi:10.22331/q-2020-11-11-361</a>.</p>
+</li>
+<li>
+<p><span id="bib15"></span>Lin Lin and Yu Tong. Near-optimal ground state preparation. <em>Quantum</em>, 4:372, 2020. arXiv: <a href="https://arxiv.org/abs/2002.12508">https://arxiv.org/abs/2002.12508</a>. <a href="https://doi.org/10.22331/q-2020-12-14-372">doi:10.22331/q-2020-12-14-372</a>.</p>
+</li>
+<li>
+<p><span id="bib16"></span>Andrew M Childs and Yuan Su. Nearly optimal lattice simulation by product formulas. <em>Physical Review Letters</em>, 123(5):050503, 2019. arXiv: <a href="https://arxiv.org/abs/1901.00564">https://arxiv.org/abs/1901.00564</a>. <a href="https://arxiv.org/abs/1901.00564">arXiv:1901.00564</a>, <a href="https://doi.org/10.1103/PhysRevLett.123.050503">doi:10.1103/PhysRevLett.123.050503</a>.</p>
+</li>
+<li>
+<p><span id="bib17"></span>Jeongwan Haah, Matthew B. Hastings, Robin Kothari, and Guang Hao Low. Quantum algorithm for simulating real time evolution of lattice hamiltonians. In <em>Proceedings of the 59th IEEE Symposium on Foundations of Computer Science (FOCS)</em>, 350–360. 2018. arXiv: <a href="https://arxiv.org/abs/1801.03922">https://arxiv.org/abs/1801.03922</a>. <a href="https://doi.org/10.1109/FOCS.2018.00041">doi:10.1109/FOCS.2018.00041</a>.</p>
+</li>
+<li>
+<p><span id="bib18"></span>Minh C. Tran, Andrew Y. Guo, Yuan Su, James R. Garrison, Zachary Eldredge, Michael Foss-Feig, Andrew M. Childs, and Alexey V. Gorshkov. Locality and digital quantum simulation of power-law interactions. <em>Physical Review X</em>, 9:031006, 7 2019. arXiv: <a href="https://arxiv.org/abs/1808.05225">https://arxiv.org/abs/1808.05225</a>. URL: <a href="https://link.aps.org/doi/10.1103/PhysRevX.9.031006">https://link.aps.org/doi/10.1103/PhysRevX.9.031006</a>, <a href="https://doi.org/10.1103/PhysRevX.9.031006">doi:10.1103/PhysRevX.9.031006</a>.</p>
+</li>
+<li>
+<p><span id="bib19"></span>Andrew M. Childs, Yuan Su, Minh C. Tran, Nathan Wiebe, and Shuchen Zhu. Theory of trotter error with commutator scaling. <em>Physical Review X</em>, 2 2021. arXiv: <a href="https://arxiv.org/abs/1912.08854">https://arxiv.org/abs/1912.08854</a>. <a href="https://doi.org/10.1103/physrevx.11.011020">doi:10.1103/physrevx.11.011020</a>.</p>
+</li>
+<li>
+<p><span id="bib20"></span>Patrick Rall. Quantum algorithms for estimating physical quantities using block encodings. <em>Physical Review A</em>, 102:022408, 8 2020. arXiv: <a href="https://arxiv.org/abs/2004.06832">https://arxiv.org/abs/2004.06832</a>. URL: <a href="https://link.aps.org/doi/10.1103/PhysRevA.102.022408">https://link.aps.org/doi/10.1103/PhysRevA.102.022408</a>, <a href="https://doi.org/10.1103/PhysRevA.102.022408">doi:10.1103/PhysRevA.102.022408</a>.</p>
+</li>
+<li>
+<p><span id="bib21"></span>William J. Huggins, Kianna Wan, Jarrod McClean, Thomas E. O'Brien, Nathan Wiebe, and Ryan Babbush. Nearly optimal quantum algorithm for estimating multiple expectation values. <em>Physical Review Letters</em>, 129:240501, 12 2022. arXiv: <a href="https://arxiv.org/abs/2111.09283">https://arxiv.org/abs/2111.09283</a>. URL: <a href="https://link.aps.org/doi/10.1103/PhysRevLett.129.240501">https://link.aps.org/doi/10.1103/PhysRevLett.129.240501</a>, <a href="https://doi.org/10.1103/PhysRevLett.129.240501">doi:10.1103/PhysRevLett.129.240501</a>.</p>
+</li>
+<li>
+<p><span id="bib22"></span>Joran van Apeldoorn, Arjan Cornelissen, András Gilyén, and Giacomo Nannicini. Quantum tomography using state-preparation unitaries. In <em>Proceedings of the 34th ACM-SIAM Symposium on Discrete Algorithms (SODA)</em>, 1265–1318. 2023. arXiv: <a href="https://arxiv.org/abs/2207.08800">https://arxiv.org/abs/2207.08800</a>. <a href="https://doi.org/10.1137/1.9781611977554.ch47">doi:10.1137/1.9781611977554.ch47</a>.</p>
+</li>
+<li>
+<p><span id="bib23"></span>Andrew M. Childs, Dmitri Maslov, Yunseong Nam, Neil J. Ross, and Yuan Su. Toward the first quantum simulation with quantum speedup. <em>Proceedings of the National Academy of Sciences</em>, 115(38):9456–9461, 2018. arXiv: <a href="https://arxiv.org/abs/1711.10980">https://arxiv.org/abs/1711.10980</a>. <a href="https://doi.org/10.1073/pnas.1801723115">doi:10.1073/pnas.1801723115</a>.</p>
+</li>
+<li>
+<p><span id="bib24"></span>S Flannigan, N Pearson, G H Low, A Buyskikh, I Bloch, P Zoller, M Troyer, and A J Daley. Propagation of errors and quantitative quantum simulation with quantum advantage. <em>Quantum Science and Technology</em>, 7(4):045025, 8 2022. arXiv: <a href="https://arxiv.org/abs/2204.13644">https://arxiv.org/abs/2204.13644</a>. URL: <a href="https://dx.doi.org/10.1088/2058-9565/ac88f5">https://dx.doi.org/10.1088/2058-9565/ac88f5</a>, <a href="https://doi.org/10.1088/2058-9565/ac88f5">doi:10.1088/2058-9565/ac88f5</a>.</p>
+</li>
+<li>
+<p><span id="bib25"></span>Michael E. Beverland, Prakash Murali, Matthias Troyer, Krysta M. Svore, Torsten Hoeffler, Vadym Kliuchnikov, Guang Hao Low, Mathias Soeken, Aarthi Sundaram, and Alexander Vaschillo. Assessing requirements to scale to practical quantum advantage. arXiv: <a href="https://arxiv.org/abs/2211.07629">https://arxiv.org/abs/2211.07629</a>, 2022. URL: <a href="http://arxiv.org/abs/2211.07629">http://arxiv.org/abs/2211.07629</a>.</p>
+</li>
+<li>
+<p><span id="bib26"></span>Nobuyuki Yoshioka, Tsuyoshi Okubo, Yasunari Suzuki, Yuki Koizumi, and Wataru Mizukami. Hunting for quantum-classical crossover in condensed matter problems. arXiv: <a href="https://arxiv.org/abs/2210.14109">https://arxiv.org/abs/2210.14109</a>, 2022.</p>
+</li>
+<li>
+<p><span id="bib27"></span>A Yu Kitaev. Quantum computations: algorithms and error correction. <em>Russian Mathematical Surveys</em>, 52(6):1191, 1997. <a href="https://doi.org/10.1070/RM1997v052n06ABEH002155">doi:10.1070/RM1997v052n06ABEH002155</a>.</p>
+</li>
+<li>
+<p><span id="bib28"></span>Craig Gidney. Halving the cost of quantum addition. <em>Quantum</em>, 2:74, 2018. arXiv: <a href="https://arxiv.org/abs/1709.06648">https://arxiv.org/abs/1709.06648</a>. <a href="https://arxiv.org/abs/1709.06648">arXiv:1709.06648</a>, <a href="https://doi.org/10.22331/q-2018-06-18-74">doi:10.22331/q-2018-06-18-74</a>.</p>
+</li>
+<li>
+<p><span id="bib29"></span>Earl T Campbell. Early fault-tolerant simulations of the hubbard model. <em>Quantum Science and Technology</em>, 7(1):015007, 11 2021. arXiv: <a href="https://arxiv.org/abs/2012.09238">https://arxiv.org/abs/2012.09238</a>. URL: <a href="https://dx.doi.org/10.1088/2058-9565/ac3110">https://dx.doi.org/10.1088/2058-9565/ac3110</a>, <a href="https://doi.org/10.1088/2058-9565/ac3110">doi:10.1088/2058-9565/ac3110</a>.</p>
+</li>
+<li>
+<p><span id="bib30"></span>F Barahona. On the computational complexity of ising spin glass models. <em>Journal of Physics A: Mathematical and Theoretical</em>, 15(10):3241–3253, 10 1982. URL: <a href="https://doi.org/10.1088/0305-4470/15/10/028">https://doi.org/10.1088/0305-4470/15/10/028</a>, <a href="https://doi.org/10.1088/0305-4470/15/10/028">doi:10.1088/0305-4470/15/10/028</a>.</p>
+</li>
+<li>
+<p><span id="bib31"></span>Andrew Lucas. Ising formulations of many np problems. <em>Frontiers in Physics</em>, 2014. arXiv: <a href="https://arxiv.org/abs/1302.5843">https://arxiv.org/abs/1302.5843</a>. URL: <a href="https://www.frontiersin.org/articles/10.3389/fphy.2014.00005">https://www.frontiersin.org/articles/10.3389/fphy.2014.00005</a>, <a href="https://doi.org/10.3389/fphy.2014.00005">doi:10.3389/fphy.2014.00005</a>.</p>
+</li>
+<li>
+<p><span id="bib32"></span>Julia Kempe, Alexei Kitaev, and Oded Regev. The complexity of the local hamiltonian problem. <em>SIAM Journal on Computing</em>, 35(5):1070–1097, 2006. Earlier version in <a href="https://doi.org/10.1007/978-3-540-30538-5_31"><em>FSTTCS'04</em></a>. arXiv: <a href="https://arxiv.org/abs/quant-ph/0406180">https://arxiv.org/abs/quant-ph/0406180</a>. <a href="https://doi.org/10.1137/S009753970444522">doi:10.1137/S009753970444522</a>.</p>
+</li>
+<li>
+<p><span id="bib33"></span>Seth Lloyd. Universal quantum simulators. <em>Science</em>, 273(5278):1073–1078, 1996. <a href="https://doi.org/10.1126/science.273.5278.1073">doi:10.1126/science.273.5278.1073</a>.</p>
+</li>
+<li>
+<p><span id="bib34"></span>Thomas Häner and Damian S Steiger. 0.5 petabyte simulation of a 45-qubit quantum circuit. In <em>Proceedings of the International Conference for High Performance Computing, Networking, Storage and Analysis</em>. New York, NY, USA, 2017. Association for Computing Machinery. arXiv: <a href="https://arxiv.org/abs/1704.01127">https://arxiv.org/abs/1704.01127</a>. URL: <a href="https://doi.org/10.1145/3126908.3126947">https://doi.org/10.1145/3126908.3126947</a>, <a href="https://doi.org/10.1145/3126908.3126947">doi:10.1145/3126908.3126947</a>.</p>
+</li>
+<li>
+<p><span id="bib35"></span>Norbert Schuch, Michael M. Wolf, Frank Verstraete, and J. Ignacio Cirac. Entropy scaling and simulability by matrix product states. <em>Physical Review Letters</em>, 100(3):030504, 2008. arXiv: <a href="https://arxiv.org/abs/0705.0292">https://arxiv.org/abs/0705.0292</a>. <a href="https://doi.org/10.1103/PhysRevLett.100.030504">doi:10.1103/PhysRevLett.100.030504</a>.</p>
+</li>
+<li>
+<p><span id="bib36"></span>Ulrich Schollwöck. The density-matrix renormalization group in the age of matrix product states. <em>Annals of Physics</em>, 326(1):96–192, 2011. arXiv: <a href="https://arxiv.org/abs/1008.3477">https://arxiv.org/abs/1008.3477</a>. <a href="https://arxiv.org/abs/1008.3477">arXiv:1008.3477</a>, <a href="https://doi.org/10.1016/j.aop.2010.09.012">doi:10.1016/j.aop.2010.09.012</a>.</p>
+</li>
+<li>
+<p><span id="bib37"></span>Pasquale Calabrese and John Cardy. Evolution of entanglement entropy in one-dimensional systems. <em>Journal of Statistical Mechanics: Theory and Experiment</em>, pages 04010, 2005. arXiv: <a href="https://arxiv.org/abs/cond-mat/0503393">https://arxiv.org/abs/cond-mat/0503393</a>. <a href="https://arxiv.org/abs/0503393">arXiv:0503393</a>, <a href="https://doi.org/10.1088/1742-5468/2005/04/P04010">doi:10.1088/1742-5468/2005/04/P04010</a>.</p>
+</li>
+<li>
+<p><span id="bib38"></span>J. M. Wilkinson and S. J. Blundell. Information and decoherence in a muon-fluorine coupled system. <em>Physical Review Letters</em>, 125:087201, 8 2020. arXiv: <a href="https://arxiv.org/abs/2003.02762">https://arxiv.org/abs/2003.02762</a>. URL: <a href="https://link.aps.org/doi/10.1103/PhysRevLett.125.087201">https://link.aps.org/doi/10.1103/PhysRevLett.125.087201</a>, <a href="https://doi.org/10.1103/PhysRevLett.125.087201">doi:10.1103/PhysRevLett.125.087201</a>.</p>
+</li>
+<li>
+<p><span id="bib39"></span>Seunghoon Lee, Joonho Lee, Huanchen Zhai, Yu Tong, Alexander M. Dalzell, Ashutosh Kumar, Phillip Helms, Johnnie Gray, Zhi-Hao Cui, Wenyuan Liu, Michael Kastoryano, Ryan Babbush, John Preskill, David R. Reichman, Earl T. Campbell, Edward F. Valeev, Lin Lin, and Garnet Kin-Lic Chan. Evaluating the evidence for exponential quantum advantage in ground-state quantum chemistry. <em>Nature Communications</em>, 14(1):1952, 2023. arXiv: <a href="https://arxiv.org/abs/2208.02199">https://arxiv.org/abs/2208.02199</a>. URL: <a href="https://doi.org/10.1038/s41467-023-37587-6">https://doi.org/10.1038/s41467-023-37587-6</a>, <a href="https://doi.org/10.1038/s41467-023-37587-6">doi:10.1038/s41467-023-37587-6</a>.</p>
+</li>
+<li>
+<p><span id="bib40"></span>Abhinav Kandala, Antonio Mezzacapo, Kristan Temme, Maika Takita, Markus Brink, Jerry M. Chow, and Jay M. Gambetta. Hardware-efficient variational quantum eigensolver for small molecules and quantum magnets. <em>Nature</em>, 549(7671):242–246, 9 2017. arXiv: <a href="https://arxiv.org/abs/1704.05018">https://arxiv.org/abs/1704.05018</a>. URL: <a href="https://doi.org/10.1038/nature23879">https://doi.org/10.1038/nature23879</a>, <a href="https://doi.org/10.1038/nature23879">doi:10.1038/nature23879</a>.</p>
+</li>
+<li>
+<p><span id="bib41"></span>Eliott Rosenberg, Trond Andersen, Rhine Samajdar, Andre Petukhov, Jesse Hoke, Dmitry Abanin, Andreas Bengtsson, Ilya Drozdov, Catherine Erickson, Paul Klimov, and others. Dynamics of magnetization at infinite temperature in a heisenberg spin chain. arXiv: <a href="https://arxiv.org/abs/2306.09333">https://arxiv.org/abs/2306.09333</a>, 2023.</p>
+</li>
+<li>
+<p><span id="bib42"></span>X Mi, AA Michailidis, S Shabani, KC Miao, PV Klimov, J Lloyd, E Rosenberg, R Acharya, I Aleiner, TI Andersen, and others. Stable quantum-correlated many body states via engineered dissipation. arXiv: <a href="https://arxiv.org/abs/2304.13878">https://arxiv.org/abs/2304.13878</a>, 2023.</p>
+</li>
+<li>
+<p><span id="bib43"></span>Sepehr Ebadi, Tout T. Wang, Harry Levine, Alexander Keesling, Giulia Semeghini, Ahmed Omran, Dolev Bluvstein, Rhine Samajdar, Hannes Pichler, Wen Wei Ho, Soonwon Choi, Subir Sachdev, Markus Greiner, Vladan Vuletic, and Mikhail D. Lukin. Quantum phases of matter on a 256-atom programmable quantum simulator. <em>Nature</em>, 595:227, 2021. arXiv: <a href="https://arxiv.org/abs/2012.12281">https://arxiv.org/abs/2012.12281</a>. URL: <a href="http://arxiv.org/abs/2012.12281">http://arxiv.org/abs/2012.12281</a>, <a href="https://arxiv.org/abs/2012.12281">arXiv:2012.12281</a>, <a href="https://doi.org/10.1038/s41586-021-03582-4">doi:10.1038/s41586-021-03582-4</a>.</p>
+</li>
+<li>
+<p><span id="bib44"></span>Pascal Scholl, Michael Schuler, Hannah J. Williams, Alexander A. Eberharter, Daniel Barredo, Kai Niklas Schymik, Vincent Lienhard, Louis Paul Henry, Thomas C. Lang, Thierry Lahaye, Andreas M. Läuchli, and Antoine Browaeys. Quantum simulation of 2d antiferromagnets with hundreds of rydberg atoms. <em>Nature</em>, 595(7866):233–238, 2021. arXiv: <a href="https://arxiv.org/abs/2012.12268">https://arxiv.org/abs/2012.12268</a>. <a href="https://doi.org/10.1038/s41586-021-03585-1">doi:10.1038/s41586-021-03585-1</a>.</p>
+</li>
+</ol><div class="footnote">
+<hr/>
+<ol>
+<li id="fn:1">
+<p>2D nearest-neighbor transverse field Ising model. <a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+<li id="fn:2">
+<p>Not computed, scales as <span class="arithmatex">\(\mathcal{O}\left( N+ \log(N) + \log(N/\epsilon) \right)\)</span>. <a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">↩</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.path", "navigation.tracking"], "search": "../../../assets/javascripts/workers/search.c011b7c0.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.7389ff0e.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

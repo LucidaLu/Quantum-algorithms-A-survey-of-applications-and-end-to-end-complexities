@@ -1,0 +1,2784 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../cryptanalysis/weakening-cryptosystems/">
+      
+      
+        <link rel="next" href="../finance/introduction/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.4">
+    
+    
+      
+        <title>Solving differential equations - Quantum algorithms: A survey of applications and end-to-end complexities</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.50c56a3b.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#solving-differential-equations" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Quantum algorithms: A survey of applications and end-to-end complexities" class="md-header__button md-logo" aria-label="Quantum algorithms: A survey of applications and end-to-end complexities" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Quantum algorithms: A survey of applications and end-to-end complexities
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Solving differential equations
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Quantum algorithms: A survey of applications and end-to-end complexities" class="md-nav__button md-logo" aria-label="Quantum algorithms: A survey of applications and end-to-end complexities" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Quantum algorithms: A survey of applications and end-to-end complexities
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../authors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Authors
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Areas of application
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Areas of application
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Condensed matter physics
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Condensed matter physics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../condensed-matter-physics/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../condensed-matter-physics/fermi-hubbard-model/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Fermi–Hubbard model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../condensed-matter-physics/syk-model/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SYK model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../condensed-matter-physics/spin-models/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Spin models
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Quantum chemistry
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum chemistry
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum-chemistry/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum-chemistry/electronic-structure-problem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Electronic structure problem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum-chemistry/vibrational-structure-problem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vibrational structure problem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Nuclear and particle physics
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            Nuclear and particle physics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nuclear-and-particle-physics/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nuclear-and-particle-physics/quantum-field-theories/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum field theories
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nuclear-and-particle-physics/nuclear-structure-problem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nuclear structure problem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Combinatorial optimization
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Combinatorial optimization
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../combinatorial-optimization/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../combinatorial-optimization/search-algorithms-a-la-grover/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Search algorithms à la Grover
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../combinatorial-optimization/beyond-quadratic-speedups-in-exact-combinatorial-optimization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Beyond quadratic speedups in exact combinatorial optimization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Continuous optimization
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            Continuous optimization
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../continuous-optimization/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../continuous-optimization/zero-sum-games-computing-nash-equilibria/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Zero-sum games: Computing Nash equilibria
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../continuous-optimization/conic-programming-solving-lps-socps-and-sdps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Conic programming: Solving LPs, SOCPs, and SDPs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../continuous-optimization/general-convex-optimization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    General convex optimization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../continuous-optimization/nonconvex-optimization-escaping-saddle-points-and-finding-local-minima/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nonconvex optimization: Escaping saddle points and finding local minima
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_7" id="__nav_4_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Cryptanalysis
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_7">
+            <span class="md-nav__icon md-icon"></span>
+            Cryptanalysis
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cryptanalysis/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cryptanalysis/breaking-cryptosystems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Breaking cryptosystems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cryptanalysis/weakening-cryptosystems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Weakening cryptosystems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Solving differential equations
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Solving differential equations
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actual-end-to-end-problems-solved" class="md-nav__link">
+    <span class="md-ellipsis">
+      Actual end-to-end problem(s) solved
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dominant-resource-costcomplexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dominant resource cost/complexity
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#existing-error-corrected-resource-estimates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Existing error corrected resource estimates
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caveats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Caveats
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparable-classical-complexity-and-challenging-instance-sizes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comparable classical complexity and challenging instance sizes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#speedup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Speedup
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nisq-implementations" class="md-nav__link">
+    <span class="md-ellipsis">
+      NISQ implementations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outlook" class="md-nav__link">
+    <span class="md-ellipsis">
+      Outlook
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bibliography" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bibliography
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_9" id="__nav_4_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Finance
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_9">
+            <span class="md-nav__icon md-icon"></span>
+            Finance
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../finance/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../finance/portfolio-optimization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Portfolio optimization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../finance/monte-carlo-methods-option-pricing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Monte Carlo methods: Option pricing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_10" id="__nav_4_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Machine learning with classical data
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_10">
+            <span class="md-nav__icon md-icon"></span>
+            Machine learning with classical data
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../machine-learning-with-classical-data/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../machine-learning-with-classical-data/quantum-machine-learning-via-quantum-linear-algebra/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum machine learning via quantum linear algebra
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../machine-learning-with-classical-data/quantum-machine-learning-via-energy-based-models/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum machine learning via energy-based models
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../machine-learning-with-classical-data/tensor-pca/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tensor PCA
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../machine-learning-with-classical-data/topological-data-analysis/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Topological data analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../machine-learning-with-classical-data/quantum-neural-networks-and-quantum-kernel-methods/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum neural networks and quantum kernel methods
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Quantum algorithmic primitives
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum algorithmic primitives
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Quantum linear algebra
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum linear algebra
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/quantum-linear-algebra/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/quantum-linear-algebra/block-encodings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Block-encodings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/quantum-linear-algebra/manipulating-block-encodings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Manipulating block-encodings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/quantum-linear-algebra/quantum-signal-processing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum signal processing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/quantum-linear-algebra/qubitization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Qubitization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/quantum-linear-algebra/quantum-singular-value-transformation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum singular value transformation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Hamiltonian simulation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            Hamiltonian simulation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/hamiltonian-simulation/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/hamiltonian-simulation/product-formulae/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Product formulae
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/hamiltonian-simulation/qdrift/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    qDRIFT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/hamiltonian-simulation/taylor-and-dyson-series-linear-combination-of-unitaries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Taylor and Dyson series (linear combination of unitaries)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/hamiltonian-simulation/quantum-signal-processing-quantum-singular-value-transformation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum signal processing / quantum singular value transformation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/quantum-fourier-transform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum Fourier transform
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/quantum-phase-estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum phase estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Amplitude amplification and estimation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            Amplitude amplification and estimation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-amplification/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Amplitude amplification
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Amplitude estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/gibbs-sampling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gibbs sampling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/quantum-adiabatic-algorithm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum adiabatic algorithm
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Loading classical data
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_9">
+            <span class="md-nav__icon md-icon"></span>
+            Loading classical data
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/loading-classical-data/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/loading-classical-data/quantum-random-access-memory/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum random access memory
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/loading-classical-data/preparing-states-from-classical-data/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Preparing states from classical data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/loading-classical-data/block-encoding-dense-matrices-of-classical-data/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Block-encoding dense matrices of classical data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/quantum-linear-system-solvers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum linear system solvers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/quantum-gradient-estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum gradient estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/variational-quantum-algorithms/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Variational quantum algorithms
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/quantum-tomography/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum tomography
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/quantum-interior-point-methods/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum interior point methods
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/multiplicative-weights-update-method/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Multiplicative weights update method
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-algorithmic-primitives/approximate-tensor-network-contraction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Approximate tensor network contraction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Fault-tolerant quantum computation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Fault-tolerant quantum computation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fault-tolerant-quantum-computation/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fault-tolerant-quantum-computation/basics-of-fault-tolerance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basics of fault tolerance
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fault-tolerant-quantum-computation/quantum-error-correction-with-the-surface-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum error correction with the surface code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fault-tolerant-quantum-computation/logical-gates-with-the-surface-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Logical gates with the surface code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actual-end-to-end-problems-solved" class="md-nav__link">
+    <span class="md-ellipsis">
+      Actual end-to-end problem(s) solved
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dominant-resource-costcomplexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dominant resource cost/complexity
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#existing-error-corrected-resource-estimates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Existing error corrected resource estimates
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caveats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Caveats
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparable-classical-complexity-and-challenging-instance-sizes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comparable classical complexity and challenging instance sizes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#speedup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Speedup
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nisq-implementations" class="md-nav__link">
+    <span class="md-ellipsis">
+      NISQ implementations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outlook" class="md-nav__link">
+    <span class="md-ellipsis">
+      Outlook
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bibliography" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bibliography
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="solving-differential-equations">Solving differential equations</h1><h2 id="overview">Overview</h2><p>Many applications in engineering and science rely on solving differential equations. Accordingly, this constitutes a large fraction of research-and-development high performance computing (HPC) workloads across a wide variety of industries. Unsurprisingly, there have been many proposals to speed up differential equation solving on a quantum computer. At this point, the consensus is that we lack compelling evidence for practical quantum speedup on industry-relevant problems. However, the field is progressing rapidly and could still provide some surprises.</p><p>Some of the main application areas that have been considered are:</p><ul>
+<li><strong>Computational fluid dynamics</strong> (CFD), usually involving simulation of the Navier–Stokes equation. The main industries relying on CFD simulations are: automotive, aerospace, civil engineering, wind energy, and defense. While most simulations focus on air or fluid flow on solid objects, other processes, such as foaming, are also important to model. Large CFD calculations are routinely in the petaflop regime and are run on millions of CPU cores. Specific quantum proposals include: [<a href="#bib1">1</a>, <a href="#bib2">2</a>, <a href="#bib3">3</a>, <a href="#bib4">4</a>, <a href="#bib5">5</a>, <a href="#bib6">6</a>, <a href="#bib7">7</a>, <a href="#bib8">8</a>, <a href="#bib9">9</a>].</li>
+<li><strong>Geophysical modelling</strong>, involving simulation of the wave equation. The main industries are: oil and gas, hydro-electric, geophysics. Large seismic imaging simulations can easily be in the petaflop regime. Quantum proposals for simulating the wave equation include: [<a href="#bib10">10</a>, <a href="#bib11">11</a>, <a href="#bib12">12</a>].</li>
+<li><strong>Finite element method</strong> (FEM) for studying structural properties of solid objects. The main industries are: civil engineering, manufacturing (including automotive), aerospace, defense. The simulations are typically slightly smaller in scale than CFD, though still requiring large HPC clusters. Quantum FEM proposals include: [<a href="#bib13">13</a>, <a href="#bib14">14</a>, <a href="#bib15">15</a>, <a href="#bib16">16</a>].</li>
+<li><strong>Maxwell and heat equation</strong> have applications to chip design and other electronic component design, as well as for navigation and radar technology. Specific quantum proposals include: [<a href="#bib17">17</a>, <a href="#bib13">13</a>, <a href="#bib18">18</a>]</li>
+<li><strong>Risk modelling</strong> involving the simulation of stochastic differential equations (SDEs) are extensively used in finance (especially derivatives pricing), insurance, and energy markets. The largest risk modelling simulations can easily be in the petaflop regime, though typically more distributed than CFD calculations. Specific quantum proposals include: [<a href="#bib19">19</a>, <a href="#bib20">20</a>, <a href="#bib21">21</a>, <a href="#bib22">22</a>, <a href="#bib23">23</a>].</li>
+<li><strong>Plasma physics</strong> involving the simulation of the Vlasov equation are widespread in nuclear fusion research. Quantum approaches include: [<a href="#bib24">24</a>, <a href="#bib25">25</a>, <a href="#bib26">26</a>].</li>
+</ul><p>Differential equations can be categorized according to a number of properties: (a) <em>ordinary vs. partial</em> depending on the number of differential variables, (b) <em>stochastic vs. deterministic</em>, depending on whether the function is a random variable or not, (c) <em>linear vs. nonlinear</em>. We will focus mainly on linear partial differential equations, which constitute the largest class for practical problems, and only comment in passing on stochastic, or nonlinear differential equations.</p><p>In order to solve a differential equation numerically, one needs to specify a discretization scheme. The two main classes are: (i) <em>finite difference</em> and its many variants, including the finite element (FEM) and the finite volume method (FVM) combined with various choices of support grids and preconditioning (see [<a href="#bib27">27</a>, <a href="#bib28">28</a>] for an introduction). In the finite difference framework, the continuous space is discretized on a grid and the continuous operators are replaced by finite difference operations on neighboring grid points. Alternatively (ii), one can discretize space by expansion in a functional basis (Fourier, Hermite, etc.), and solve the discretized problem in this space. This second class is often referred to as <em>spectral methods</em>. Linear differential equations then map to a linear system of equations. In cases where one is interested in very high precision, requiring very fine discretization, then the linear system of equations can be too large for straightforward numerical solutions on a classical computer. In particular, if one wants high precision results integrated over time, and/or systems with many continuous variables, then the simulations can be challenging both in time and memory.</p><h2 id="actual-end-to-end-problems-solved">Actual end-to-end problem(s) solved</h2><p>We are interested in solving a general linear partial differential equation of the form</p><div class="arithmatex">\[\begin{equation} \label{eqn:lindiffeq} \mathcal{L}(u(x))=f(x)\quad \text{for}\quad x\in \mathbb{C}^d, \end{equation}\]</div><p>where <span class="arithmatex">\(\mathcal{L}\)</span> is a linear differential operator acting on the function <span class="arithmatex">\(u(x)\)</span>, and <span class="arithmatex">\(f(x) \in \mathbb{C}\)</span> specifies the "geometry" or some other form of constraint imposed by the particular problem at hand. The above form further encompasses ordinary differential equations and initial value problems. As an example, consider the Heat equation in <span class="arithmatex">\(d+1\)</span> dimensions given by: </p><div class="arithmatex">\[\begin{equation} -\frac{\partial u}{\partial t}+\frac{\partial^2 u}{\partial x^2_1}+\cdots + \frac{\partial^2 u}{\partial x^2_d}=0. \end{equation}\]</div><p>What does it mean to "solve" the differential equation? While closed-form solutions can be derived for some simple differential equations, this is not possible in general, and the solution typically must be computed numerically. Additionally, in a particular application, we may not need complete information about the function <span class="arithmatex">\(u(x)\)</span>. An end-to-end specification of the problem would be to estimate the value of some property <span class="arithmatex">\(\mathcal{P}[u] \in \mathbb{R}\)</span> up to specified additive error parameter <span class="arithmatex">\(\epsilon\)</span>. A straightforward example is when the property <span class="arithmatex">\(\mathcal{P}\)</span> is simply the value of <span class="arithmatex">\(u\)</span> at a specific point <span class="arithmatex">\(x_0\)</span>, i.e. <span class="arithmatex">\(\mathcal{P}[u] = u(x_0)\)</span>. More generally, we restrict to the case where <span class="arithmatex">\(\mathcal{P}[u]\)</span> is a linear functional of <span class="arithmatex">\(u\)</span>, i.e. <span class="arithmatex">\(\mathcal{P}[u] = \langle r, u\rangle := \int_{x \in \Omega} d\Omega \; r(x)u(x)\)</span> for some subset <span class="arithmatex">\(\Omega \subset \mathbb{R}^d\)</span> and function <span class="arithmatex">\(r:\Omega \rightarrow \mathbb{R}\)</span> for which <span class="arithmatex">\(\langle r, r \rangle = 1\)</span> [<a href="#bib14">14</a>]. Indeed, in [<a href="#bib17">17</a>], a quantum algorithm for solving Maxwell's equations based on the FEM was given where the quantity of interest was not the electric field itself at any specific point, but rather the electromagnetic scattering cross section. In this case, the cross section was given by the square of a linear functional of <span class="arithmatex">\(u\)</span>.</p><h2 id="dominant-resource-costcomplexity">Dominant resource cost/complexity</h2><p>For both quantum and classical algorithms, one needs to discretize the continuous degrees of freedom to numerically solve the differential equation. This can take many forms, and the choice of discretization will depend sensitively on the problem at hand. After appropriate discretization, the linear differential equation in Eq. <span class="arithmatex">\(\eqref{eqn:lindiffeq}\)</span> reduces to a matrix equation:</p><div class="arithmatex">\[\begin{equation} L|u\rangle=|f\rangle. \end{equation}\]</div><p>From this point on, the linear PDE is typically solved on a quantum computer by applying the <a href="../../quantum-algorithmic-primitives/quantum-linear-system-solvers/#quantum-linear-system-solvers">quantum linear system solver</a> (QLSS), or some variant thereof. The QLSS subroutine prepares a quantum state approximating the solution vector <span class="arithmatex">\(\ket{u}/\lVert u \rVert\)</span> up to some specified precision <span class="arithmatex">\(\xi\)</span> in <span class="arithmatex">\(\ell_2\)</span> norm, where <span class="arithmatex">\(\lVert u \rVert = \sqrt{\braket{u}{u}}\)</span>. Assuming access to oracles that (coherently) query the matrix elements of <span class="arithmatex">\(L\)</span> and prepare the state <span class="arithmatex">\(\ket{f}/\lVert f \rVert\)</span>, the state-of-the-art QLSS [<a href="#bib29">29</a>] makes <span class="arithmatex">\(\mathcal{O}\left( s \kappa \log(1/\xi) \right)\)</span> queries to these oracles, where <span class="arithmatex">\(\kappa\)</span> is the condition number of the matrix <span class="arithmatex">\(L\)</span> (i.e. the ratio of the largest and smallest singular values), and <span class="arithmatex">\(s\)</span> is the number of nonzero elements per row of <span class="arithmatex">\(L\)</span> ("sparsity"). Additionally, learning an estimate for the norm <span class="arithmatex">\(\lVert u \rVert\)</span> up to multiplicative error <span class="arithmatex">\(\xi\)</span> can be done in <span class="arithmatex">\(\mathcal{O}\left( s \kappa / \xi \right)\)</span> queries (note the worse <span class="arithmatex">\(\xi\)</span>-dependence) [<a href="#bib30">30</a>]. For simplicity, we assume that to achieve <span class="arithmatex">\(\epsilon\)</span> overall error on the end-to-end problem, it will suffice to take <span class="arithmatex">\(\xi = \mathcal{O}\left( \epsilon \right)\)</span>, although there can also be factors that depend on the choice of discretization and norms of the solution <span class="arithmatex">\(u\)</span> (see, e.g., [<a href="#bib14">14</a>]). The oracles for querying the matrix elements of the <span class="arithmatex">\(s\)</span>-sparse <span class="arithmatex">\(N \times N\)</span> matrix <span class="arithmatex">\(L\)</span> and for preparing the <span class="arithmatex">\(N\)</span>-dimensional state <span class="arithmatex">\(\ket{f}/\lVert f \rVert\)</span> are assumed to have cost <span class="arithmatex">\(\mathrm{polylog}(N)\)</span>; this is valid if the matrix elements can be efficiently computed "on the fly," or more generally if one has access to a log-depth <a href="../../quantum-algorithmic-primitives/loading-classical-data/quantum-random-access-memory/#quantum-random-access-memory">quantum random access memory</a>; see <a href="../../quantum-algorithmic-primitives/loading-classical-data/introduction/#loading-classical-data">loading classical data</a> for more information.</p><p>With these assumptions, the QLSS portion of the quantum algorithm can be performed exponentially faster in <span class="arithmatex">\(N\)</span>, and with exponential savings in memory, than any classical method that manipulates vectors of size <span class="arithmatex">\(N\)</span>, which includes Gaussian elimination and iterative methods like conjugate gradient. The state-loading assumptions might be very difficult to satisfy in practice, as many practical applications of PDEs involve highly complex geometry in three spatial dimensions (CFD, FEM, seismic modelling).</p><p>Preparing the state <span class="arithmatex">\(\ket{u}/\lVert u \rVert\)</span> does not immediately yield an estimate for the property <span class="arithmatex">\(\mathcal{P}[u]\)</span>. Indeed, reading out useful information from <span class="arithmatex">\(\ket{u}/\lVert u \rVert\)</span> represents a major bottleneck of the algorithm. In the case that <span class="arithmatex">\(\mathcal{P}[u] = u(x_0)\)</span> for a specific point <span class="arithmatex">\(x_0\)</span>, the estimation of <span class="arithmatex">\(\mathcal{P}[u]\)</span> is performed with <a href="../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-estimation/#amplitude-estimation">amplitude estimation</a> (here assuming that the choice of discretization encodes <span class="arithmatex">\(u(x_0)\)</span> into an amplitude of <span class="arithmatex">\(\ket{u}\)</span>), which introduces multiplicative overhead <span class="arithmatex">\(\mathcal{O}\left( \lVert u \rVert /\epsilon \right)\)</span>. Note that, to read out all <span class="arithmatex">\(N\)</span> amplitudes of the state <span class="arithmatex">\(\ket{u}\)</span> in this fashion, a linear factor of <span class="arithmatex">\(N\)</span> would be reintroduced, although more advanced methods of <a href="../../quantum-algorithmic-primitives/quantum-tomography/#quantum-tomography">pure state tomography</a> can reduce this to <span class="arithmatex">\(\sqrt{N}\)</span> [<a href="#bib31">31</a>]. In the more general case that <span class="arithmatex">\(\mathcal{P}[u]\)</span> is a linear functional, the value of <span class="arithmatex">\(\mathcal{P}\)</span> can typically be approximately expressed as an overlap <span class="arithmatex">\(\braket{\phi}{u}\)</span> between some preparable normalized state <span class="arithmatex">\(\ket{\phi}\)</span> and the solution vector <span class="arithmatex">\(\ket{u}\)</span>. Overlap estimation is then a straightforward application of <a href="../../quantum-algorithmic-primitives/amplitude-amplification-and-estimation/amplitude-estimation/#amplitude-estimation">amplitude estimation</a>, and achieving precision <span class="arithmatex">\(\epsilon\)</span> introduces <span class="arithmatex">\(\mathcal{O}\left( \lVert u \rVert /\epsilon \right)\)</span> multiplicative overhead. Thus, the overall scaling of the complexity is </p><div class="arithmatex">\[\begin{equation} \frac{s\kappa \lVert u \rVert \log(1/\epsilon) }{\epsilon} \mathrm{polylog}(N). \end{equation}\]</div><p>The persisting <span class="arithmatex">\(\mathrm{polylog}(N)\)</span> dependence suggests an exponential speedup in <span class="arithmatex">\(N\)</span> over classical methods, but this conclusion depends on the scaling of the parameters <span class="arithmatex">\(s\)</span>, <span class="arithmatex">\(\kappa\)</span>, and <span class="arithmatex">\(\lVert u \rVert\)</span> with <span class="arithmatex">\(N\)</span>. The sparsity <span class="arithmatex">\(s\)</span> and condition number <span class="arithmatex">\(\kappa\)</span> depend on the differential equation and the choice of discretization, but can often be controlled as <span class="arithmatex">\(s=\mathcal{O}\left( 1 \right)\)</span> and <span class="arithmatex">\(\kappa = N^{2/d}\)</span> (e.g. [<a href="#bib32">32, Theorem 9.7.1</a>]). Additionally, heuristic preconditioning methods are very effective in practice and, in at least one case [<a href="#bib17">17</a>], have been shown to be compatible with the QLSS, which can often reduce the effective value of <span class="arithmatex">\(\kappa\)</span> to <span class="arithmatex">\(\mathcal{O}\left( 1 \right)\)</span>. Finally, <span class="arithmatex">\(N\)</span> and <span class="arithmatex">\(\epsilon\)</span> are not independent parameters: in general we are interested in simulating a PDE to a fixed precision, and adapt <span class="arithmatex">\(N\)</span> to reach the desired precision. Using simple grid-based methods, achieving discretization error <span class="arithmatex">\(\mathcal{O}\left( \epsilon \right)\)</span> for a problem in <span class="arithmatex">\(d\)</span> spatial dimensions requires <span class="arithmatex">\(N = (1/\epsilon)^{\Omega(d)}\)</span>, with some caveats on solution norm and continuity [<a href="#bib14">14</a>]. Alternative sparse-grid or spectral methods can improve the <span class="arithmatex">\(1/\epsilon\)</span> dependence to logarithmic, but still scale exponentially with <span class="arithmatex">\(d\)</span> [<a href="#bib33">33</a>]. A careful analysis of the problem [<a href="#bib14">14</a>] shows that for most properties of interest and a fixed precision <span class="arithmatex">\(\epsilon\)</span>, the speedup—irrespective of the discretization scheme—from QLSS is at best polynomial in <span class="arithmatex">\(1/\epsilon\)</span>, even assuming good control over the condition number <span class="arithmatex">\(\kappa\)</span>. Indeed, when we assume <span class="arithmatex">\(s,\kappa = \mathcal{O}\left( 1 \right)\)</span>, in addition to the assumptions from above, the quantum complexity is </p><div class="arithmatex">\[\begin{equation} \widetilde{\mathcal{O}}\left( \lVert u \rVert/\epsilon \right)\,. \end{equation}\]</div><p>Ultimately, this observation is traced back to the fact that the quantum solver produces a quantum state encoding the solution to the PDE, potentially exponentially faster than leading classical methods, such as conjugate gradient, but the exponential speedup is lost in the readout step. Moreover, this conclusion holds not just for "bad" observables (like full state tomography), but for any observable, due to the <span class="arithmatex">\(\Omega(1/\epsilon)\)</span> cost of quantum readout.\
+A distinct approach to solving PDEs on a quantum computer is based on mapping the PDE directly to the Schrödinger equation and performing the time evolution on a quantum computer (via <a href="../../quantum-algorithmic-primitives/hamiltonian-simulation/introduction/#hamiltonian-simulation">Hamiltonian simulation</a>) [<a href="#bib34">34</a>, <a href="#bib35">35</a>]. This is also the typical approach employed for solving nonlinear differential equations [<a href="#bib36">36</a>, <a href="#bib37">37</a>, <a href="#bib38">38</a>, <a href="#bib39">39</a>, <a href="#bib40">40</a>]. In this approach, with appropriate assumptions on the initial state or boundary condition encoding, it is once again possible to obtain an exponential speedup in the time to prepare the time evolved state <span class="arithmatex">\(|u(T)\rangle\)</span>. Moreover, this approach may avoid the condition number dependence that results from matrix inversion in the <a href="../../quantum-algorithmic-primitives/quantum-linear-system-solvers/#quantum-linear-system-solvers">QLSS</a> approach. Nevertheless, the same conclusions discussed above regarding readout still hold, restricting the quantum algorithm to a polynomial speedup for the practical task of measuring observables with respect to the solution of the differential equation (for constant dimension <span class="arithmatex">\(d\)</span>).</p><p>Finally, we comment on two further classes of applications involving PDEs, but which typically have very different characteristics: The first is stochastic differential equations (SDEs) which are simulated extensively in <a href="../finance/introduction/#finance">computational finance</a> and more generally in risk modeling. There, one typically samples trajectories of the SDE (via Monte Carlo methods), and evaluates observables stochastically. Quantum accelerated Monte Carlo has been worked on extensively (see the <a href="../finance/monte-carlo-methods-option-pricing/#monte-carlo-methods-option-pricing">options pricing</a> page). However, these algorithms involve very different tools from the ones discussed here. Alternatively, one could map a SDE to a Fokker–Planck equation via the Itô calculus and solve the Fokker–Planck PDE. This has been proposed in [<a href="#bib41">41</a>]. However, for most SDEs of interest in risk analysis, Monte Carlo simulation converges in a number of samples scaling linearly in the number of variables, leaving very little room for a quantum speedup in these applications given our current understanding.</p><p>The last class of problems to be mentioned are multi-particle Schrödinger equations. They are (a) high dimensional, (b) complex, and (c) require high precision solutions for practical applications. Hence matching all of the criteria under which a quantum advantage might be expected. The second quantized approach to solving the full configuration interaction molecular Schrödinger equation is a specific case of the spectral method. Unsurprisingly, this case has already gathered a lot of attention (see the application section <a href="../quantum-chemistry/introduction/#quantum-chemistry">quantum chemistry</a>).</p><h2 id="existing-error-corrected-resource-estimates">Existing error corrected resource estimates</h2><p>There do not exist many such resource estimates so far, though they should follow from similar estimates for the <a href="../../quantum-algorithmic-primitives/quantum-linear-system-solvers/#quantum-linear-system-solvers">quantum linear system solver</a>. See [<a href="#bib29">29</a>, <a href="#bib42">42</a>] for a state-of-the-art analysis. Note, however, that much of the art in classical PDE solvers is to find appropriate preconditioning schemes to control the condition number. In [<a href="#bib17">17</a>], it was shown that one common class of preconditioners works within the framework of the quantum algorithm, but it is as of yet unclear if this is the case more generally.</p><p>One explicit resource estimate for the end-to-end problem discussed above was given in [<a href="#bib43">43</a>], which estimated that to beat the best classical solvers: "a desired calculation accuracy <span class="arithmatex">\(0.01\)</span> requires an approximate circuit width <span class="arithmatex">\(340\)</span> and circuit depth of order <span class="arithmatex">\(10^{25}\)</span> if oracle costs are excluded, and a circuit width and depth of order <span class="arithmatex">\(10^8\)</span> and <span class="arithmatex">\(10^{29}\)</span> if oracle costs are included." These estimates are not very encouraging, yet many orders of magnitude can be shaven off of them with more recent synthesis and simulation methods. We expect that using the state-of-the-art <a href="../../quantum-algorithmic-primitives/quantum-linear-system-solvers/#quantum-linear-system-solvers">quantum linear system solver</a> the Tofolli gate count can be brought down by orders of magnitude, likely in the vicinity of <span class="arithmatex">\(10^{11-15}\)</span> depending upon the specific setting. Reliable estimates would require a more careful study.</p><h2 id="caveats">Caveats</h2><p>An essential caveat is that the speedup for solving PDEs largely depends on what speedup one might obtain from the QLSS algorithm. This is very contentious, as quantum-inspired methods [<a href="#bib44">44</a>] are getting dangerously close to the same asymptotic scaling as the QLSS in many specific instances (see <a href="../machine-learning-with-classical-data/introduction/#machine-learning-with-classical-data">quantum machine learning</a> section). Since the QLSS depends sensitively on the condition number, very careful analysis of the preconditioning scheme must be made on a case-by-case basis. Even if quantum-inspired methods cannot compete, classical iterative methods such as conjugate gradient, which also benefit from a small condition number, can be difficult to beat, especially when they are running on high performance computing hardware with many parallel CPUs.</p><p>Furthermore, incorporating highly complex geometry or boundary conditions into the problem, as is often necessary for CFD and finite element computations, might constitute a major <a href="../../quantum-algorithmic-primitives/loading-classical-data/introduction/#loading-classical-data">state-loading</a> bottleneck. Finally, the observables of interest in classical PDE problems might require near <a href="../../quantum-algorithmic-primitives/quantum-tomography/#quantum-tomography">full tomography</a> of the quantum solution state which in certain situations removes all quantum advantage [<a href="#bib18">18</a>].</p><p>In instances where these caveats can be overcome, the speedups are at best polynomial, with a larger speedup in a larger number of spatial dimensions. However, in many engineering applications, the number of dimensions is fixed to be fewer than four (three for space, one for time), limiting the advantage quantum methods can obtain.</p><p>Note that another approach for time evolving PDE based on time-stepping has been proposed recently, which might provide more advantage [<a href="#bib34">34</a>] (see also [<a href="#bib35">35</a>] for a query based model with exponential speedup in certain specific variables).</p><h2 id="comparable-classical-complexity-and-challenging-instance-sizes">Comparable classical complexity and challenging instance sizes</h2><p>While the size and scale of PDE simulations vary widely, some of the largest and most costly are CFD simulations. CFD computations on a 3D grid with several billion mesh nodes (in finite volume discretization) running on tens of thousands of CPU cores are routine [<a href="#bib9">9</a>]. It is unclear what the main bottleneck for a quantum simulation of such a large system will be; the condition number and preconditioning, loading the geometry, or readout of the result? In any case, this scale seems well out of reach of the current fault-tolerant algorithmic projections.</p><h2 id="speedup">Speedup</h2><p>In this section, we consider the complexity of either estimating a function of the PDE solution, or of outputting quantum states encoding the solution, to precision <span class="arithmatex">\(\epsilon\)</span> for a system in <span class="arithmatex">\(d\)</span> spatial dimensions. Outputting a quantum state encoding the PDE solution will typically have a much more favorable quantum complexity, though it is not necessarily a fair comparison, as much of the speedup can be lost at readout.</p><p><em>Finite difference methods.</em> Finite element, finite volume methods and their variants are the leading class of methods used in industry. These methods typically have a complexity/dimension scaling of <span class="arithmatex">\({\rm poly}(\epsilon^{-d})\)</span>. In [<a href="#bib14">14</a>] a quantum algorithm for the homogenous Poisson equation in <span class="arithmatex">\(d\)</span> dimensions, with homogenous boundary conditions is found to have a complexity scaling as <span class="arithmatex">\({\rm poly}(d,1/\epsilon)\)</span>. In [<a href="#bib45">45</a>], a quantum algorithm for outputting the solution of a hyperbolic PDE in the finite volume discretization was proposed with a <span class="arithmatex">\(d \cdot {\rm poly}(\epsilon^{-1})\)</span> scaling.</p><p><em>Spectral methods.</em> References [<a href="#bib46">46</a>, <a href="#bib33">33</a>] explore the spectral method for ODEs and PDEs. Their quantum algorithm for outputting the solution of an elliptic PDE with Dirichlet boundary conditions scales as <span class="arithmatex">\(d^2 \cdot {\rm polylog}(\epsilon^{-1})\)</span> (note that an additional factor of <span class="arithmatex">\(1/\epsilon\)</span> for readout would be incurred to solve the fully end-to-end problem), compared to general classical spectral methods scaling as <span class="arithmatex">\({\rm poly}(\epsilon^{-d})\)</span> [<a href="#bib47">47</a>].\
+The quoted scalings need to be considered with caution. Firstly, the quantum algorithms are not fully end-to-end but rather just output the quantum state representing the solution. Whether relevant functions (observables) of the solutions can be extracted efficiently from the quantum state will depend on the specific task at hand. Secondly, the condition number and the associated preconditioning scheme of the linear system under consideration is neither quoted in the classical nor in the quantum scalings. This could be the dominant cost of the algorithm in real settings. Thirdly, the scalings do not take state/geometry loading into account. This point is particularly sensitive, as industry-relevant problems often need just as high precision in geometry specification, as in solution quality. Capturing high precision geometry is often more challenging with spectral methods than with finite difference methods.</p><p>Nevertheless, the take-home message is that quantum algorithms can potentially outperform classical algorithms, but major gains are only to be expected when the number of dimensions is large. This intuition is corroborated by the analysis of quantum computing algorithms for <a href="../quantum-chemistry/introduction/#quantum-chemistry">ab initio chemistry</a>, where the number of dimensions scales with the number of electrons. Substantial memory savings also seem likely in this setting.</p><h2 id="nisq-implementations">NISQ implementations</h2><p>Various proposals at NISQ implementations of PDE solvers have been made; see [<a href="#bib48">48</a>] and references therein. The idea is to start from some discretization of the PDE <span class="arithmatex">\(L|\psi(\theta)\rangle = |b\rangle\)</span>, where <span class="arithmatex">\(|\psi(\theta)\rangle\)</span> is an appropriately chosen variational circuit, and optimize the parameters of the circuit. This is an example of a <a href="../../quantum-algorithmic-primitives/variational-quantum-algorithms/#variational-quantum-algorithms">variational quantum algorithm.</a> It is difficult to imagine that sufficient size and precision can be reached in the NISQ regime to be competitive with the best classical solvers.</p><h2 id="outlook">Outlook</h2><p>While the simulation of PDEs is one of the most important large-scale computational tasks, constituting a sizable fraction of HPC workloads in industry, at present the benefit of quantum solvers is still too limited in dimensions up to four. To find a killer application of quantum algorithms for PDEs (beyond ab initio chemistry), one would need to find an important application of high dimensional PDEs, requiring very high precision solutions while involving relatively simple geometry or initial conditions, and that can't be solved accurately with any classical methods at present. There remains the possibility for substantial improvements in memory usage, but these are not currently a bottleneck in classical PDE solving. Recent progress [<a href="#bib34">34</a>, <a href="#bib35">35</a>] suggests that in very specific scenarios, there might still be room for substantial gains on quantum hardware, but it is as yet unclear how practical or relevant these scenarios are.</p><h2 id="bibliography">Bibliography</h2><ol>
+<li>
+<p><span id="bib1"></span>Xiangyu Li, Xiaolong Yin, Nathan Wiebe, Jaehun Chun, Gregory K Schenter, Margaret S Cheung, and Johannes Mülmenstädt. Potential quantum advantage for simulation of fluid dynamics. arXiv: <a href="https://arxiv.org/abs/2303.16550">https://arxiv.org/abs/2303.16550</a>, 2023.</p>
+</li>
+<li>
+<p><span id="bib2"></span>Sauro Succi, Wael Itani, Katepalli R Sreenivasan, and Rene Steijl. Ensemble fluid simulations on quantum computers. arXiv: <a href="https://arxiv.org/abs/2304.05410">https://arxiv.org/abs/2304.05410</a>, 2023.</p>
+</li>
+<li>
+<p><span id="bib3"></span>Wael Itani, Katepalli R Sreenivasan, and Sauro Succi. Quantum algorithm for lattice boltzmann (qalb) simulation of incompressible fluids with a nonlinear collision term. arXiv: <a href="https://arxiv.org/abs/2304.05915">https://arxiv.org/abs/2304.05915</a>, 2023.</p>
+</li>
+<li>
+<p><span id="bib4"></span>Szabolcs Jóczik, Zoltán Zimborás, Tamás Majoros, and Attila Kiss. A cost-efficient approach towards computational fluid dynamics simulations on quantum devices. <em>Applied Sciences</em>, 12(6):2873, 2022. URL: <a href="https://www.mdpi.com/2076-3417/12/6/2873">https://www.mdpi.com/2076-3417/12/6/2873</a>, <a href="https://doi.org/doi.org/10.3390/app12062873">doi:doi.org/10.3390/app12062873</a>.</p>
+</li>
+<li>
+<p><span id="bib5"></span>Furkan Oz, Rohit KSS Vuppala, Kursat Kara, and Frank Gaitan. Solving burgers' equation with quantum computing. <em>Quantum Information Processing</em>, 21:1–13, 2022. URL: <a href="https://doi.org/10.1007/s11128-021-03391-8">https://doi.org/10.1007/s11128-021-03391-8</a>, <a href="https://doi.org/10.1007/s11128-021-03391-8">doi:10.1007/s11128-021-03391-8</a>.</p>
+</li>
+<li>
+<p><span id="bib6"></span>Frank Gaitan. Finding solutions of the navier–stokes equations through quantum computing—recent progress, a generalization, and next steps forward. <em>Advanced Quantum Technologies</em>, 4(10):2100055, 2021. URL: <a href="https://doi.org/10.1002/qute.202100055">https://doi.org/10.1002/qute.202100055</a>, <a href="https://doi.org/10.1002/qute.202100055">doi:10.1002/qute.202100055</a>.</p>
+</li>
+<li>
+<p><span id="bib7"></span>Frank Gaitan. Finding flows of a navier–stokes fluid through quantum computing. <em>npj Quantum Information</em>, 6(1):61, 2020. URL: <a href="https://doi.org/10.1038/s41534-020-00291-0">https://doi.org/10.1038/s41534-020-00291-0</a>, <a href="https://doi.org/10.1038/s41534-020-00291-0">doi:10.1038/s41534-020-00291-0</a>.</p>
+</li>
+<li>
+<p><span id="bib8"></span>Zhao-Yun Chen, Cheng Xue, Si-Ming Chen, Bing-Han Lu, Yu-Chun Wu, Ju-Chun Ding, Sheng-Hong Huang, and Guo-Ping Guo. Quantum approach to accelerate finite volume method on steady computational fluid dynamics problems. <em>Quantum Information Processing</em>, 21(4):137, 2022. URL: <a href="https://doi.org/10.1007/s11128-022-03478-w">https://doi.org/10.1007/s11128-022-03478-w</a>, <a href="https://doi.org/10.1007/s11128-022-03478-w">doi:10.1007/s11128-022-03478-w</a>.</p>
+</li>
+<li>
+<p><span id="bib9"></span>Leigh Lapworth. A hybrid quantum-classical cfd methodology with benchmark hhl solutions. arXiv: <a href="https://arxiv.org/abs/2206.00419">https://arxiv.org/abs/2206.00419</a>, 2022.</p>
+</li>
+<li>
+<p><span id="bib10"></span>Shahpoor Moradi, Daniel Trad, and Kristopher A Innanen. Quantum computing in geophysics: algorithms, computational costs, and future applications. In <em>2018 SEG International Exposition and Annual Meeting</em>. OnePetro, 2018. URL: <a href="https://doi.org/10.1190/segam2018-2998507.1">https://doi.org/10.1190/segam2018-2998507.1</a>, <a href="https://doi.org/10.1190/segam2018-2998507.1">doi:10.1190/segam2018-2998507.1</a>.</p>
+</li>
+<li>
+<p><span id="bib11"></span>Jessie M Henderson, Marianna Podzorova, M Cerezo, John K Golden, Leonard Gleyzer, Hari S Viswanathan, and Daniel O'Malley. Quantum algorithms for geologic fracture networks. <em>Scientific Reports</em>, 13(1):2906, 2023. arXiv: <a href="https://arxiv.org/abs/2210.11685">https://arxiv.org/abs/2210.11685</a>. URL: <a href="https://doi.org/10.1038/s41598-023-29643-4">https://doi.org/10.1038/s41598-023-29643-4</a>, <a href="https://doi.org/10.1038/s41598-023-29643-4">doi:10.1038/s41598-023-29643-4</a>.</p>
+</li>
+<li>
+<p><span id="bib12"></span>M Dukalski. Toward an application of quantum computing in geophysics. In <em>Fifth EAGE Workshop on High Performance Computing for Upstream</em>, volume 2021, 1–5. EAGE Publications BV, 2021. <a href="https://doi.org/10.3997/2214-4609.2021612005">doi:10.3997/2214-4609.2021612005</a>.</p>
+</li>
+<li>
+<p><span id="bib13"></span>Shi Jin, Nana Liu, and Yue Yu. Time complexity analysis of quantum difference methods for linear high dimensional and multiscale partial differential equations. <em>Journal of Computational Physics</em>, 471:111641, 2022. arXiv: <a href="https://arxiv.org/abs/2202.04537">https://arxiv.org/abs/2202.04537</a>. URL: <a href="https://doi.org/10.1016/j.jcp.2022.111641">https://doi.org/10.1016/j.jcp.2022.111641</a>, <a href="https://doi.org/10.1016/j.jcp.2022.111641">doi:10.1016/j.jcp.2022.111641</a>.</p>
+</li>
+<li>
+<p><span id="bib14"></span>Ashley Montanaro and Sam Pallister. Quantum algorithms and the finite element method. <em>Physical Review A</em>, 93(3):032324, 2016. arXiv: <a href="https://arxiv.org/abs/1512.05903">https://arxiv.org/abs/1512.05903</a>. <a href="https://doi.org/10.1103/PhysRevA.93.032324">doi:10.1103/PhysRevA.93.032324</a>.</p>
+</li>
+<li>
+<p><span id="bib15"></span>Dyon van Vreumingen, Florian Neukart, David Von Dollen, Carsten Othmer, Michael Hartmann, Arne-Christian Voigt, and Thomas Bäck. Quantum-assisted finite-element design optimization. arXiv: <a href="https://arxiv.org/abs/1908.03947">https://arxiv.org/abs/1908.03947</a>, 2019.</p>
+</li>
+<li>
+<p><span id="bib16"></span>Jianan Zhang, Feng Feng, and QJ Zhang. Quantum method for finite element simulation of electromagnetic problems. In <em>2021 IEEE MTT-S International Microwave Symposium (IMS)</em>, 120–123. IEEE, 2021. <a href="https://doi.org/10.1109/IMS19712.2021.9574852">doi:10.1109/IMS19712.2021.9574852</a>.</p>
+</li>
+<li>
+<p><span id="bib17"></span>B David Clader, Bryan C Jacobs, and Chad R Sprouse. Preconditioned quantum linear system algorithm. <em>Physical Review Letters</em>, 110(25):250504, 2013. arXiv: <a href="https://arxiv.org/abs/1301.2340">https://arxiv.org/abs/1301.2340</a>. <a href="https://doi.org/10.1103/PhysRevLett.110.250504">doi:10.1103/PhysRevLett.110.250504</a>.</p>
+</li>
+<li>
+<p><span id="bib18"></span>Noah Linden, Ashley Montanaro, and Changpeng Shao. Quantum vs. classical algorithms for solving the heat equation. <em>Communications in Mathematical Physics</em>, 395(2):601–641, 2022. arXiv: <a href="https://arxiv.org/abs/2004.06516">https://arxiv.org/abs/2004.06516</a>. <a href="https://doi.org/10.1007/s00220-022-04442-6">doi:10.1007/s00220-022-04442-6</a>.</p>
+</li>
+<li>
+<p><span id="bib19"></span>Patrick Rebentrost and Seth Lloyd. Quantum computational finance: quantum algorithm for portfolio optimization. arXiv: <a href="https://arxiv.org/abs/1811.03975">https://arxiv.org/abs/1811.03975</a>, 2018.</p>
+</li>
+<li>
+<p><span id="bib20"></span>Dong An, Noah Linden, Jin-Peng Liu, Ashley Montanaro, Changpeng Shao, and Jiasu Wang. Quantum-accelerated multilevel monte carlo methods for stochastic differential equations in mathematical finance. <em>Quantum</em>, 5:481, 2021. arXiv: <a href="https://arxiv.org/abs/2012.06283">https://arxiv.org/abs/2012.06283</a>. <a href="https://doi.org/10.22331/q-2021-06-24-481">doi:10.22331/q-2021-06-24-481</a>.</p>
+</li>
+<li>
+<p><span id="bib21"></span>Sergi Ramos-Calderer, Adrián Pérez-Salinas, Diego García-Martín, Carlos Bravo-Prieto, Jorge Cortada, Jordi Planaguma, and José I Latorre. Quantum unary approach to option pricing. <em>Physical Review A</em>, 103(3):032414, 2021. arXiv: <a href="https://arxiv.org/abs/1912.01618">https://arxiv.org/abs/1912.01618</a>. <a href="https://doi.org/10.1103/PhysRevA.103.032414">doi:10.1103/PhysRevA.103.032414</a>.</p>
+</li>
+<li>
+<p><span id="bib22"></span>Sergio Focardi, Frank J Fabozzi, and Davide Mazza. Quantum option pricing and quantum finance. <em>The Journal of Derivatives</em>, 2020. <a href="https://doi.org/10.3905/jod.2020.1.111">doi:10.3905/jod.2020.1.111</a>.</p>
+</li>
+<li>
+<p><span id="bib23"></span>Yongming Li and Ariel Neufeld. Quantum monte carlo algorithm for solving black–scholes pdes for high-dimensional option pricing in finance and its proof of overcoming the curse of dimensionality. arXiv: <a href="https://arxiv.org/abs/2301.09241">https://arxiv.org/abs/2301.09241</a>, 2023.</p>
+</li>
+<li>
+<p><span id="bib24"></span>I. Novikau, E. A. Startsev, and I. Y. Dodin. Quantum signal processing for simulating cold plasma waves. <em>Physical Review A</em>, 105:062444, 6 2022. arXiv: <a href="https://arxiv.org/abs/2112.06086">https://arxiv.org/abs/2112.06086</a>. URL: <a href="https://link.aps.org/doi/10.1103/PhysRevA.105.062444">https://link.aps.org/doi/10.1103/PhysRevA.105.062444</a>, <a href="https://doi.org/10.1103/PhysRevA.105.062444">doi:10.1103/PhysRevA.105.062444</a>.</p>
+</li>
+<li>
+<p><span id="bib25"></span>Alexander Engel, Graeme Smith, and Scott E Parker. Quantum algorithm for the vlasov equation. <em>Physical Review A</em>, 100(6):062315, 2019. arXiv: <a href="https://arxiv.org/abs/1907.09418">https://arxiv.org/abs/1907.09418</a>. <a href="https://doi.org/10.1103/PhysRevA.100.062315">doi:10.1103/PhysRevA.100.062315</a>.</p>
+</li>
+<li>
+<p><span id="bib26"></span>Ilya Y Dodin and Edward A Startsev. On applications of quantum computing to plasma simulations. <em>Physics of Plasmas</em>, 28(9):092101, 2021. arXiv: <a href="https://arxiv.org/abs/2005.14369">https://arxiv.org/abs/2005.14369</a>. <a href="https://doi.org/10.1063/5.0056974">doi:10.1063/5.0056974</a>.</p>
+</li>
+<li>
+<p><span id="bib27"></span>Mats G Larson and Fredrik Bengzon. <em>The finite element method: theory, implementation, and applications</em>. Volume 10. Springer Science &amp; Business Media, 2013. <a href="https://doi.org/10.1007/978-3-642-33287-6">doi:10.1007/978-3-642-33287-6</a>.</p>
+</li>
+<li>
+<p><span id="bib28"></span>Ulrich Trottenberg, Cornelius W Oosterlee, and Anton Schuller. <em>Multigrid</em>. Elsevier, 2000.</p>
+</li>
+<li>
+<p><span id="bib29"></span>Pedro C.S. Costa, Dong An, Yuval R. Sanders, Yuan Su, Ryan Babbush, and Dominic W. Berry. Optimal scaling quantum linear-systems solver via discrete adiabatic theorem. <em>PRX Quantum</em>, 3:040303, 10 2022. arXiv: <a href="https://arxiv.org/abs/2111.08152">https://arxiv.org/abs/2111.08152</a>. URL: <a href="https://link.aps.org/doi/10.1103/PRXQuantum.3.040303">https://link.aps.org/doi/10.1103/PRXQuantum.3.040303</a>, <a href="https://doi.org/10.1103/PRXQuantum.3.040303">doi:10.1103/PRXQuantum.3.040303</a>.</p>
+</li>
+<li>
+<p><span id="bib30"></span>Shantanav Chakraborty, András Gilyén, and Stacey Jeffery. The power of block-encoded matrix powers: improved regression techniques via faster hamiltonian simulation. In <em>Proceedings of the 46th International Colloquium on Automata, Languages, and Programming (ICALP)</em>, 33:1–33:14. 2019. arXiv: <a href="https://arxiv.org/abs/1804.01973">https://arxiv.org/abs/1804.01973</a>. <a href="https://doi.org/10.4230/LIPIcs.ICALP.2019.33">doi:10.4230/LIPIcs.ICALP.2019.33</a>.</p>
+</li>
+<li>
+<p><span id="bib31"></span>Joran van Apeldoorn, Arjan Cornelissen, András Gilyén, and Giacomo Nannicini. Quantum tomography using state-preparation unitaries. In <em>Proceedings of the 34th ACM-SIAM Symposium on Discrete Algorithms (SODA)</em>, 1265–1318. 2023. arXiv: <a href="https://arxiv.org/abs/2207.08800">https://arxiv.org/abs/2207.08800</a>. <a href="https://doi.org/10.1137/1.9781611977554.ch47">doi:10.1137/1.9781611977554.ch47</a>.</p>
+</li>
+<li>
+<p><span id="bib32"></span>Susanne C Brenner. <em>The mathematical theory of finite element methods</em>. Springer, 2008.</p>
+</li>
+<li>
+<p><span id="bib33"></span>Andrew M Childs, Jin-Peng Liu, and Aaron Ostrander. High-precision quantum algorithms for partial differential equations. <em>Quantum</em>, 5:574, 2021. arXiv: <a href="https://arxiv.org/abs/2002.07868">https://arxiv.org/abs/2002.07868</a>. <a href="https://doi.org/10.22331/q-2021-11-10-574">doi:10.22331/q-2021-11-10-574</a>.</p>
+</li>
+<li>
+<p><span id="bib34"></span>Di Fang, Lin Lin, and Yu Tong. Time-marching based quantum solvers for time-dependent linear differential equations. <em>Quantum</em>, 7:955, 3 2023. arXiv: <a href="https://arxiv.org/abs/2208.06941">https://arxiv.org/abs/2208.06941</a>. URL: <a href="https://doi.org/10.22331/q-2023-03-20-955">https://doi.org/10.22331/q-2023-03-20-955</a>, <a href="https://doi.org/10.22331/q-2023-03-20-955">doi:10.22331/q-2023-03-20-955</a>.</p>
+</li>
+<li>
+<p><span id="bib35"></span>Ryan Babbush, Dominic W Berry, Robin Kothari, Rolando D Somma, and Nathan Wiebe. Exponential quantum speedup in simulating coupled classical oscillators. arXiv: <a href="https://arxiv.org/abs/2303.13012">https://arxiv.org/abs/2303.13012</a>, 2023.</p>
+</li>
+<li>
+<p><span id="bib36"></span>Sarah K Leyton and Tobias J Osborne. A quantum algorithm to solve nonlinear differential equations. arXiv: <a href="https://arxiv.org/abs/0812.4423">https://arxiv.org/abs/0812.4423</a>, 2008.</p>
+</li>
+<li>
+<p><span id="bib37"></span>Seth Lloyd, Giacomo De Palma, Can Gokler, Bobak Kiani, Zi-Wen Liu, Milad Marvian, Felix Tennie, and Tim Palmer. Quantum algorithm for nonlinear differential equations. arXiv: <a href="https://arxiv.org/abs/2011.06571">https://arxiv.org/abs/2011.06571</a>, 2020.</p>
+</li>
+<li>
+<p><span id="bib38"></span>Jin-Peng Liu, Herman Øie Kolden, Hari K. Krovi, Nuno F. Loureiro, Konstantina Trivisa, and Andrew M. Childs. Efficient quantum algorithm for dissipative nonlinear differential equations. <em>Proceedings of the National Academy of Sciences</em>, 118(35):e2026805118, 2021. arXiv: <a href="https://arxiv.org/abs/2011.03185">https://arxiv.org/abs/2011.03185</a>. URL: <a href="https://www.pnas.org/doi/abs/10.1073/pnas.2026805118">https://www.pnas.org/doi/abs/10.1073/pnas.2026805118</a>, <a href="https://arxiv.org/abs/https://www.pnas.org/doi/pdf/10.1073/pnas.2026805118">arXiv:https://www.pnas.org/doi/pdf/10.1073/pnas.2026805118</a>, <a href="https://doi.org/10.1073/pnas.2026805118">doi:10.1073/pnas.2026805118</a>.</p>
+</li>
+<li>
+<p><span id="bib39"></span>Dong An, Di Fang, Stephen Jordan, Jin-Peng Liu, Guang Hao Low, and Jiasu Wang. Efficient quantum algorithm for nonlinear reaction-diffusion equations and energy estimation. arXiv: <a href="https://arxiv.org/abs/2205.01141">https://arxiv.org/abs/2205.01141</a>, 2022.</p>
+</li>
+<li>
+<p><span id="bib40"></span>Hari Krovi. Improved quantum algorithms for linear and nonlinear differential equations. <em>Quantum</em>, 7:913, 2023. arXiv: <a href="https://arxiv.org/abs/2202.01054">https://arxiv.org/abs/2202.01054</a>. <a href="https://doi.org/10.22331/q-2023-02-02-913">doi:10.22331/q-2023-02-02-913</a>.</p>
+</li>
+<li>
+<p><span id="bib41"></span>Javier Gonzalez-Conde, Ángel Rodríguez-Rozas, Enrique Solano, and Mikel Sanz. Simulating option price dynamics with exponential quantum speedup. arXiv: <a href="https://arxiv.org/abs/2101.04023">https://arxiv.org/abs/2101.04023</a>, 2021.</p>
+</li>
+<li>
+<p><span id="bib42"></span>David Jennings, Matteo Lostaglio, Sam Pallister, Andrew T. Sornborger, and Yigit Subasi. Efficient quantum linear solver algorithm with detailed running costs. arXiv: <a href="https://arxiv.org/abs/2305.11352">https://arxiv.org/abs/2305.11352</a>, 2023.</p>
+</li>
+<li>
+<p><span id="bib43"></span>Artur Scherer, Benoît Valiron, Siun-Chuon Mau, Scott Alexander, Eric Van den Berg, and Thomas E Chapuran. Concrete resource analysis of the quantum linear-system algorithm used to compute the electromagnetic scattering cross section of a 2d target. <em>Quantum Information Processing</em>, 16(3):1–65, 2017. arXiv: <a href="https://arxiv.org/abs/1505.06552">https://arxiv.org/abs/1505.06552</a>. <a href="https://doi.org/10.1007/s11128-016-1495-5">doi:10.1007/s11128-016-1495-5</a>.</p>
+</li>
+<li>
+<p><span id="bib44"></span>Ewin Tang. Quantum principal component analysis only achieves an exponential speedup because of its state preparation assumptions. <em>Physical Review Letters</em>, 127(6):060503, 2021. arXiv: <a href="https://arxiv.org/abs/1811.00414">https://arxiv.org/abs/1811.00414</a>. <a href="https://doi.org/10.1103/PhysRevLett.127.060503">doi:10.1103/PhysRevLett.127.060503</a>.</p>
+</li>
+<li>
+<p><span id="bib45"></span>François Fillion-Gourdeau and Emmanuel Lorin. Simple digital quantum algorithm for symmetric first-order linear hyperbolic systems. <em>Numerical Algorithms</em>, 82(3):1009–1045, 2019. arXiv: <a href="https://arxiv.org/abs/1705.09361">https://arxiv.org/abs/1705.09361</a>. <a href="https://doi.org/10.1007/s11075-018-0639-3">doi:10.1007/s11075-018-0639-3</a>.</p>
+</li>
+<li>
+<p><span id="bib46"></span>Andrew M Childs and Jin-Peng Liu. Quantum spectral methods for differential equations. <em>Communications in Mathematical Physics</em>, 375(2):1427–1457, 2020. arXiv: <a href="https://arxiv.org/abs/1901.00961">https://arxiv.org/abs/1901.00961</a>. <a href="https://doi.org/10.1007/s00220-020-03699-z">doi:10.1007/s00220-020-03699-z</a>.</p>
+</li>
+<li>
+<p><span id="bib47"></span>Jie Shen, Tao Tang, and Li-Lian Wang. <em>Spectral methods: algorithms, analysis and applications</em>. Volume 41. Springer Science &amp; Business Media, 2011. <a href="https://doi.org/10.1007/978-3-540-71041-7">doi:10.1007/978-3-540-71041-7</a>.</p>
+</li>
+<li>
+<p><span id="bib48"></span>Fong Yew Leong, Wei-Bin Ewe, and Dax Enshan Koh. Variational quantum evolution equation solver. <em>Scientific Reports</em>, 12(1):10817, 2022. arXiv: <a href="https://arxiv.org/abs/2204.02912">https://arxiv.org/abs/2204.02912</a>. <a href="https://doi.org/10.1038/s41598-022-14906-3">doi:10.1038/s41598-022-14906-3</a>.</p>
+</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.path", "navigation.tracking"], "search": "../../assets/javascripts/workers/search.c011b7c0.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.7389ff0e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

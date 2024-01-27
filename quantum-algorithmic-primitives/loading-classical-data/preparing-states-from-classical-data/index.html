@@ -1,0 +1,2767 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../quantum-random-access-memory/">
+      
+      
+        <link rel="next" href="../block-encoding-dense-matrices-of-classical-data/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.4">
+    
+    
+      
+        <title>Preparing states from classical data - Quantum algorithms: A survey of applications and end-to-end complexities</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.50c56a3b.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#preparing-states-from-classical-data" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Quantum algorithms: A survey of applications and end-to-end complexities" class="md-header__button md-logo" aria-label="Quantum algorithms: A survey of applications and end-to-end complexities" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Quantum algorithms: A survey of applications and end-to-end complexities
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Preparing states from classical data
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Quantum algorithms: A survey of applications and end-to-end complexities" class="md-nav__button md-logo" aria-label="Quantum algorithms: A survey of applications and end-to-end complexities" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Quantum algorithms: A survey of applications and end-to-end complexities
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../authors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Authors
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Areas of application
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Areas of application
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Condensed matter physics
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Condensed matter physics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/condensed-matter-physics/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/condensed-matter-physics/fermi-hubbard-model/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Fermi–Hubbard model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/condensed-matter-physics/syk-model/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SYK model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/condensed-matter-physics/spin-models/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Spin models
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Quantum chemistry
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum chemistry
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/quantum-chemistry/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/quantum-chemistry/electronic-structure-problem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Electronic structure problem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/quantum-chemistry/vibrational-structure-problem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vibrational structure problem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Nuclear and particle physics
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            Nuclear and particle physics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/nuclear-and-particle-physics/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/nuclear-and-particle-physics/quantum-field-theories/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum field theories
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/nuclear-and-particle-physics/nuclear-structure-problem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nuclear structure problem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Combinatorial optimization
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Combinatorial optimization
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/combinatorial-optimization/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/combinatorial-optimization/search-algorithms-a-la-grover/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Search algorithms à la Grover
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/combinatorial-optimization/beyond-quadratic-speedups-in-exact-combinatorial-optimization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Beyond quadratic speedups in exact combinatorial optimization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Continuous optimization
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            Continuous optimization
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/continuous-optimization/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/continuous-optimization/zero-sum-games-computing-nash-equilibria/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Zero-sum games: Computing Nash equilibria
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/continuous-optimization/conic-programming-solving-lps-socps-and-sdps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Conic programming: Solving LPs, SOCPs, and SDPs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/continuous-optimization/general-convex-optimization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    General convex optimization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/continuous-optimization/nonconvex-optimization-escaping-saddle-points-and-finding-local-minima/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nonconvex optimization: Escaping saddle points and finding local minima
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_7" id="__nav_4_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Cryptanalysis
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_7">
+            <span class="md-nav__icon md-icon"></span>
+            Cryptanalysis
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/cryptanalysis/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/cryptanalysis/breaking-cryptosystems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Breaking cryptosystems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/cryptanalysis/weakening-cryptosystems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Weakening cryptosystems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/solving-differential-equations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Solving differential equations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_9" id="__nav_4_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Finance
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_9">
+            <span class="md-nav__icon md-icon"></span>
+            Finance
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/finance/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/finance/portfolio-optimization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Portfolio optimization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/finance/monte-carlo-methods-option-pricing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Monte Carlo methods: Option pricing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_10" id="__nav_4_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Machine learning with classical data
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_10">
+            <span class="md-nav__icon md-icon"></span>
+            Machine learning with classical data
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/machine-learning-with-classical-data/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/machine-learning-with-classical-data/quantum-machine-learning-via-quantum-linear-algebra/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum machine learning via quantum linear algebra
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/machine-learning-with-classical-data/quantum-machine-learning-via-energy-based-models/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum machine learning via energy-based models
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/machine-learning-with-classical-data/tensor-pca/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tensor PCA
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/machine-learning-with-classical-data/topological-data-analysis/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Topological data analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../areas-of-application/machine-learning-with-classical-data/quantum-neural-networks-and-quantum-kernel-methods/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum neural networks and quantum kernel methods
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Quantum algorithmic primitives
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum algorithmic primitives
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Quantum linear algebra
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum linear algebra
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-linear-algebra/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-linear-algebra/block-encodings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Block-encodings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-linear-algebra/manipulating-block-encodings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Manipulating block-encodings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-linear-algebra/quantum-signal-processing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum signal processing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-linear-algebra/qubitization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Qubitization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-linear-algebra/quantum-singular-value-transformation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum singular value transformation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Hamiltonian simulation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            Hamiltonian simulation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hamiltonian-simulation/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hamiltonian-simulation/product-formulae/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Product formulae
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hamiltonian-simulation/qdrift/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    qDRIFT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hamiltonian-simulation/taylor-and-dyson-series-linear-combination-of-unitaries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Taylor and Dyson series (linear combination of unitaries)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hamiltonian-simulation/quantum-signal-processing-quantum-singular-value-transformation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum signal processing / quantum singular value transformation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-fourier-transform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum Fourier transform
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-phase-estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum phase estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Amplitude amplification and estimation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            Amplitude amplification and estimation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../amplitude-amplification-and-estimation/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../amplitude-amplification-and-estimation/amplitude-amplification/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Amplitude amplification
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../amplitude-amplification-and-estimation/amplitude-estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Amplitude estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gibbs-sampling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gibbs sampling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-adiabatic-algorithm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum adiabatic algorithm
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Loading classical data
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_9">
+            <span class="md-nav__icon md-icon"></span>
+            Loading classical data
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum-random-access-memory/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum random access memory
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Preparing states from classical data
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Preparing states from classical data
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rough-overview-in-words" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rough overview (in words)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rough-overview-in-math" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rough overview (in math)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dominant-resource-cost-gatesqubits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dominant resource cost (gates/qubits)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caveats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Caveats
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example use cases
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      Further reading
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bibliography" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bibliography
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../block-encoding-dense-matrices-of-classical-data/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Block-encoding dense matrices of classical data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-linear-system-solvers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum linear system solvers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-gradient-estimation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum gradient estimation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../variational-quantum-algorithms/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Variational quantum algorithms
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-tomography/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum tomography
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum-interior-point-methods/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum interior point methods
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../multiplicative-weights-update-method/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Multiplicative weights update method
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../approximate-tensor-network-contraction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Approximate tensor network contraction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Fault-tolerant quantum computation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Fault-tolerant quantum computation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../fault-tolerant-quantum-computation/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../fault-tolerant-quantum-computation/basics-of-fault-tolerance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basics of fault tolerance
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../fault-tolerant-quantum-computation/quantum-error-correction-with-the-surface-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quantum error correction with the surface code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../fault-tolerant-quantum-computation/logical-gates-with-the-surface-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Logical gates with the surface code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rough-overview-in-words" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rough overview (in words)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rough-overview-in-math" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rough overview (in math)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dominant-resource-cost-gatesqubits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dominant resource cost (gates/qubits)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caveats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Caveats
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example use cases
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      Further reading
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bibliography" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bibliography
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="preparing-states-from-classical-data">Preparing states from classical data</h1><h2 id="rough-overview-in-words">Rough overview (in words)</h2><p>An important subroutine in many quantum algorithms is preparing a quantum state given a list of its amplitudes stored, for example, in a classical database.<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> The upshot is that <span class="arithmatex">\(N\)</span> amplitudes, which require <span class="arithmatex">\(\mathcal{O}\left( N \right)\)</span> classical bits to write down, can be encoded in a quantum state with only <span class="arithmatex">\(\log_2(N)\)</span> qubits, an exponential compression in memory. However, there are caveats; for example, simple information-theoretic bounds [<a href="#bib1">1</a>] dictate that the quantum circuit that prepares the <span class="arithmatex">\(\log_2(N)\)</span>-qubit state must still have at least <span class="arithmatex">\(\mathcal{O}\left( N \right)\)</span> gates, so no exponential advantage in gate complexity is possible. Depending on which resource is being optimized, the best protocol for state preparation will look different and optimal state preparation methods are known for most choices of metric.</p><h2 id="rough-overview-in-math">Rough overview (in math)</h2><p>Let <span class="arithmatex">\(x = (x_0,\ldots,x_{N-1}) \in \mathbb{C}^N\)</span> be a vector of <span class="arithmatex">\(N\)</span> complex numbers, and let </p><div class="arithmatex">\[\begin{equation} \label{eq:ket_psi_state_prep} \ket{\psi} = \frac{1}{\lVert x \rVert}\sum_{i=0}^{N-1} x_i \ket{i} \end{equation}\]</div><p>be the associated normalized quantum state, where <span class="arithmatex">\(\lVert x \rVert\)</span> denotes the standard Euclidean vector norm. Let <span class="arithmatex">\(n=\log_2(N)\)</span> denote the number of qubits of <span class="arithmatex">\(\ket{\psi}\)</span>. The goal is to prepare the state <span class="arithmatex">\(\ket{\psi}\)</span> by applying a quantum circuit to the state <span class="arithmatex">\(\ket{0}^{\otimes n}\)</span>, a problem studied extensively in previous literature. A common approach, originating in [<a href="#bib2">2</a>], is to iterate through each of the <span class="arithmatex">\(n\)</span> qubits and perform a single-qubit rotation, with the angle of rotation determined by the setting of the previous qubits. The rotation on the first qubit creates the 1-qubit state </p><div class="arithmatex">\[\begin{equation} \left(\sqrt{\sum\nolimits_{i=0}^{N/2-1} |x_i|^2 }\right)\ket{0} + \left(\sqrt{\sum\nolimits_{i=N/2}^{N-1} |x_i|^2 }\right) \ket{1} \end{equation}\]</div><p>by performing a single-qubit rotation (about the <span class="arithmatex">\(Y\)</span> axis) on the state <span class="arithmatex">\(\ket{0}\)</span> by an appropriate angle. Next, a similar kind of single-qubit rotation is performed on the second qubit, where the angle of rotation is conditioned on whether the first qubit is <span class="arithmatex">\(\ket{0}\)</span> or <span class="arithmatex">\(\ket{1}\)</span>. The <span class="arithmatex">\(m\)</span>th rotation is by one of <span class="arithmatex">\(2^{m-1}\)</span> angles, depending on the setting of the first <span class="arithmatex">\(m-1\)</span> qubits. Thus, in total there are <span class="arithmatex">\(1+2+\ldots+2^{n-1} = N-1\)</span> total angles that might be used for single-qubit rotations. This sequence of operations prepares the state <span class="arithmatex">\(\lVert x\rVert^{-1}\sum_{i=0}^{N-1}\lvert x_i \rvert \ket{i}\)</span>. To apply the phases, a single qubit rotation about the <span class="arithmatex">\(Z\)</span>-axis by the appropriate angle is performed—the angle depends on the setting of all <span class="arithmatex">\(n\)</span> qubits, corresponding to the <span class="arithmatex">\(N=2^n\)</span> different phases that might be needed. Thus, the total number of angles that define the protocol is <span class="arithmatex">\(2N-1\)</span>, exactly corresponding to the number of real parameters needed to describe the general state in Eq. <span class="arithmatex">\(\eqref{eq:ket_psi_state_prep}\)</span>.</p><figure>
+<p>
+
+<figure>
+                <img id="fig:StatePrepSequential" src="../../../figures/qcirc/8.png" style = "max-width: min(100%, 912.0px);" >
+                <figcaption></figcaption>
+                </figure>
+
+
+                </p>
+<figcaption>
+<p>Figure 1: Simple quantum circuit to prepare an arbitrary state <span class="arithmatex">\(\ket{\psi}\)</span> with non-negative real coefficients on <span class="arithmatex">\(n=3\)</span> qubits. The gate <span class="arithmatex">\(R_y(\theta)\)</span> denotes a single-qubit rotation by angle <span class="arithmatex">\(\theta\)</span> about the <span class="arithmatex">\(Y\)</span> axis. The angles <span class="arithmatex">\(\theta_{s,p}\)</span> run from <span class="arithmatex">\(s=0,1,\ldots,n-1\)</span> and <span class="arithmatex">\(p=0,1,\ldots,2^s-1\)</span>, for a total of <span class="arithmatex">\(2^n-1\)</span> angles, which can be calculated from the amplitudes <span class="arithmatex">\(x_i\)</span>. To account for negative or complex coefficients, as many as <span class="arithmatex">\(2^n\)</span> additional controlled <span class="arithmatex">\(R_z\)</span> rotations would be needed. More sophisticated proposals can reduce the depth for ancilla-free constructions from <span class="arithmatex">\(\mathcal{O}\left( 2^n \right)\)</span> to <span class="arithmatex">\(\mathcal{O}\left( 2^n/n \right)\)</span> [<a href="#bib3">3</a>].</p>
+</figcaption>
+</figure><p>It remains to describe how the controlled single-qubit rotations are performed when there are many control bits and different angles for each setting of the control. Here, one has many choices and the exact method will depend on how one has access to the data in <span class="arithmatex">\(x\)</span> and what resource is being optimized. The most straightforward way is to iterate through each possible setting of the control bits and perform a multiply controlled rotation by a fixed angle for each in sequence. This approach requires <span class="arithmatex">\(\mathcal{O}\left( N \right)\)</span> gates spread over <span class="arithmatex">\(\mathcal{O}\left( N \right)\)</span> depth, as depicted in Fig. <a href="#fig:StatePrepSequential" reference="fig:StatePrepSequential" reference-type="ref">1</a>. When ancilla qubits are available, one can design protocols that have shallower depth (but the same total number of gates). For example, to perform the controlled rotation, one might store the <span class="arithmatex">\(2N-1\)</span> angles needed to create the state in a <a href="../quantum-random-access-memory/#quantum-random-access-memory">quantum random access memory</a> data structure. In this case, to perform a rotation, one need only read in the value of the angle from the QRAM into an ancilla register, then perform a rotation by the angle stored in memory. This way, one can apply the correct angle in one shot, rather than iterating through all possible angles.</p><p>Assuming one can perform arbitrary single-qubit gates to exact precision, it is possible to prepare the state <span class="arithmatex">\(\ket{\psi}\)</span> exactly. However, often one must design circuits from a discrete gate set, such as Clifford gates and <span class="arithmatex">\(T\)</span> gates, for example, when compiling into a gate sequence that can be <a href="../../../fault-tolerant-quantum-computation/logical-gates-with-the-surface-code/#logical-gates-with-the-surface-code">implemented fault tolerantly</a>. When this is the case, single-qubit rotations must be performed approximately: to approximate a single-qubit rotation to error <span class="arithmatex">\(\epsilon\)</span>, a Clifford+<span class="arithmatex">\(T\)</span> sequence of length <span class="arithmatex">\(\mathcal{O}\left( \log(1/\epsilon) \right)\)</span> must be applied [<a href="#bib4">4</a>].</p><h2 id="dominant-resource-cost-gatesqubits">Dominant resource cost (gates/qubits)</h2><p>In the table below, we collect several state preparation results in the model where any single-qubit gate can be performed exactly and the only multi-qubit gates allowed are CNOTs. Each result is state-of-the-art in some parameter regime. The circuit size (i.e., the total number of single-qubit and CNOT gates) and depth (i.e., the number of parallel-acting layers of gates), as well as the number of ancilla qubits (i.e. the number of qubits beyond the <span class="arithmatex">\(n\)</span> qubits needed to hold the state <span class="arithmatex">\(\ket{\psi}\)</span>) are listed.</p><figure>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;"><strong>Ref.</strong></th>
+<th style="text-align: right;"><strong>Circuit size</strong></th>
+<th><strong>Circuit depth</strong></th>
+<th><strong>Ancilla qubits</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">[<a href="#bib3">3</a>, <a href="#bib5">5</a>]</td>
+<td style="text-align: right;"><span class="arithmatex">\(\mathcal{O}\left( 2^n \right)\)</span></td>
+<td><span class="arithmatex">\(\mathcal{O}\left( \frac{2^n}{n} \right)\)</span></td>
+<td>none</td>
+</tr>
+<tr>
+<td style="text-align: right;">[<a href="#bib3">3</a>, <a href="#bib5">5</a>]</td>
+<td style="text-align: right;"><span class="arithmatex">\(\mathcal{O}\left( 2^n \right)\)</span></td>
+<td><span class="arithmatex">\(\mathcal{O}\left( \frac{2^n}{m+n} \right)\)</span></td>
+<td><span class="arithmatex">\(m \in [0,\mathcal{O}\left( 2^n/n \right)]\)</span></td>
+</tr>
+<tr>
+<td style="text-align: right;">[<a href="#bib3">3</a>, <a href="#bib6">6</a>, <a href="#bib7">7</a>]</td>
+<td style="text-align: right;"><span class="arithmatex">\(\mathcal{O}\left( 2^n \right)\)</span></td>
+<td><span class="arithmatex">\(\mathcal{O}\left( n \right)\)</span></td>
+<td><span class="arithmatex">\(\mathcal{O}\left( 2^n \right)\)</span></td>
+</tr>
+</tbody>
+</table>
+</figure><p>Note that the result of [<a href="#bib5">5</a>], which shows depth <span class="arithmatex">\(\mathcal{O}\left( 2^n/(m+n) \right)\)</span> using <span class="arithmatex">\(m\)</span> ancilla qubits for <span class="arithmatex">\(m \leq \mathcal{O}\left( 2^n/n \right)\)</span>, encompasses all other results in the table (and is superior to the third row as it uses <span class="arithmatex">\(\mathcal{O}\left( 2^n/n \right)\)</span> ancilla qubits instead of <span class="arithmatex">\(\mathcal{O}\left( 2^n \right)\)</span>). We include the other results for completeness, as they are distinct constructions and can have other potential upsides.</p><p>A lower bound of <span class="arithmatex">\(\Omega(2^n)\)</span> is known for circuit size [<a href="#bib1">1</a>], so all of the results above are size optimal up to constant factors. Moreover, for any <span class="arithmatex">\(m\)</span>, a lower bound of <span class="arithmatex">\(\Omega(\max(n,2^n/(n+m)))\)</span> is known for the circuit depth [<a href="#bib3">3</a>], so all of the results above are also optimal in circuit depth, up to constant factors.</p><p>For approximate state preparation in a discrete gate set such as <span class="arithmatex">\(\{H,S,T,\mathrm{CNOT}\}\)</span>, the state <span class="arithmatex">\(\ket{\psi}\)</span> is prepared up to <span class="arithmatex">\(\epsilon\)</span> error, measured by the <span class="arithmatex">\(\ell_2\)</span>-norm, and the circuit size and depth will depend on <span class="arithmatex">\(\epsilon\)</span>. In this case, we have the following table of results.</p><figure>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;"><strong>Ref.</strong></th>
+<th style="text-align: right;"><strong>Circuit size</strong></th>
+<th><strong>Circuit depth</strong></th>
+<th><strong>Ancilla qubits</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">[<a href="#bib3">3</a>]</td>
+<td style="text-align: right;"><span class="arithmatex">\(\mathcal{O}\left( 2^n \log(2^n/\epsilon) \right)\)</span></td>
+<td><span class="arithmatex">\(\mathcal{O}\left( \frac{2^n \log(2^n/\epsilon)}{n} \right)\)</span></td>
+<td>none</td>
+</tr>
+<tr>
+<td style="text-align: right;">[<a href="#bib3">3</a>]</td>
+<td style="text-align: right;"><span class="arithmatex">\(\mathcal{O}\left( 2^n \log(2^n/\epsilon) \right)\)</span></td>
+<td><span class="arithmatex">\(\mathcal{O}\left( \frac{2^n\log(2^n/\epsilon)}{m+n} \right)\)</span></td>
+<td><span class="arithmatex">\(m \in [0,\mathcal{O}\left( \frac{2^n}{n \log(n)} \right)]\)</span></td>
+</tr>
+<tr>
+<td style="text-align: right;">[<a href="#bib7">7</a>]</td>
+<td style="text-align: right;"><span class="arithmatex">\(\mathcal{O}\left( 2^n\log(n/\epsilon) \right)\)</span></td>
+<td><span class="arithmatex">\(\mathcal{O}\left( n +\log(1/\epsilon) \right)\)</span></td>
+<td><span class="arithmatex">\(\mathcal{O}\left( 2^n \right)\)</span></td>
+</tr>
+</tbody>
+</table>
+</figure><p>If the state <span class="arithmatex">\(\ket{\psi}\)</span> is sparse, meaning that only <span class="arithmatex">\(d\)</span> of the <span class="arithmatex">\(N\)</span> amplitudes are nonzero, then more efficient state preparation methods are known. In particular, [<a href="#bib6">6</a>] gave a circuit of depth <span class="arithmatex">\(\mathcal{O}\left( \log(nd) \right)\)</span> that uses only <span class="arithmatex">\(\mathcal{O}\left( nd\log(d) \right)\)</span> ancilla qubits, a great improvement over the general case when <span class="arithmatex">\(d \ll N\)</span>.</p><p>In some <a href="../../../fault-tolerant-quantum-computation/basics-of-fault-tolerance/#basics-of-fault-tolerance">fault-tolerant implementation schemes</a>, such as <a href="../../../fault-tolerant-quantum-computation/logical-gates-with-the-surface-code/#logical-gates-with-the-surface-code">lattice surgery using surface codes</a>, Clifford gates can be performed cheaply, while <span class="arithmatex">\(T\)</span> gates require the expensive process of magic state distillation. While <span class="arithmatex">\(\Omega(2^n\log(1/\epsilon)/\log(n))\)</span> total gates are necessary to approximately create <span class="arithmatex">\(\ket{\psi}\)</span> [<a href="#bib8">8, Eq. 4.85</a>] (matching upper bounds from [<a href="#bib7">7</a>] up to <span class="arithmatex">\(\mathrm{polylog}(n)\)</span> factors), [<a href="#bib9">9</a>] noted that it is possible for most of these to be Clifford gates. The number of <span class="arithmatex">\(T\)</span> gates can be reduced to <span class="arithmatex">\(\sqrt{2^n}\log(2^n/\epsilon)\)</span> using <span class="arithmatex">\(\sqrt{2^n}\log(1/\epsilon)\)</span> ancillas (in fact, there is a smooth tradeoff between the <span class="arithmatex">\(T\)</span> count and the number of ancillas). Furthermore, these ancillas can be <em>dirty</em>, meaning they can be initialized into any quantum state, so long as they are returned to this (potentially unknown) state at the end of the procedure.</p><p>All of the above constructions are "garbage-free" state preparation protocols, because they prepare the state <span class="arithmatex">\(\ket{\psi}\)</span> exactly and all ancilla qubits are returned to their initial state. However, in some applications, it is allowable to leave the ancilla register entangled with the data as long as the coefficients are correct. That is, one prepares the state </p><div class="arithmatex">\[\begin{equation} \frac{1}{\lVert x\rVert}\sum_{i=0}^{N-1} x_i \ket{i} \otimes \ket{\mathrm{garbage}_i}\,. \end{equation}\]</div><p>In this setting, [<a href="#bib10">10, Sec. IIID</a>], en route to giving better algorithms for the <a href="../../../areas-of-application/quantum-chemistry/electronic-structure-problem/#electronic-structure-problem">electronic structure problem</a>, gave a construction that approximately prepares the state above using only <span class="arithmatex">\(\mathcal{O}\left( 2^n+\log(1/\epsilon) \right)\)</span> <span class="arithmatex">\(T\)</span> gates and <span class="arithmatex">\(\mathcal{O}\left( \log(N) \right)\)</span> ancilla qubits, albeit still requiring <span class="arithmatex">\(\mathcal{O}\left( N\log(1/\epsilon) \right)\)</span> Clifford gates and <span class="arithmatex">\(\mathcal{O}\left( \log(N/\epsilon) \right)\)</span> ancillas. In [<a href="#bib10">10</a>] it is presented with <span class="arithmatex">\(\mathcal{O}\left( N \right)\)</span> depth but could be improved to <span class="arithmatex">\(\mathcal{O}\left( \log(N) \right)\)</span> depth at the expense of additional ancillas, using log-depth constructions for <a href="../quantum-random-access-memory/#quantum-random-access-memory">QRAM</a>. This method can also make use of the spacetime tradeoffs mentioned above, as discussed in [<a href="#bib9">9</a>, <a href="#bib11">11</a>].</p><h2 id="caveats">Caveats</h2><ul>
+<li>Classical pre-processing: computing the circuits for preparing <span class="arithmatex">\(\ket{\psi}\)</span> given the list of <span class="arithmatex">\(N\)</span> coefficients <span class="arithmatex">\(x\)</span> can be a non-negligible classical cost. For example, computing each of the <span class="arithmatex">\(\mathcal{O}\left( N \right)\)</span> single-qubit rotation angles requires computing sums and evaluating trigonometric functions, which can be done to precision <span class="arithmatex">\(\epsilon\)</span> in <span class="arithmatex">\(\mathrm{polylog}(1/\epsilon)\)</span> classical time. Moreover, computing Clifford+<span class="arithmatex">\(T\)</span> gate sequences that approximate given rotation angles to error <span class="arithmatex">\(\epsilon\)</span> likewise requires <span class="arithmatex">\(\mathrm{polylog}(1/\epsilon)\)</span> classical time [<a href="#bib4">4</a>]. The total classical work scales as <span class="arithmatex">\(O(N\mathrm{polylog}(1/\epsilon))\)</span>, although this cost can be parallelized.</li>
+<li>Coherent arithmetic: to avoid some of the classical pre-processing, one might try to perform the arithmetic coherently. This might be unavoidable if the entries of <span class="arithmatex">\(x\)</span> arrive in an online fashion and rotation angles and other quantities need to be computed after superpositions have been created. Formally, the scaling of coherent arithmetic is mild, generally requiring just <span class="arithmatex">\(\mathrm{polylog}(N,1/\epsilon)\)</span> number of gates and ancilla qubits, but in practice this is likely to be expensive (e.g., known methods for coherently computing <span class="arithmatex">\(\arcsin(\cdot)\)</span> to nine bits of precision use order-<span class="arithmatex">\(10^4\)</span> Toffoli gates and more than 100 ancilla qubits [<a href="#bib12">12</a>]). See [<a href="#bib13">13</a>] for a general black-box approach that avoids coherent arithmetic.</li>
+<li>Too many ancilla qubits: achieving depths that scale logarithmically with <span class="arithmatex">\(N\)</span> requires <span class="arithmatex">\(\mathcal{O}\left( N \right)\)</span> ancilla qubits, which limits the size of <span class="arithmatex">\(N\)</span> that might be practical. This could be mitigated if it is possible to develop a large-scale hardware element specialized for performing the sort of circuits that arise in these protocols, similar to a <a href="../quantum-random-access-memory/#quantum-random-access-memory">quantum random access memory</a>.</li>
+<li>Long-range gates: achieving <span class="arithmatex">\(\mathrm{polylog}(N)\)</span> depth for state preparation requires <span class="arithmatex">\(\mathcal{O}\left( N \right)\)</span> ancilla qubits and <span class="arithmatex">\(\mathcal{O}\left( N \right)\)</span> gates, many of which act in parallel and on far-separated qubits. If spatial locality were imposed, it would likely be difficult to avoid <span class="arithmatex">\(\mathcal{O}\left( N \right)\)</span> overhead in depth.</li>
+<li>Dequantization: Consider the task of drawing samples from the same probability distribution induced by measuring <span class="arithmatex">\(\ket{\psi}\)</span> in the computational basis in time <span class="arithmatex">\(\mathrm{polylog}(N)\)</span> time. Preparing <span class="arithmatex">\(\ket{\psi}\)</span> as described is a quantum method of doing so, but the same can be done classically by first constructing a certain classical data structure and assuming access to classical RAM [<a href="#bib14">14</a>]. In some <a href="../../../areas-of-application/machine-learning-with-classical-data/introduction/#machine-learning-with-classical-data">machine learning</a> applications, this idea leads to classical algorithms that effectively dequantize quantum algorithms that utilize the state preparation primitive [<a href="#bib15">15</a>, <a href="#bib16">16</a>].</li>
+</ul><h2 id="example-use-cases">Example use cases</h2><ul>
+<li><a href="../../hamiltonian-simulation/taylor-and-dyson-series-linear-combination-of-unitaries/#taylor-and-dyson-series-linear-combination-of-unitaries">Hamiltonian simulation</a> via <a href="../../quantum-linear-algebra/manipulating-block-encodings/#linear-combinations">linear combination of unitaries</a> (LCU) requires a PREPARE step where a state is prepared with certain classically computed coefficients. Relatedly, the same PREPARE gadget is used to construct <a href="../../quantum-linear-algebra/block-encodings/#block-encodings">block-encodings</a> of such Hamiltonians. However, in this application, state preparation with garbage is generally allowable.</li>
+<li>In certain quantum <a href="../../../areas-of-application/machine-learning-with-classical-data/introduction/#machine-learning-with-classical-data">machine learning</a> protocols, classical data (e.g., image pixel values) are encoded into a quantum state via the so-called "amplitude encoding," where <span class="arithmatex">\(N\)</span> classical features are stored in a quantum state of <span class="arithmatex">\(\log_2(N)\)</span> qubits [<a href="#bib17">17</a>]. Following the preparation of the amplitude encoded data, the state is processed with the goal of, for example, classifying the image.</li>
+<li>Creating a <a href="../../quantum-linear-algebra/block-encodings/#block-encodingsClassical">block-encoding</a> of a matrix of classical data is performed using state preparation as a subroutine (more precisely, block-encoding classical data requires controlled state preparation). The block-encoding is then useful in a variety of contexts, for example in <a href="../../quantum-interior-point-methods/#quantum-interior-point-methods">quantum interior point methods</a>.</li>
+</ul><h2 id="further-reading">Further reading</h2><ul>
+<li>When the amplitudes <span class="arithmatex">\(x_i\)</span> correspond to an efficiently computable function <span class="arithmatex">\(f(i)\)</span>, the complexity of state preparation can be reduced. In this case, the oracle access to <span class="arithmatex">\(x_i\)</span> can be replaced by a reversible computation of <span class="arithmatex">\(f(i)\)</span>, up to <span class="arithmatex">\(t\)</span> bits of precision, using coherent arithmetic <span class="arithmatex">\(\ket{i}\ket{0^t} \rightarrow \ket{i}\ket{f(i)}\)</span> [<a href="#bib12">12</a>, <a href="#bib18">18</a>, <a href="#bib19">19</a>]. The value of <span class="arithmatex">\(f(i)\)</span> can be <em>transduced</em> into the amplitude using the methods of [<a href="#bib20">20</a>, <a href="#bib13">13</a>, <a href="#bib21">21</a>, <a href="#bib22">22</a>], and the success probability boosted to unity using <a href="../../amplitude-amplification-and-estimation/amplitude-amplification/#amplitude-amplification">quantum amplitude amplification</a>. There is an alternative method [<a href="#bib23">23</a>], based on <a href="../../quantum-linear-algebra/quantum-singular-value-transformation/#quantum-singular-value-transformation">quantum singular value transformation (QSVT)</a> that circumvents the need for the coherent evaluation of <span class="arithmatex">\(f(i)\)</span> by implementing a low-cost <a href="../../quantum-linear-algebra/block-encodings/#block-encodings">block-encoding</a> of <span class="arithmatex">\(\sin(i)\)</span>, and then using QSVT to apply <span class="arithmatex">\(f(\arcsin(\cdot))\)</span> to this block-encoding. The complexity of both of these approaches depends on an "L2-norm filling-fraction\" <span class="arithmatex">\(\mathcal{F}_f^{[N]} := \nrm{f(i)}_2 / (\sqrt{N} |f(i)|_{\mathrm{max}})\)</span> as <span class="arithmatex">\(\mathcal{O}(1/\mathcal{F}_f^{[N]})\)</span> (see [<a href="#bib23">23</a>] for more detail). There is also an approach [<a href="#bib24">24</a>] based on <a href="../../quantum-adiabatic-algorithm/#quantum-adiabatic-algorithm">the adiabatic algorithm</a> which has a worse dependence on <span class="arithmatex">\(\mathcal{F}_f^{[N]}\)</span>. For efficiently integrable probability distributions, one can use the approach of [<a href="#bib2">2</a>], which has complexity independent of <span class="arithmatex">\(\mathcal{F}_f^{[N]}\)</span>. However, this approach requires coherent arithmetic to reversibly evaluate the integral of the desired function (when applied to functions for which an analytic expression for the integral is not available, this can nullify the quadratic speedup in <a href="../../amplitude-amplification-and-estimation/amplitude-estimation/#amplitude-estimation">quantum Monte Carlo estimation</a> [<a href="#bib25">25</a>]). There also exist methods specialized for certain target states, such as Gaussians [<a href="#bib26">26</a>, <a href="#bib27">27</a>].</li>
+<li>A related problem asks to synthesize an arbitrary <span class="arithmatex">\(2^n \times 2^n\)</span> unitary. Without ancillas, this requires depth and size <span class="arithmatex">\(\mathcal{O}\left( 4^n \right)\)</span>, for which there are upper [<a href="#bib28">28</a>] and lower [<a href="#bib29">29</a>] bounds that match up to constant factors. With ancillas, it is an open question whether or not the depth can be reduced to <span class="arithmatex">\(\mathrm{poly}(n)\)</span>; this is related to the "unitary synthesis problem" from the list of open problems in [<a href="#bib30">30</a>], and it has been studied in several works, e.g., [<a href="#bib3">3</a>, <a href="#bib31">31</a>, <a href="#bib5">5</a>]. A depth lower bound of <span class="arithmatex">\(\Omega(n + 4^n/(m+n))\)</span> is known for <span class="arithmatex">\(m\)</span> ancilla qubits [<a href="#bib3">3</a>], but the shallowest upper bound is depth <span class="arithmatex">\(\mathcal{O}\left( n2^{n/2} \right)\)</span>, using <span class="arithmatex">\(m=\mathcal{O}\left( 4^n/n \right)\)</span> ancilla qubits [<a href="#bib5">5</a>].</li>
+</ul><h2 id="bibliography">Bibliography</h2><ol>
+<li>
+<p><span id="bib1"></span>Martin Plesch and Časlav Brukner. Quantum-state preparation with universal gate decompositions. <em>Physical Review A</em>, 83:032302, 3 2011. arXiv: <a href="https://arxiv.org/abs/1003.5760">https://arxiv.org/abs/1003.5760</a>. URL: <a href="https://link.aps.org/doi/10.1103/PhysRevA.83.032302">https://link.aps.org/doi/10.1103/PhysRevA.83.032302</a>, <a href="https://doi.org/10.1103/PhysRevA.83.032302">doi:10.1103/PhysRevA.83.032302</a>.</p>
+</li>
+<li>
+<p><span id="bib2"></span>Lov Grover and Terry Rudolph. Creating superpositions that correspond to efficiently integrable probability distributions. arXiv: <a href="https://arxiv.org/abs/quant-ph/0208112">https://arxiv.org/abs/quant-ph/0208112</a>, 2002.</p>
+</li>
+<li>
+<p><span id="bib3"></span>Xiaoming Sun, Guojing Tian, Shuai Yang, Pei Yuan, and Shengyu Zhang. Asymptotically optimal circuit depth for quantum state preparation and general unitary synthesis. <em>IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems</em>, pages 1–1, 2023. arXiv: <a href="https://arxiv.org/abs/2108.06150">https://arxiv.org/abs/2108.06150</a>. <a href="https://doi.org/10.1109/TCAD.2023.3244885">doi:10.1109/TCAD.2023.3244885</a>.</p>
+</li>
+<li>
+<p><span id="bib4"></span>Neil J Ross and Peter Selinger. Optimal ancilla-free clifford+ t approximation of z-rotations. arXiv: <a href="https://arxiv.org/abs/1403.2975">https://arxiv.org/abs/1403.2975</a>, 2014.</p>
+</li>
+<li>
+<p><span id="bib5"></span>Pei Yuan and Shengyu Zhang. Optimal (controlled) quantum state preparation and improved unitary synthesis by quantum circuits with any number of ancillary qubits. <em>Quantum</em>, 7:956, 3 2023. arXiv: <a href="https://arxiv.org/abs/2202.11302">https://arxiv.org/abs/2202.11302</a>. URL: <a href="https://doi.org/10.22331/q-2023-03-20-956">https://doi.org/10.22331/q-2023-03-20-956</a>, <a href="https://doi.org/10.22331/q-2023-03-20-956">doi:10.22331/q-2023-03-20-956</a>.</p>
+</li>
+<li>
+<p><span id="bib6"></span>Xiao-Ming Zhang, Tongyang Li, and Xiao Yuan. Quantum state preparation with optimal circuit depth: implementations and applications. <em>Physical Review Letters</em>, 129:230504, 11 2022. arXiv: <a href="https://arxiv.org/abs/2201.11495">https://arxiv.org/abs/2201.11495</a>. URL: <a href="https://link.aps.org/doi/10.1103/PhysRevLett.129.230504">https://link.aps.org/doi/10.1103/PhysRevLett.129.230504</a>, <a href="https://doi.org/10.1103/PhysRevLett.129.230504">doi:10.1103/PhysRevLett.129.230504</a>.</p>
+</li>
+<li>
+<p><span id="bib7"></span>Kaiwen Gui, Alexander M Dalzell, Alessandro Achille, Martin Suchara, and Frederic T Chong. Spacetime-efficient low-depth quantum state preparation with applications. arXiv: <a href="https://arxiv.org/abs/2303.02131">https://arxiv.org/abs/2303.02131</a>, 2023.</p>
+</li>
+<li>
+<p><span id="bib8"></span>Michael A. Nielsen and Isaac L. Chuang. <em>Quantum computation and quantum information</em>. Cambridge University Press, 2000. <a href="https://doi.org/10.1017/CBO9780511976667">doi:10.1017/CBO9780511976667</a>.</p>
+</li>
+<li>
+<p><span id="bib9"></span>Guang Hao Low, Vadym Kliuchnikov, and Luke Schaeffer. Trading t-gates for dirty qubits in state preparation and unitary synthesis. arXiv: <a href="https://arxiv.org/abs/1812.00954">https://arxiv.org/abs/1812.00954</a>, 2018.</p>
+</li>
+<li>
+<p><span id="bib10"></span>Ryan Babbush, Craig Gidney, Dominic W. Berry, Nathan Wiebe, Jarrod McClean, Alexandru Paler, Austin Fowler, and Hartmut Neven. Encoding electronic spectra in quantum circuits with linear t complexity. <em>Physical Review X</em>, 8(4):041015, 2018. arXiv: <a href="https://arxiv.org/abs/1805.03662">https://arxiv.org/abs/1805.03662</a>. <a href="https://doi.org/10.1103/PhysRevX.8.041015">doi:10.1103/PhysRevX.8.041015</a>.</p>
+</li>
+<li>
+<p><span id="bib11"></span>Dominic W. Berry, Craig Gidney, Mario Motta, Jarrod R. McClean, and Ryan Babbush. Qubitization of arbitrary basis quantum chemistry leveraging sparsity and low rank factorization. <em>Quantum</em>, 3:208, 12 2019. arXiv: <a href="https://arxiv.org/abs/1902.02134">https://arxiv.org/abs/1902.02134</a>. URL: <a href="https://doi.org/10.22331/q-2019-12-02-208">https://doi.org/10.22331/q-2019-12-02-208</a>, <a href="https://doi.org/10.22331/q-2019-12-02-208">doi:10.22331/q-2019-12-02-208</a>.</p>
+</li>
+<li>
+<p><span id="bib12"></span>Thomas Häner, Martin Roetteler, and Krysta M Svore. Optimizing quantum circuits for arithmetic. arXiv: <a href="https://arxiv.org/abs/1805.12445">https://arxiv.org/abs/1805.12445</a>, 2018.</p>
+</li>
+<li>
+<p><span id="bib13"></span>Yuval R. Sanders, Guang Hao Low, Artur Scherer, and Dominic W. Berry. Black-box quantum state preparation without arithmetic. <em>Physical Review Letters</em>, 122:020502, 1 2019. arXiv: <a href="https://arxiv.org/abs/1807.03206">https://arxiv.org/abs/1807.03206</a>. URL: <a href="https://link.aps.org/doi/10.1103/PhysRevLett.122.020502">https://link.aps.org/doi/10.1103/PhysRevLett.122.020502</a>, <a href="https://doi.org/10.1103/PhysRevLett.122.020502">doi:10.1103/PhysRevLett.122.020502</a>.</p>
+</li>
+<li>
+<p><span id="bib14"></span>Shantanav Chakraborty, András Gilyén, and Stacey Jeffery. The power of block-encoded matrix powers: improved regression techniques via faster hamiltonian simulation. In <em>Proceedings of the 46th International Colloquium on Automata, Languages, and Programming (ICALP)</em>, 33:1–33:14. 2019. arXiv: <a href="https://arxiv.org/abs/1804.01973">https://arxiv.org/abs/1804.01973</a>. <a href="https://doi.org/10.4230/LIPIcs.ICALP.2019.33">doi:10.4230/LIPIcs.ICALP.2019.33</a>.</p>
+</li>
+<li>
+<p><span id="bib15"></span>Ewin Tang. A quantum-inspired classical algorithm for recommendation systems. In <em>Proceedings of the 51st ACM Symposium on the Theory of Computing (STOC)</em>, 217–228. 2019. arXiv: <a href="https://arxiv.org/abs/1807.04271">https://arxiv.org/abs/1807.04271</a>. <a href="https://doi.org/10.1145/3313276.3316310">doi:10.1145/3313276.3316310</a>.</p>
+</li>
+<li>
+<p><span id="bib16"></span>Ewin Tang. Quantum principal component analysis only achieves an exponential speedup because of its state preparation assumptions. <em>Physical Review Letters</em>, 127(6):060503, 2021. arXiv: <a href="https://arxiv.org/abs/1811.00414">https://arxiv.org/abs/1811.00414</a>. <a href="https://doi.org/10.1103/PhysRevLett.127.060503">doi:10.1103/PhysRevLett.127.060503</a>.</p>
+</li>
+<li>
+<p><span id="bib17"></span>Maria Schuld and Francesco Petruccione. <em>Machine learning with quantum computers</em>. Springer, 2021. <a href="https://doi.org/10.1007/978-3-030-83098-4">doi:10.1007/978-3-030-83098-4</a>.</p>
+</li>
+<li>
+<p><span id="bib18"></span>Mihir K Bhaskar, Stuart Hadfield, Anargyros Papageorgiou, and Iasonas Petras. Quantum algorithms and circuits for scientific computing. <em>Quantum Information and Computation</em>, 2016. arXiv: <a href="https://arxiv.org/abs/1511.08253">https://arxiv.org/abs/1511.08253</a>. <a href="https://doi.org/10.26421/QIC16.3-4-2">doi:10.26421/QIC16.3-4-2</a>.</p>
+</li>
+<li>
+<p><span id="bib19"></span>Edgard Muñoz-Coreas and Himanshu Thapliyal. T-count and qubit optimized quantum circuit design of the non-restoring square root algorithm. <em>ACM Journal on Emerging Technologies in Computing Systems</em>, 14(3):1–15, 2018. arXiv: <a href="https://arxiv.org/abs/1712.08254">https://arxiv.org/abs/1712.08254</a>. <a href="https://doi.org/https://doi.org/10.1145/3264816">doi:https://doi.org/10.1145/3264816</a>.</p>
+</li>
+<li>
+<p><span id="bib20"></span>Lov K Grover. Synthesis of quantum superpositions by quantum computation. <em>Physical Review Letters</em>, 85(6):1334, 2000. <a href="https://doi.org/10.1103/PhysRevLett.85.1334">doi:10.1103/PhysRevLett.85.1334</a>.</p>
+</li>
+<li>
+<p><span id="bib21"></span>Shengbin Wang, Zhimin Wang, Guolong Cui, Shangshang Shi, Ruimin Shang, Lixin Fan, Wendong Li, Zhiqiang Wei, and Yongjian Gu. Fast black-box quantum state preparation based on linear combination of unitaries. <em>Quantum Information Processing</em>, 20(8):1–14, 2021. arXiv: <a href="https://arxiv.org/abs/2105.06230">https://arxiv.org/abs/2105.06230</a>. <a href="https://doi.org/https://doi.org/10.1007/s11128-021-03203-z">doi:https://doi.org/10.1007/s11128-021-03203-z</a>.</p>
+</li>
+<li>
+<p><span id="bib22"></span>Johannes Bausch. Fast black-box quantum state preparation. <em>Quantum</em>, 2022. arXiv: <a href="https://arxiv.org/abs/2009.10709">https://arxiv.org/abs/2009.10709</a>. <a href="https://doi.org/https://doi.org/10.22331/q-2022-08-04-773">doi:https://doi.org/10.22331/q-2022-08-04-773</a>.</p>
+</li>
+<li>
+<p><span id="bib23"></span>Sam McArdle, András Gilyén, and Mario Berta. Quantum state preparation without coherent arithmetic. arXiv: <a href="https://arxiv.org/abs/2210.14892">https://arxiv.org/abs/2210.14892</a>, 2022.</p>
+</li>
+<li>
+<p><span id="bib24"></span>Arthur G Rattew and Bálint Koczor. Preparing arbitrary continuous functions in quantum registers with logarithmic complexity. arXiv: <a href="https://arxiv.org/abs/2205.00519">https://arxiv.org/abs/2205.00519</a>, 2022.</p>
+</li>
+<li>
+<p><span id="bib25"></span>Steven Herbert. No quantum speedup with grover–rudolph state preparation for quantum monte carlo integration. <em>Physical Review E</em>, 103:063302, 6 2021. arXiv: <a href="https://arxiv.org/abs/2101.02240">https://arxiv.org/abs/2101.02240</a>. URL: <a href="https://link.aps.org/doi/10.1103/PhysRevE.103.063302">https://link.aps.org/doi/10.1103/PhysRevE.103.063302</a>, <a href="https://doi.org/10.1103/PhysRevE.103.063302">doi:10.1103/PhysRevE.103.063302</a>.</p>
+</li>
+<li>
+<p><span id="bib26"></span>Alexei Kitaev and William A Webb. Wavefunction preparation and resampling using a quantum computer. arXiv: <a href="https://arxiv.org/abs/0801.0342">https://arxiv.org/abs/0801.0342</a>, 2008.</p>
+</li>
+<li>
+<p><span id="bib27"></span>Arthur G. Rattew, Yue Sun, Pierre Minssen, and Marco Pistoia. The efficient preparation of normal distributions in quantum registers. <em>Quantum</em>, 5:609, 12 2021. arXiv: <a href="https://arxiv.org/abs/2009.06601">https://arxiv.org/abs/2009.06601</a>. URL: <a href="https://doi.org/10.22331/q-2021-12-23-609">https://doi.org/10.22331/q-2021-12-23-609</a>, <a href="https://doi.org/10.22331/q-2021-12-23-609">doi:10.22331/q-2021-12-23-609</a>.</p>
+</li>
+<li>
+<p><span id="bib28"></span>M. Mottonen and J. J. Vartiainen. Decompositions of general quantum gates. arXiv: <a href="https://arxiv.org/abs/quant-ph/0504100">https://arxiv.org/abs/quant-ph/0504100</a>, 2005.</p>
+</li>
+<li>
+<p><span id="bib29"></span>Vivek V. Shende, Igor L. Markov, and Stephen S. Bullock. Minimal universal two-qubit controlled-not-based circuits. <em>Physical Review A</em>, 69:062321, 6 2004. arXiv: <a href="https://arxiv.org/abs/quant-ph/0308033">https://arxiv.org/abs/quant-ph/0308033</a>. URL: <a href="https://link.aps.org/doi/10.1103/PhysRevA.69.062321">https://link.aps.org/doi/10.1103/PhysRevA.69.062321</a>, <a href="https://doi.org/10.1103/PhysRevA.69.062321">doi:10.1103/PhysRevA.69.062321</a>.</p>
+</li>
+<li>
+<p><span id="bib30"></span>Scott Aaronson. Open problems related to quantum query complexity. <em>ACM Transactions on Quantum Computing</em>, 12 2021. arXiv: <a href="https://arxiv.org/abs/2109.06917">https://arxiv.org/abs/2109.06917</a>. URL: <a href="https://doi.org/10.1145/3488559">https://doi.org/10.1145/3488559</a>, <a href="https://doi.org/10.1145/3488559">doi:10.1145/3488559</a>.</p>
+</li>
+<li>
+<p><span id="bib31"></span>Gregory Rosenthal. Query and depth upper bounds for quantum unitaries via grover search. arXiv: <a href="https://arxiv.org/abs/2111.07992">https://arxiv.org/abs/2111.07992</a>, 2021.</p>
+</li>
+</ol><div class="footnote">
+<hr/>
+<ol>
+<li id="fn:1">
+<p>When the amplitudes are given by some well-behaved function, rather than being arbitrarily chosen, different (related) protocols are used, see <a href="#StatePrepData-further-reading">Further reading</a> below. <a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.path", "navigation.tracking"], "search": "../../../assets/javascripts/workers/search.c011b7c0.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.7389ff0e.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
